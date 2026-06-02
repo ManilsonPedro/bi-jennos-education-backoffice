@@ -204,13 +204,13 @@ Legenda: ✅ concluído · 🔜 em curso · ⬜ por fazer
 ### ✅ Sprint 36 — Resultados: árvore de decisão do estado final
 - `ResultadoAluno` + `ResultadoService` (frequência→chave total→recurso→média)
 
-### ⬜ Sprint 37 — Pautas trimestrais e finais
+### ✅ Sprint 37 — Pautas trimestrais e finais
 - `Pauta` (assinatura, número de série, hash, PDF MinIO)
 
-### ⬜ Sprint 38 — Horários & anti-colisão
+### ✅ Sprint 38 — Horários & anti-colisão
 - `Sala`, `Cronograma`, `ItemCronograma`, `Substituicao` (6 regras anti-colisão)
 
-### ⬜ Sprint 39 — Conteúdos programáticos
+### ✅ Sprint 39 — Conteúdos programáticos
 - `UnidadeTematica`, `SumarioAula` + KPI de cumprimento
 
 ### ⬜ Sprint 40 — Multas, Tesouraria, Calendário e RH
