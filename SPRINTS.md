@@ -192,16 +192,16 @@ Legenda: ✅ concluído · 🔜 em curso · ⬜ por fazer
 ### ✅ Sprint 32 — Cursos & Classes
 - `Curso`, `Classe` (turno, sala, director_turma, vagas) + endpoints
 
-### ⬜ Sprint 33 — Disciplinas chave & configuração de aprovação
+### ✅ Sprint 33 — Disciplinas chave & configuração de aprovação
 - `ConfigDisciplinaChave`, `ConfigAprovacaoCurso`, `ConfigChaveHistorico`
 
-### ⬜ Sprint 34 — Inscrições (fluxo completo)
+### ✅ Sprint 34 — Inscrições (fluxo completo)
 - `Inscricao` (criar→aprovar→rejeitar→converter em Aluno+Matricula)
 
-### ⬜ Sprint 35 — Avaliações: provas, critérios e histórico de notas
+### ✅ Sprint 35 — Avaliações: provas, critérios e histórico de notas
 - `Prova`, `CriterioAvaliacao` (soma 100%), `NotasHistorico`
 
-### ⬜ Sprint 36 — Resultados: árvore de decisão do estado final
+### ✅ Sprint 36 — Resultados: árvore de decisão do estado final
 - `ResultadoAluno` + `ResultadoService` (frequência→chave total→recurso→média)
 
 ### ⬜ Sprint 37 — Pautas trimestrais e finais
