@@ -169,3 +169,50 @@ Legenda: ✅ concluído · 🔜 em curso · ⬜ por fazer
 
 ### ✅ Sprint 28 — Containerização do frontend
 - Frontend: `Dockerfile` multi-stage + `output: standalone` + `docker-compose.yml`
+
+---
+
+## PARTE IX — Prompt Master v3.0 (Clean Architecture + DDD)
+
+> Expansão para plataforma 360°. RBAC dinâmico por permissões, UI dinâmica,
+> e os módulos académicos/financeiros/RH completos.
+
+### ✅ Sprint 29 — Auditoria 360°
+- `AuditLog` + event listener SQLAlchemy (CREATE/UPDATE/DELETE automático)
+
+### ✅ Sprint 30 — RBAC dinâmico por permissões
+- `Grupo`, `Permissao`, `PermissaoGrupo`, `UserGrupo`, `AppUser.is_superuser`
+- `require_perm(codigo)` + `UserService.get_permissoes_user` (mantém roles p/ compat)
+- Routers `grupos`, `permissoes`; seed de permissões base
+
+### ✅ Sprint 31 — UI dinâmica (módulos/menus/páginas)
+- `Modulo`, `Menu`, `Pagina` + `GET /ui/menus` (árvore filtrada por permissão)
+- Frontend: sidebar dinâmico a partir do endpoint
+
+### ✅ Sprint 32 — Cursos & Classes
+- `Curso`, `Classe` (turno, sala, director_turma, vagas) + endpoints
+
+### ⬜ Sprint 33 — Disciplinas chave & configuração de aprovação
+- `ConfigDisciplinaChave`, `ConfigAprovacaoCurso`, `ConfigChaveHistorico`
+
+### ⬜ Sprint 34 — Inscrições (fluxo completo)
+- `Inscricao` (criar→aprovar→rejeitar→converter em Aluno+Matricula)
+
+### ⬜ Sprint 35 — Avaliações: provas, critérios e histórico de notas
+- `Prova`, `CriterioAvaliacao` (soma 100%), `NotasHistorico`
+
+### ⬜ Sprint 36 — Resultados: árvore de decisão do estado final
+- `ResultadoAluno` + `ResultadoService` (frequência→chave total→recurso→média)
+
+### ⬜ Sprint 37 — Pautas trimestrais e finais
+- `Pauta` (assinatura, número de série, hash, PDF MinIO)
+
+### ⬜ Sprint 38 — Horários & anti-colisão
+- `Sala`, `Cronograma`, `ItemCronograma`, `Substituicao` (6 regras anti-colisão)
+
+### ⬜ Sprint 39 — Conteúdos programáticos
+- `UnidadeTematica`, `SumarioAula` + KPI de cumprimento
+
+### ⬜ Sprint 40 — Multas, Tesouraria, Calendário e RH
+- `Multa`/`Ocorrencia`, `CaixaDiaria`/`MovimentoCaixa`,
+  `CalendarioAcademico`/`EventoCalendario`, `Funcionario`/`Contrato`/`ProcessamentoSalario`
