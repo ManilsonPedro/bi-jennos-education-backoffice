@@ -1,0 +1,23 @@
+:root {
+  --primary: #1e3a5f;
+  --bg: #f5f7fa;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+  background: var(--bg);
+  color: #1a1a1a;
+}
+
+a {
+  color: var(--primary);
+}
+
+button {
+  cursor: pointer;
+}
