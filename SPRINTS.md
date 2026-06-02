@@ -118,3 +118,21 @@ Legenda: ✅ concluído · 🔜 em curso · ⬜ por fazer
 - Rotação + revogação de refresh tokens (`RefreshSession`, deteção de reutilização)
 - Rate limiting por IP (429) + cabeçalhos de segurança
 - RLS por tenant em runtime (`set_config('app.tenant_id')`, só PostgreSQL)
+
+---
+
+## Melhorias pós-sprint (entregues)
+
+### ✅ Dashboard com dados reais
+- `GET /dashboard/resumo` — contagens de alunos, turmas, matrículas activas,
+  propinas pendentes, total recebido e certificados gerados
+- Página de dashboard (admin) ligada a estes dados
+
+### ✅ Inscrições em eventos
+- `InscricaoEvento` (referência polimórfica `evento_id`+`evento_tipo`)
+- `POST/GET /{evento}/inscricoes` e `DELETE /{evento}/inscricoes/{id}`
+  com validação de vagas, nos 4 tipos de evento
+
+### ✅ Endpoints de listagem
+- `GET /matriculas` (filtro por aluno/turma)
+- `GET /avaliacoes/notas` (por aluno/trimestre/disciplina)

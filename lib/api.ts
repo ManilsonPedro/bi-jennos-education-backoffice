@@ -69,6 +69,20 @@ export const certificadosAPI = {
     ),
 }
 
+// ── Dashboard ──────────────────────────────────────────────
+export interface DashboardResumo {
+  total_alunos: number
+  total_turmas: number
+  matriculas_activas: number
+  propinas_pendentes: number
+  total_recebido: string
+  certificados_gerados: number
+}
+
+export const dashboardAPI = {
+  resumo: () => fetchAPI<DashboardResumo>('/dashboard/resumo'),
+}
+
 // ── Academico ──────────────────────────────────────────────
 export interface AnoAcademico {
   id: string
