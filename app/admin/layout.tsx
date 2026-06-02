@@ -1,4 +1,4 @@
-// app/(admin)/layout.tsx
+// app/admin/layout.tsx
 'use client'
 
 import Link from 'next/link'
@@ -8,6 +8,7 @@ const NAV = [
   { href: '/admin/dashboard', label: 'Dashboard' },
   { href: '/admin/alunos', label: 'Alunos' },
   { href: '/admin/turmas', label: 'Turmas' },
+  { href: '/admin/certificados', label: 'Certificados' },
   { href: '/admin/relatorios', label: 'Relatorios' },
 ]
 

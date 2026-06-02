@@ -144,3 +144,28 @@ Legenda: ✅ concluído · 🔜 em curso · ⬜ por fazer
 - Frontend: `/admin/turmas`, `/admin/relatorios`, `/docente/turmas`
 - **Correção RBAC**: route groups convertidos em segmentos reais (`/admin/*`,
   `/docente/*`…), fazendo o middleware de proteção por role funcionar de facto
+
+---
+
+## PARTE VIII — Conclusão da plataforma (pós-v1.0)
+
+### ✅ Sprint 23 — Portal do Aluno: minhas notas
+- Backend: `GET /avaliacoes/minhas-notas` (resolve o Aluno via utilizador autenticado)
+- Frontend: página `/aluno/notas` a mostrar as notas reais
+
+### ✅ Sprint 24 — Gestão de pré-inscrições (leads)
+- Backend: `PATCH /public/pre-inscricoes/{id}` (atualizar estado)
+- Frontend: página `/secretaria/pre-inscricoes` (listar + mudar estado)
+
+### ✅ Sprint 25 — Certificados de participação (eventos)
+- Backend: gerar certificados de participação para os inscritos de um evento
+  (liga `InscricaoEvento` → `Certificado`)
+
+### ✅ Sprint 26 — UI de certificados massivos (admin)
+- Frontend: página `/admin/certificados` — geração massiva + polling de progresso
+
+### ✅ Sprint 27 — Dados de demonstração
+- Backend: `scripts/seed_demo.py` (ano académico, turma, alunos de exemplo)
+
+### ✅ Sprint 28 — Containerização do frontend
+- Frontend: `Dockerfile` multi-stage + `output: standalone` + `docker-compose.yml`

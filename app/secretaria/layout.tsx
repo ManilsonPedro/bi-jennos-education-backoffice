@@ -5,7 +5,10 @@ export default function SecretariaLayout({ children }: { children: React.ReactNo
   return (
     <AppShell
       title="Secretaria"
-      nav={[{ href: '/secretaria/matriculas', label: 'Matriculas' }]}
+      nav={[
+        { href: '/secretaria/matriculas', label: 'Matriculas' },
+        { href: '/secretaria/pre-inscricoes', label: 'Pedidos (leads)' },
+      ]}
     >
       {children}
     </AppShell>

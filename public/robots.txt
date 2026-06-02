@@ -1,0 +1,8 @@
+User-agent: *
+Allow: /cursos
+Allow: /inscricao
+Disallow: /admin
+Disallow: /secretaria
+Disallow: /docente
+Disallow: /aluno
+Disallow: /financeiro

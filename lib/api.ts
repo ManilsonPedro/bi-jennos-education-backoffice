@@ -114,6 +114,15 @@ export const turmasAPI = {
 }
 
 // ── Publico (sem autenticacao) ─────────────────────────────
+export interface PreInscricao {
+  id: string
+  nome_completo: string
+  telefone: string
+  email: string | null
+  curso_interesse: string | null
+  estado: string
+}
+
 export const publicAPI = {
   preInscricao: (data: {
     nome_completo: string
@@ -125,6 +134,12 @@ export const publicAPI = {
     fetchAPI<{ id: string; estado: string }>('/public/pre-inscricoes', {
       method: 'POST',
       body: JSON.stringify(data),
+    }),
+  listarPreInscricoes: () => fetchAPI<PreInscricao[]>('/public/pre-inscricoes'),
+  actualizarEstado: (id: string, estado: string) =>
+    fetchAPI<PreInscricao>(`/public/pre-inscricoes/${id}`, {
+      method: 'PATCH',
+      body: JSON.stringify({ estado }),
     }),
 }
 
@@ -141,6 +156,15 @@ export const matriculasAPI = {
 }
 
 // ── Avaliacoes ─────────────────────────────────────────────
+export interface Nota {
+  id: string
+  aluno_id: string
+  tipo: string
+  nota: string
+  nota_maxima: string
+  percentagem: string
+}
+
 export const avaliacoesAPI = {
   lancarNota: (data: {
     aluno_id: string
@@ -151,6 +175,7 @@ export const avaliacoesAPI = {
     nota_maxima?: string
     descricao?: string
   }) => fetchAPI('/avaliacoes/notas', { method: 'POST', body: JSON.stringify(data) }),
+  minhasNotas: () => fetchAPI<Nota[]>('/avaliacoes/minhas-notas'),
 }
 
 // ── Financeiro ─────────────────────────────────────────────
