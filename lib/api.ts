@@ -105,6 +105,27 @@ export const academicoAPI = {
 export const turmasAPI = {
   listar: (anoId?: string) =>
     fetchAPI<Turma[]>(`/turmas${anoId ? `?ano_academico_id=${anoId}` : ''}`),
+  criar: (data: {
+    nome: string
+    ano_academico_id: string
+    max_alunos?: number
+    director_turma_id?: string
+  }) => fetchAPI<Turma>('/turmas', { method: 'POST', body: JSON.stringify(data) }),
+}
+
+// ── Publico (sem autenticacao) ─────────────────────────────
+export const publicAPI = {
+  preInscricao: (data: {
+    nome_completo: string
+    telefone: string
+    email?: string
+    curso_interesse?: string
+    mensagem?: string
+  }) =>
+    fetchAPI<{ id: string; estado: string }>('/public/pre-inscricoes', {
+      method: 'POST',
+      body: JSON.stringify(data),
+    }),
 }
 
 // ── Matriculas ─────────────────────────────────────────────

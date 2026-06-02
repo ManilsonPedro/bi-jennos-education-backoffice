@@ -136,3 +136,11 @@ Legenda: ✅ concluído · 🔜 em curso · ⬜ por fazer
 ### ✅ Endpoints de listagem
 - `GET /matriculas` (filtro por aluno/turma)
 - `GET /avaliacoes/notas` (por aluno/trimestre/disciplina)
+
+### ✅ Cobertura total da especificação v1.0
+- Páginas públicas (sem auth): `/cursos` e `/inscricao` (+ layout público)
+- Pré-inscrição pública: `POST /public/pre-inscricoes` (lead) + listagem (admin/secretaria)
+- Router dedicado `trimestres` (`POST /trimestres/{id}/fechar` — trancar trimestre)
+- Frontend: `/admin/turmas`, `/admin/relatorios`, `/docente/turmas`
+- **Correção RBAC**: route groups convertidos em segmentos reais (`/admin/*`,
+  `/docente/*`…), fazendo o middleware de proteção por role funcionar de facto

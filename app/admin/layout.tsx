@@ -7,6 +7,8 @@ import { logout } from '@/lib/auth'
 const NAV = [
   { href: '/admin/dashboard', label: 'Dashboard' },
   { href: '/admin/alunos', label: 'Alunos' },
+  { href: '/admin/turmas', label: 'Turmas' },
+  { href: '/admin/relatorios', label: 'Relatorios' },
 ]
 
 export default function AdminLayout({ children }: { children: React.ReactNode }) {
