@@ -58,7 +58,7 @@ export default function DocenteFrequenciaPage() {
   useEffect(() => {
     if (!turmaSelId) return;
     setLoading(true);
-    docenteAPI.alunosDaClasse(turmaSelId)
+    docenteAPI.alunosDaClasse(turmaSelId, '')
       .then((data: Aluno[]) => {
         setAlunos(data);
         const init: Record<string, FreqEntry> = {};
