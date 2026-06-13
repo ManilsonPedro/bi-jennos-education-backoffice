@@ -59,7 +59,7 @@ export default function LMSPage() {
     {
       key: 'id',
       label: 'Acção',
-      render: (r) => !r.is_publicado ? <Button label="Publicar" onClick={() => publicar(r.id)} /> : null,
+      render: (r) => !r.is_publicado ? <Button onClick={() => publicar(r.id)}>Publicar</Button> : null,
     },
   ]
 
@@ -71,7 +71,7 @@ export default function LMSPage() {
       {erro && <Alert type="error" message={erro} onClose={() => setErro('')} />}
 
       <div style={{ marginBottom: 20 }}>
-        <Button label="Novo Curso" onClick={() => setMostrarNovo(!mostrarNovo)} />
+        <Button onClick={() => setMostrarNovo(!mostrarNovo)}>Novo Curso</Button>
       </div>
 
       {mostrarNovo && (
@@ -93,7 +93,7 @@ export default function LMSPage() {
             />
             <div style={{ display: 'flex', gap: 10 }}>
               <Button onClick={criar} >Criar</Button>
-              <Button label="Cancelar" onClick={() => setMostrarNovo(false)} />
+              <Button onClick={() => setMostrarNovo(false)}>Cancelar</Button>
             </div>
           </div>
         </Card>

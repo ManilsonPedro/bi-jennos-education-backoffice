@@ -75,7 +75,7 @@ export default function SaaSPage() {
       )}
 
       <div style={{ marginBottom: 20 }}>
-        <Button label="Nova Escola" onClick={() => setMostrarNovo(!mostrarNovo)} />
+        <Button onClick={() => setMostrarNovo(!mostrarNovo)}>Nova Escola</Button>
       </div>
 
       {mostrarNovo && (
@@ -95,7 +95,7 @@ export default function SaaSPage() {
               <input value={email} onChange={(e) => setEmail(e.target.value)} type="email" style={{ padding: '8px 12px', borderRadius: 6, border: '1px solid #ddd' }} />
             </div>
             <Button onClick={criar} >Criar</Button>
-            <Button label="Cancelar" onClick={() => setMostrarNovo(false)} />
+            <Button onClick={() => setMostrarNovo(false)}>Cancelar</Button>
           </div>
         </Card>
       )}

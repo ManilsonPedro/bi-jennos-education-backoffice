@@ -83,7 +83,7 @@ export default function SolicitacoesPage() {
       {erro && <Alert type="error" message={erro} onClose={() => setErro('')} />}
 
       <div style={{ marginBottom: 20 }}>
-        <Button label="Nova Solicitação" onClick={() => setMostrarForm(!mostrarForm)} />
+        <Button onClick={() => setMostrarForm(!mostrarForm)}>Nova Solicitação</Button>
       </div>
 
       {mostrarForm && (
@@ -113,7 +113,7 @@ export default function SolicitacoesPage() {
           </div>
           <div style={{ display: 'flex', gap: 10 }}>
             <Button onClick={submeter} >Enviar Solicitação</Button>
-            <Button label="Cancelar" onClick={() => setMostrarForm(false)} />
+            <Button onClick={() => setMostrarForm(false)}>Cancelar</Button>
           </div>
         </div>
       )}

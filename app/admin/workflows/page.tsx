@@ -80,7 +80,7 @@ export default function WorkflowsPage() {
       key: 'id',
       label: 'Acção',
       render: (r) => !['aprovado', 'rejeitado'].includes(r.estado) ? (
-        <Button label="Avançar" onClick={() => setSeleccionada(r.id)} />
+        <Button onClick={() => setSeleccionada(r.id)}>Avançar</Button>
       ) : null,
     },
   ]
@@ -92,7 +92,7 @@ export default function WorkflowsPage() {
       {mensagem && <Alert type="success" message={mensagem} onClose={() => setMensagem('')} />}
       {erro && <Alert type="error" message={erro} onClose={() => setErro('')} />}
 
-      <Button label="Novo Workflow" onClick={() => setMostrarNovo(!mostrarNovo)} />
+      <Button onClick={() => setMostrarNovo(!mostrarNovo)}>Novo Workflow</Button>
 
       {mostrarNovo && (
         <div style={{ background: '#fff', padding: 20, borderRadius: 10, margin: '16px 0', boxShadow: '0 1px 4px rgba(0,0,0,0.1)' }}>
@@ -122,7 +122,7 @@ export default function WorkflowsPage() {
             </select>
             <input value={observacao} onChange={(e) => setObservacao(e.target.value)} placeholder="Observação..." style={{ padding: '8px 12px', borderRadius: 6, border: '1px solid #ddd', flex: 1 }} />
             <Button onClick={avancar} >Confirmar</Button>
-            <Button label="Cancelar" onClick={() => setSeleccionada(null)} />
+            <Button onClick={() => setSeleccionada(null)}>Cancelar</Button>
           </div>
         </div>
       )}

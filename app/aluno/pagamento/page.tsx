@@ -89,7 +89,7 @@ export default function PagamentoPage() {
               <li key={i} style={{ marginBottom: 6, fontSize: 14 }}>{p}</li>
             ))}
           </ol>
-          <Button label="Novo Pagamento" onClick={() => setResultado(null)} />
+          <Button onClick={() => setResultado(null)}>Novo Pagamento</Button>
         </Card>
       ) : (
         <Card>

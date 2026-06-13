@@ -74,7 +74,7 @@ export default function SecretariaSolicitacoesPage() {
       key: 'id',
       label: 'Acção',
       render: (r) => (
-        <Button label="Gerir" onClick={() => { setSeleccionada(r.id); setNovoEstado(r.estado) }} />
+        <Button onClick={() => { setSeleccionada(r.id); setNovoEstado(r.estado) }}>Gerir</Button>
       ),
     },
   ]
@@ -122,7 +122,7 @@ export default function SecretariaSolicitacoesPage() {
           </div>
           <div style={{ display: 'flex', gap: 10 }}>
             <Button onClick={actualizar} >Guardar</Button>
-            <Button label="Cancelar" onClick={() => setSeleccionada(null)} />
+            <Button onClick={() => setSeleccionada(null)}>Cancelar</Button>
           </div>
         </div>
       )}
