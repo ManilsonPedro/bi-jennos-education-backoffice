@@ -37,9 +37,9 @@ export default function AlunosPage() {
           setPage(1)
           setSearch(e.target.value)
         }}
-        style={{ padding: 10, width: 320, borderRadius: 8, border: '1px solid #ddd', marginBottom: 16 }}
+        style={{ padding: 10, width: 320, borderRadius: 8, border: '1px solid var(--border-strong)', marginBottom: 16 }}
       />
-      {erro && <p style={{ color: '#c0392b' }}>{erro}</p>}
+      {erro && <p style={{ color: 'var(--danger)' }}>{erro}</p>}
       <DataTable columns={COLUMNS} rows={data?.items ?? []} />
       {data && (
         <div style={{ marginTop: 16, display: 'flex', gap: 12, alignItems: 'center' }}>

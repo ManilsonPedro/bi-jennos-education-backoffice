@@ -9,18 +9,18 @@ import {
 } from '@/lib/api'
 
 const card: React.CSSProperties = {
-  background: '#fff',
+  background: 'var(--surface)',
   padding: 24,
   borderRadius: 12,
   maxWidth: 560,
-  boxShadow: '0 1px 6px rgba(0,0,0,.06)',
+  boxShadow: 'var(--shadow-sm)',
 }
 const input: React.CSSProperties = {
   display: 'block',
   width: '100%',
   padding: 10,
   margin: '6px 0 16px',
-  border: '1px solid #ddd',
+  border: '1px solid var(--border-strong)',
   borderRadius: 8,
 }
 const btn: React.CSSProperties = {
@@ -116,7 +116,7 @@ export default function CertificadosPage() {
         <button type="submit" style={btn}>Gerar certificados</button>
       </form>
 
-      {erro && <p style={{ color: '#c0392b', marginTop: 16 }}>{erro}</p>}
+      {erro && <p style={{ color: 'var(--danger)', marginTop: 16 }}>{erro}</p>}
 
       {taskId && (
         <div style={{ ...card, marginTop: 24 }}>

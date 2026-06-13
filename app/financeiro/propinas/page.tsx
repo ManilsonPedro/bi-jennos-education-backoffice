@@ -10,11 +10,11 @@ import {
 } from '@/lib/api'
 
 const card: React.CSSProperties = {
-  background: '#fff',
+  background: 'var(--surface)',
   padding: 24,
   borderRadius: 12,
   maxWidth: 520,
-  boxShadow: '0 1px 6px rgba(0,0,0,.06)',
+  boxShadow: 'var(--shadow-sm)',
   marginBottom: 24,
 }
 const input: React.CSSProperties = {
@@ -22,7 +22,7 @@ const input: React.CSSProperties = {
   width: '100%',
   padding: 10,
   margin: '6px 0 16px',
-  border: '1px solid #ddd',
+  border: '1px solid var(--border-strong)',
   borderRadius: 8,
 }
 const btn: React.CSSProperties = {

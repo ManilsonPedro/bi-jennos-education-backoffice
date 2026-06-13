@@ -1,23 +1,190 @@
+/* === Design tokens (inspirado AIEC) === */
 :root {
-  --primary: #1e3a5f;
-  --bg: #f5f7fa;
+  /* Cores institucionais Bi.Jennos (cyan → roxo do logo) */
+  --primary: #4c0c75;         /* roxo escuro do logo (BI JENNOS) */
+  --primary-strong: #36085a;
+  --primary-soft: #6b1fa6;
+  --accent: #1bb5e8;          /* cyan do topo do "B" — CTA */
+  --accent-strong: #0d8fc3;
+  --brand-cyan: #1bb5e8;
+  --brand-purple: #6b1fa6;
+  --brand-deep: #36085a;
+  --brand-gradient: linear-gradient(180deg, #1bb5e8 0%, #4a4fc8 45%, #6b1fa6 80%, #4c0c75 100%);
+  --warn: #f37021;            /* laranja acento secundário */
+  --success: #1f8a4c;
+  --danger: #c0392b;
+  --info: #1976d2;
+
+  /* Categorias harmonizadas com a paleta Bi.Jennos */
+  --cat-academico: #1bb5e8;       /* cyan claro */
+  --cat-administrativo: #4c0c75;  /* roxo profundo */
+  --cat-estudante: #20a982;       /* verde teal */
+  --cat-financeiro: #f0b400;      /* dourado */
+  --cat-curso: #f37021;           /* laranja */
+  --cat-rh: #6b1fa6;              /* roxo */
+  --cat-secretaria: #00a8c4;      /* turquesa */
+
+  /* Superficies */
+  --bg: #f3f5f9;
+  --surface: #ffffff;
+  --surface-2: #f8fafc;
+  --border: #e2e8f0;
+  --border-strong: #cbd5e1;
+
+  /* Texto */
+  --text: #0f172a;
+  --text-muted: #64748b;
+  --text-on-primary: #ffffff;
+
+  /* Sombras */
+  --shadow-sm: 0 1px 2px rgba(15, 23, 42, .06);
+  --shadow-md: 0 4px 12px rgba(15, 23, 42, .08);
+  --shadow-lg: 0 12px 32px rgba(15, 23, 42, .12);
+
+  /* Geometria */
+  --radius-sm: 6px;
+  --radius: 10px;
+  --radius-lg: 14px;
 }
 
-* {
-  box-sizing: border-box;
+/* === Tema escuro === */
+[data-theme="dark"] {
+  /* Identidade fica igual — só mudam superfícies */
+  --bg: #0b0913;
+  --surface: #16111f;
+  --surface-2: #1d1729;
+  --border: #2a2138;
+  --border-strong: #3b3050;
+
+  --text: #f1eef6;
+  --text-muted: #a59bb8;
+
+  /* Tornar a paleta brand ligeiramente mais vibrante em dark */
+  --primary: #8b3fc4;
+  --primary-soft: #a85cd9;
+  --brand-cyan: #3ec4ee;
+  --brand-deep: #d4b8ee;
+
+  --shadow-sm: 0 1px 2px rgba(0, 0, 0, .4);
+  --shadow-md: 0 4px 12px rgba(0, 0, 0, .45);
+  --shadow-lg: 0 12px 32px rgba(0, 0, 0, .55);
 }
 
-body {
+/* Auto dark mode quando o utilizador prefere e ainda não escolheu manualmente */
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]):not([data-theme="dark"]) {
+    --bg: #0b0913;
+    --surface: #16111f;
+    --surface-2: #1d1729;
+    --border: #2a2138;
+    --border-strong: #3b3050;
+    --text: #f1eef6;
+    --text-muted: #a59bb8;
+    --primary: #8b3fc4;
+    --primary-soft: #a85cd9;
+    --brand-cyan: #3ec4ee;
+    --brand-deep: #d4b8ee;
+    --shadow-sm: 0 1px 2px rgba(0, 0, 0, .4);
+    --shadow-md: 0 4px 12px rgba(0, 0, 0, .45);
+    --shadow-lg: 0 12px 32px rgba(0, 0, 0, .55);
+  }
+}
+
+* { box-sizing: border-box; }
+
+html { color-scheme: light; }
+[data-theme="dark"] { color-scheme: dark; }
+
+html, body {
   margin: 0;
-  font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+  padding: 0;
+  font-family: 'Inter', system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
   background: var(--bg);
-  color: #1a1a1a;
+  color: var(--text);
+  font-size: 14px;
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
 }
 
-a {
-  color: var(--primary);
+/* === Form controls nativos respeitam tokens === */
+input, select, textarea {
+  background: var(--surface);
+  color: var(--text);
+  border: 1px solid var(--border-strong);
+  font-family: inherit;
+  font-size: inherit;
+}
+input::placeholder, textarea::placeholder {
+  color: var(--text-muted);
+  opacity: 0.7;
+}
+input:focus, select:focus, textarea:focus {
+  outline: 2px solid var(--brand-cyan);
+  outline-offset: 1px;
+  border-color: var(--brand-cyan);
 }
 
-button {
-  cursor: pointer;
+/* Section "card" genérico — quando alguém usa <section style={{ background:'var(--surface)' }}>
+   já está coberto. Aqui apenas garantimos hover de linhas em tabelas. */
+section { color: var(--text); }
+
+/* Cores forçadas que aparecem em código antigo */
+label { color: var(--text); }
+
+h1, h2, h3, h4 {
+  margin: 0 0 16px;
+  color: var(--text);
+  font-weight: 700;
+  letter-spacing: -0.01em;
 }
+h1 { font-size: 28px; }
+h2 { font-size: 22px; }
+h3 { font-size: 17px; }
+h4 { font-size: 15px; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.06em; }
+
+p { margin: 0 0 12px; }
+
+a { color: var(--primary); text-decoration: none; }
+a:hover { color: var(--accent); }
+
+code {
+  font-family: 'JetBrains Mono', Consolas, Menlo, monospace;
+  background: var(--surface-2);
+  padding: 1px 6px;
+  border-radius: 4px;
+  font-size: 12px;
+}
+
+table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+  font-size: 13px;
+}
+table th {
+  text-align: left;
+  font-weight: 600;
+  color: var(--text-muted);
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  padding: 10px 12px;
+  background: var(--surface-2);
+  border-bottom: 1px solid var(--border);
+}
+table td {
+  padding: 12px;
+  border-bottom: 1px solid var(--border);
+  vertical-align: middle;
+}
+table tbody tr:hover { background: var(--surface-2); }
+
+::-webkit-scrollbar { width: 8px; height: 8px; }
+::-webkit-scrollbar-thumb { background: var(--border-strong); border-radius: 4px; }
+::-webkit-scrollbar-thumb:hover { background: var(--text-muted); }
+
+@keyframes fade-in {
+  from { opacity: 0; transform: translateY(4px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+.animate-fade { animation: fade-in .2s ease-out; }

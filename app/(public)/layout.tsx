@@ -15,7 +15,7 @@ export default function PublicLayout({ children }: { children: React.ReactNode }
         }}
       >
         <Link href="/cursos" style={{ color: '#fff', fontWeight: 700, fontSize: 18 }}>
-          Bi.Jennos.Educatione
+          Bi Jennos Investiment
         </Link>
         <nav style={{ display: 'flex', gap: 16, marginLeft: 'auto' }}>
           <Link href="/cursos" style={{ color: '#cdd9e5' }}>

@@ -1,16 +1,17 @@
 // app/docente/layout.tsx
-import { AppShell } from '@/components/shared/AppShell'
+import { DynamicShell } from '@/components/shared/DynamicShell'
 
 export default function DocenteLayout({ children }: { children: React.ReactNode }) {
   return (
-    <AppShell
+    <DynamicShell
       title="Docente"
-      nav={[
+      fallbackNav={[
         { href: '/docente/turmas', label: 'Turmas' },
         { href: '/docente/avaliacoes', label: 'Avaliacoes' },
+        { href: '/docente/conteudos', label: 'Conteudos' },
       ]}
     >
       {children}
-    </AppShell>
+    </DynamicShell>
   )
 }

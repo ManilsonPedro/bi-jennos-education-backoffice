@@ -33,10 +33,10 @@ export default function CursosPage() {
           <div
             key={c.nome}
             style={{
-              background: '#fff',
+              background: 'var(--surface)',
               padding: 20,
               borderRadius: 12,
-              boxShadow: '0 1px 6px rgba(0,0,0,.06)',
+              boxShadow: 'var(--shadow-sm)',
             }}
           >
             <h3 style={{ margin: '0 0 8px', color: 'var(--primary)' }}>{c.nome}</h3>

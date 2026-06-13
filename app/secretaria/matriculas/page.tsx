@@ -1,31 +1,13 @@
-// app/(secretaria)/matriculas/page.tsx
+// app/secretaria/matriculas/page.tsx
 'use client'
 
 import { useEffect, useState } from 'react'
 import { academicoAPI, matriculasAPI, turmasAPI, type AnoAcademico, type Turma } from '@/lib/api'
-
-const card: React.CSSProperties = {
-  background: '#fff',
-  padding: 24,
-  borderRadius: 12,
-  maxWidth: 520,
-  boxShadow: '0 1px 6px rgba(0,0,0,.06)',
-}
-const input: React.CSSProperties = {
-  display: 'block',
-  width: '100%',
-  padding: 10,
-  margin: '6px 0 16px',
-  border: '1px solid #ddd',
-  borderRadius: 8,
-}
-const btn: React.CSSProperties = {
-  padding: '10px 16px',
-  background: 'var(--primary)',
-  color: '#fff',
-  border: 'none',
-  borderRadius: 8,
-}
+import { Card } from '@/components/ui/Card'
+import { Button } from '@/components/ui/Button'
+import { FormField, Input, Select } from '@/components/ui/Field'
+import { Alert } from '@/components/ui/Alert'
+import { PageHeader } from '@/components/ui/PageHeader'
 
 export default function MatriculasPage() {
   const [anos, setAnos] = useState<AnoAcademico[]>([])
@@ -54,7 +36,7 @@ export default function MatriculasPage() {
         ano_academico_id: anoId,
         tipo,
       })) as { numero_matricula: string }
-      setMsg({ ok: true, texto: `Matricula criada: ${m.numero_matricula}` })
+      setMsg({ ok: true, texto: `Matrícula criada: ${m.numero_matricula}` })
       setAlunoId('')
     } catch (err) {
       setMsg({ ok: false, texto: err instanceof Error ? err.message : 'Erro' })
@@ -62,73 +44,56 @@ export default function MatriculasPage() {
   }
 
   return (
-    <div>
-      <h1 style={{ color: 'var(--primary)' }}>Nova matricula</h1>
-      <form onSubmit={onSubmit} style={card}>
-        <label htmlFor="aluno">ID do aluno</label>
-        <input
-          id="aluno"
-          aria-label="ID do aluno"
-          style={input}
-          value={alunoId}
-          onChange={(e) => setAlunoId(e.target.value)}
-          required
-        />
+    <div className="animate-fade">
+      <PageHeader
+        title="Nova matrícula"
+        subtitle="Cria, rematricula ou transfere um aluno"
+        breadcrumb={['Secretaria', 'Matrículas']}
+        accent="var(--cat-secretaria)"
+      />
 
-        <label htmlFor="ano">Ano academico</label>
-        <select
-          id="ano"
-          aria-label="Ano academico"
-          style={input}
-          value={anoId}
-          onChange={(e) => setAnoId(e.target.value)}
-          required
-        >
-          <option value="">— selecionar —</option>
-          {anos.map((a) => (
-            <option key={a.id} value={a.id}>
-              {a.designacao}
-            </option>
-          ))}
-        </select>
+      {msg && <Alert tone={msg.ok ? 'success' : 'danger'}>{msg.texto}</Alert>}
 
-        <label htmlFor="turma">Turma</label>
-        <select
-          id="turma"
-          aria-label="Turma"
-          style={input}
-          value={turmaId}
-          onChange={(e) => setTurmaId(e.target.value)}
-          required
-        >
-          <option value="">— selecionar —</option>
-          {turmas.map((t) => (
-            <option key={t.id} value={t.id}>
-              {t.nome}
-            </option>
-          ))}
-        </select>
+      <Card accent="var(--cat-secretaria)" maxWidth={560}>
+        <form onSubmit={onSubmit}>
+          <FormField label="ID do aluno">
+            <Input
+              value={alunoId}
+              onChange={(e) => setAlunoId(e.target.value)}
+              placeholder="UUID do aluno"
+              required
+            />
+          </FormField>
 
-        <label htmlFor="tipo">Tipo</label>
-        <select
-          id="tipo"
-          aria-label="Tipo de matricula"
-          style={input}
-          value={tipo}
-          onChange={(e) => setTipo(e.target.value)}
-        >
-          <option value="nova">Nova</option>
-          <option value="rematricula">Rematricula</option>
-          <option value="transferencia">Transferencia</option>
-        </select>
+          <FormField label="Ano académico">
+            <Select value={anoId} onChange={(e) => setAnoId(e.target.value)} required>
+              <option value="">— selecionar —</option>
+              {anos.map((a) => (
+                <option key={a.id} value={a.id}>{a.designacao}</option>
+              ))}
+            </Select>
+          </FormField>
 
-        <button type="submit" style={btn}>
-          Criar matricula
-        </button>
-      </form>
-      {msg && (
-        <p style={{ color: msg.ok ? '#27ae60' : '#c0392b', marginTop: 16 }}>{msg.texto}</p>
-      )}
+          <FormField label="Turma">
+            <Select value={turmaId} onChange={(e) => setTurmaId(e.target.value)} required>
+              <option value="">— selecionar —</option>
+              {turmas.map((t) => (
+                <option key={t.id} value={t.id}>{t.nome}</option>
+              ))}
+            </Select>
+          </FormField>
+
+          <FormField label="Tipo">
+            <Select value={tipo} onChange={(e) => setTipo(e.target.value)}>
+              <option value="nova">Nova</option>
+              <option value="rematricula">Rematrícula</option>
+              <option value="transferencia">Transferência</option>
+            </Select>
+          </FormField>
+
+          <Button type="submit" variant="primary">Criar matrícula</Button>
+        </form>
+      </Card>
     </div>
   )
 }

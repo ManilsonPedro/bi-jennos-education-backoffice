@@ -24,7 +24,7 @@ export default function DocenteTurmasPage() {
   return (
     <div>
       <h1 style={{ color: 'var(--primary)' }}>As minhas turmas</h1>
-      {erro && <p style={{ color: '#c0392b' }}>{erro}</p>}
+      {erro && <p style={{ color: 'var(--danger)' }}>{erro}</p>}
       <DataTable columns={COLUMNS} rows={turmas} emptyMessage="Sem turmas atribuidas." />
     </div>
   )

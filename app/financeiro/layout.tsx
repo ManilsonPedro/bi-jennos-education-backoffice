@@ -1,13 +1,17 @@
 // app/financeiro/layout.tsx
-import { AppShell } from '@/components/shared/AppShell'
+import { DynamicShell } from '@/components/shared/DynamicShell'
 
 export default function FinanceiroLayout({ children }: { children: React.ReactNode }) {
   return (
-    <AppShell
+    <DynamicShell
       title="Financeiro"
-      nav={[{ href: '/financeiro/propinas', label: 'Propinas' }]}
+      fallbackNav={[
+        { href: '/financeiro/propinas', label: 'Propinas' },
+        { href: '/financeiro/multas', label: 'Multas' },
+        { href: '/financeiro/caixa', label: 'Caixa Diaria' },
+      ]}
     >
       {children}
-    </AppShell>
+    </DynamicShell>
   )
 }

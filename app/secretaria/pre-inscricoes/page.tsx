@@ -15,7 +15,7 @@ const th: React.CSSProperties = {
 }
 const td: React.CSSProperties = {
   padding: '10px 16px',
-  borderBottom: '1px solid #f0f0f0',
+  borderBottom: '1px solid var(--border)',
   fontSize: 14,
 }
 
@@ -45,8 +45,8 @@ export default function PreInscricoesPage() {
   return (
     <div>
       <h1 style={{ color: 'var(--primary)' }}>Pedidos de inscricao (leads)</h1>
-      {erro && <p style={{ color: '#c0392b' }}>{erro}</p>}
-      <table style={{ width: '100%', borderCollapse: 'collapse', background: '#fff' }}>
+      {erro && <p style={{ color: 'var(--danger)' }}>{erro}</p>}
+      <table style={{ width: '100%', borderCollapse: 'collapse', background: 'var(--surface)' }}>
         <thead>
           <tr>
             <th style={th}>Nome</th>
@@ -58,7 +58,7 @@ export default function PreInscricoesPage() {
         <tbody>
           {leads.length === 0 ? (
             <tr>
-              <td style={{ ...td, textAlign: 'center', color: '#888' }} colSpan={4}>
+              <td style={{ ...td, textAlign: 'center', color: 'var(--text-muted)' }} colSpan={4}>
                 Sem pedidos.
               </td>
             </tr>
@@ -73,7 +73,7 @@ export default function PreInscricoesPage() {
                     aria-label={`Estado de ${l.nome_completo}`}
                     value={l.estado}
                     onChange={(e) => mudarEstado(l.id, e.target.value)}
-                    style={{ padding: 6, borderRadius: 6, border: '1px solid #ddd' }}
+                    style={{ padding: 6, borderRadius: 6, border: '1px solid var(--border-strong)' }}
                   >
                     {ESTADOS.map((e) => (
                       <option key={e} value={e}>

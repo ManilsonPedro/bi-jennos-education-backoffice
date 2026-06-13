@@ -1,10 +1,22 @@
 // app/aluno/layout.tsx
-import { AppShell } from '@/components/shared/AppShell'
+import { DynamicShell } from '@/components/shared/DynamicShell'
 
 export default function AlunoLayout({ children }: { children: React.ReactNode }) {
   return (
-    <AppShell title="Portal do Aluno" nav={[{ href: '/aluno/notas', label: 'As minhas notas' }]}>
+    <DynamicShell
+      title="Portal do Aluno"
+      fallbackNav={[
+      { href: '/aluno/perfil', label: 'Perfil' },
+      { href: '/aluno/notas', label: 'Notas' },
+      { href: '/aluno/historico', label: 'Histórico' },
+      { href: '/aluno/frequencia', label: 'Frequência' },
+      { href: '/aluno/horario', label: 'Horário' },
+      { href: '/aluno/calendario', label: 'Calendário' },
+      { href: '/aluno/solicitacoes', label: 'Solicitações' },
+      { href: '/aluno/downloads', label: 'Downloads' },
+    ]}
+    >
       {children}
-    </AppShell>
+    </DynamicShell>
   )
 }

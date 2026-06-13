@@ -7,7 +7,11 @@ const ROUTE_ROLES: Record<string, string[]> = {
   '/secretaria': ['admin', 'secretaria'],
   '/docente': ['admin', 'docente'],
   '/aluno': ['admin', 'aluno', 'encarregado'],
+  '/encarregado': ['admin', 'encarregado'],
   '/financeiro': ['admin', 'financeiro'],
+  '/rh': ['admin', 'direcao'],
+  // /dashboard: qualquer utilizador autenticado
+  '/dashboard': ['admin', 'direcao', 'secretaria', 'docente', 'aluno', 'encarregado', 'financeiro'],
 }
 
 export async function middleware(request: NextRequest) {
@@ -41,6 +45,9 @@ export const config = {
     '/secretaria/:path*',
     '/docente/:path*',
     '/aluno/:path*',
+    '/encarregado/:path*',
     '/financeiro/:path*',
+    '/rh/:path*',
+    '/dashboard',
   ],
 }

@@ -10,18 +10,18 @@ import {
 } from '@/lib/api'
 
 const card: React.CSSProperties = {
-  background: '#fff',
+  background: 'var(--surface)',
   padding: 24,
   borderRadius: 12,
   maxWidth: 520,
-  boxShadow: '0 1px 6px rgba(0,0,0,.06)',
+  boxShadow: 'var(--shadow-sm)',
 }
 const input: React.CSSProperties = {
   display: 'block',
   width: 320,
   padding: 10,
   margin: '6px 0 16px',
-  border: '1px solid #ddd',
+  border: '1px solid var(--border-strong)',
   borderRadius: 8,
 }
 
@@ -64,7 +64,7 @@ export default function RelatoriosPage() {
         ))}
       </select>
 
-      {erro && <p style={{ color: '#c0392b' }}>{erro}</p>}
+      {erro && <p style={{ color: 'var(--danger)' }}>{erro}</p>}
 
       {rel && (
         <div style={card}>

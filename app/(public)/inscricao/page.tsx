@@ -5,18 +5,18 @@ import { useState } from 'react'
 import { publicAPI } from '@/lib/api'
 
 const card: React.CSSProperties = {
-  background: '#fff',
+  background: 'var(--surface)',
   padding: 24,
   borderRadius: 12,
   maxWidth: 520,
-  boxShadow: '0 1px 6px rgba(0,0,0,.06)',
+  boxShadow: 'var(--shadow-sm)',
 }
 const input: React.CSSProperties = {
   display: 'block',
   width: '100%',
   padding: 10,
   margin: '6px 0 16px',
-  border: '1px solid #ddd',
+  border: '1px solid var(--border-strong)',
   borderRadius: 8,
 }
 const btn: React.CSSProperties = {
@@ -56,7 +56,7 @@ export default function InscricaoPage() {
   if (enviado) {
     return (
       <div style={card}>
-        <h1 style={{ color: '#27ae60', marginTop: 0 }}>Pedido enviado!</h1>
+        <h1 style={{ color: 'var(--success)', marginTop: 0 }}>Pedido enviado!</h1>
         <p>Obrigado, {form.nome_completo}. A secretaria entrara em contacto consigo.</p>
       </div>
     )
@@ -86,7 +86,7 @@ export default function InscricaoPage() {
         <textarea id="msg" aria-label="Mensagem" style={{ ...input, minHeight: 80 }}
           value={form.mensagem} onChange={(e) => set('mensagem', e.target.value)} />
 
-        {erro && <p style={{ color: '#c0392b' }}>{erro}</p>}
+        {erro && <p style={{ color: 'var(--danger)' }}>{erro}</p>}
         <button type="submit" style={btn}>Enviar pedido</button>
       </form>
     </div>

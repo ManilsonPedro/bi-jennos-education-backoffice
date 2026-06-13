@@ -213,6 +213,6 @@ Legenda: ✅ concluído · 🔜 em curso · ⬜ por fazer
 ### ✅ Sprint 39 — Conteúdos programáticos
 - `UnidadeTematica`, `SumarioAula` + KPI de cumprimento
 
-### ⬜ Sprint 40 — Multas, Tesouraria, Calendário e RH
+### ✅ Sprint 40 — Multas, Tesouraria, Calendário e RH
 - `Multa`/`Ocorrencia`, `CaixaDiaria`/`MovimentoCaixa`,
   `CalendarioAcademico`/`EventoCalendario`, `Funcionario`/`Contrato`/`ProcessamentoSalario`

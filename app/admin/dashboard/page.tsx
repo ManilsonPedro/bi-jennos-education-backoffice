@@ -27,19 +27,19 @@ export default function DashboardPage() {
   return (
     <div>
       <h1 style={{ color: 'var(--primary)' }}>Dashboard</h1>
-      {erro && <p style={{ color: '#c0392b' }}>{erro}</p>}
+      {erro && <p style={{ color: 'var(--danger)' }}>{erro}</p>}
       <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 16 }}>
         {cards.map((c) => (
           <div
             key={c.titulo}
             style={{
-              background: '#fff',
+              background: 'var(--surface)',
               padding: 20,
               borderRadius: 12,
-              boxShadow: '0 1px 6px rgba(0,0,0,.06)',
+              boxShadow: 'var(--shadow-sm)',
             }}
           >
-            <p style={{ color: '#888', margin: 0, fontSize: 13 }}>{c.titulo}</p>
+            <p style={{ color: 'var(--text-muted)', margin: 0, fontSize: 13 }}>{c.titulo}</p>
             <p style={{ fontSize: 28, fontWeight: 700, margin: '8px 0 0' }}>
               {c.valor ?? '—'}
             </p>

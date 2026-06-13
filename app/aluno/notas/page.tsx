@@ -37,7 +37,7 @@ export default function NotasPage() {
   return (
     <div>
       <h1 style={{ color: 'var(--primary)' }}>As minhas notas</h1>
-      {erro && <p style={{ color: '#c0392b' }}>{erro}</p>}
+      {erro && <p style={{ color: 'var(--danger)' }}>{erro}</p>}
       {me && (
         <p>
           Bem-vindo, <b>{me.nome_completo}</b> ({me.email}).
