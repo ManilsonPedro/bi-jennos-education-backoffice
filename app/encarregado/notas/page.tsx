@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect, useState } from 'react'
+import { Suspense, useEffect, useState } from 'react'
 import { useSearchParams } from 'next/navigation'
 import { fetchAPI } from '@/lib/api'
 import { PageHeader } from '@/components/ui/PageHeader'
@@ -15,7 +15,7 @@ const COLUMNS: Column<Nota>[] = [
   { key: 'percentagem', label: 'Peso (%)' },
 ]
 
-export default function EncarregadoNotasPage() {
+function NotasContent() {
   const params = useSearchParams()
   const alunoId = params.get('aluno')
   const [notas, setNotas] = useState<Nota[]>([])
@@ -36,5 +36,13 @@ export default function EncarregadoNotasPage() {
       {erro && <p style={{ color: 'var(--danger)' }}>{erro}</p>}
       <DataTable columns={COLUMNS} rows={notas} emptyMessage="Sem notas registadas." />
     </div>
+  )
+}
+
+export default function EncarregadoNotasPage() {
+  return (
+    <Suspense fallback={<p>A carregar...</p>}>
+      <NotasContent />
+    </Suspense>
   )
 }

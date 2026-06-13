@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect, useState } from 'react'
+import { Suspense, useEffect, useState } from 'react'
 import { useSearchParams } from 'next/navigation'
 import { fetchAPI } from '@/lib/api'
 import { PageHeader } from '@/components/ui/PageHeader'
@@ -17,14 +17,6 @@ interface Propina {
   data_vencimento: string
 }
 
-const ESTADO_CORES: Record<string, string> = {
-  pendente: '#f59e0b',
-  pago: '#22c55e',
-  vencido: '#ef4444',
-  isento: '#6366f1',
-  parcial: '#f97316',
-}
-
 const MESES = ['', 'Jan', 'Fev', 'Mar', 'Abr', 'Mai', 'Jun', 'Jul', 'Ago', 'Set', 'Out', 'Nov', 'Dez']
 
 const COLUMNS: Column<Propina>[] = [
@@ -39,7 +31,7 @@ const COLUMNS: Column<Propina>[] = [
   { key: 'data_vencimento', label: 'Vencimento' },
 ]
 
-export default function EncarregadoFinanceiroPage() {
+function FinanceiroContent() {
   const params = useSearchParams()
   const alunoId = params.get('aluno')
   const [propinas, setPropinas] = useState<Propina[]>([])
@@ -60,5 +52,13 @@ export default function EncarregadoFinanceiroPage() {
       {erro && <p style={{ color: 'var(--danger)' }}>{erro}</p>}
       <DataTable columns={COLUMNS} rows={propinas} emptyMessage="Sem propinas registadas." />
     </div>
+  )
+}
+
+export default function EncarregadoFinanceiroPage() {
+  return (
+    <Suspense fallback={<p>A carregar...</p>}>
+      <FinanceiroContent />
+    </Suspense>
   )
 }
