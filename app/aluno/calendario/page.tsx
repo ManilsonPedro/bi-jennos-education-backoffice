@@ -66,7 +66,7 @@ export default function CalendarioPage() {
               <div style={{ flex: 1 }}>
                 <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 4 }}>
                   <span style={{ fontWeight: 600 }}>{ev.titulo}</span>
-                  <Badge label={ev.tipo} color={TIPO_CORES[ev.tipo] ?? '#6b7280'} />
+                  <Badge tone="neutral">{ev.tipo}</Badge>
                 </div>
                 {ev.descricao && <p style={{ margin: 0, fontSize: 13, color: '#555' }}>{ev.descricao}</p>}
                 {ev.data_fim && (

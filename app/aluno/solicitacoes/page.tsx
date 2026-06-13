@@ -39,7 +39,7 @@ const COLUMNS: Column<Solicitacao>[] = [
   {
     key: 'estado',
     label: 'Estado',
-    render: (r) => <Badge label={r.estado.replace('_', ' ').toUpperCase()} color={ESTADO_CORES[r.estado] ?? '#888'} />,
+    render: (r) => <Badge estado={r.estado}>{r.estado.replace('_', ' ').toUpperCase()}</Badge>,
   },
   { key: 'created_at', label: 'Data', render: (r) => new Date(r.created_at).toLocaleDateString('pt-AO') },
 ]

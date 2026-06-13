@@ -34,7 +34,7 @@ const COLUMNS: Column<Propina>[] = [
   {
     key: 'estado',
     label: 'Estado',
-    render: (r) => <Badge label={r.estado.toUpperCase()} color={ESTADO_CORES[r.estado] ?? '#888'} />,
+    render: (r) => <Badge estado={r.estado}>{r.estado.toUpperCase()}</Badge>,
   },
   { key: 'data_vencimento', label: 'Vencimento' },
 ]

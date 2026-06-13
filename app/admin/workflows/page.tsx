@@ -73,7 +73,7 @@ export default function WorkflowsPage() {
 
   const INST_COLS: Column<WfInstance>[] = [
     { key: 'referencia_tipo', label: 'Tipo Ref.', render: (r) => r.referencia_tipo ?? '—' },
-    { key: 'estado', label: 'Estado', render: (r) => <Badge label={r.estado} color={ESTADO_CORES[r.estado] ?? '#888'} /> },
+    { key: 'estado', label: 'Estado', render: (r) => <Badge estado={r.estado}>{r.estado}</Badge> },
     { key: 'step_actual', label: 'Step' },
     { key: 'created_at', label: 'Iniciado', render: (r) => new Date(r.created_at).toLocaleDateString('pt-AO') },
     {

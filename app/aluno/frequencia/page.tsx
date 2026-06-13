@@ -26,8 +26,8 @@ const COLUMNS: Column<FrequenciaItem>[] = [
     label: 'Presença',
     render: (row) => {
       const pct = row.percentagem_presenca
-      const color = pct >= 75 ? '#22c55e' : pct >= 60 ? '#f59e0b' : '#ef4444'
-      return <Badge label={`${pct}%`} color={color} />
+      const tone = pct >= 75 ? 'success' : pct >= 60 ? 'warn' : 'danger'
+      return <Badge tone={tone as 'success' | 'warn' | 'danger'}>{`${pct}%`}</Badge>
     },
   },
 ]

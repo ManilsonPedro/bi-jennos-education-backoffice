@@ -22,8 +22,8 @@ const COLUMNS: Column<HistoricoItem>[] = [
     render: (row) => {
       const estado = row.estado_final
       if (!estado) return <span style={{ color: '#888' }}>—</span>
-      const color = estado === 'aprovado' ? '#22c55e' : estado === 'reprovado' ? '#ef4444' : '#f59e0b'
-      return <Badge label={estado.toUpperCase()} color={color} />
+      const tone = estado === 'aprovado' ? 'success' : estado === 'reprovado' ? 'danger' : 'warn'
+      return <Badge tone={tone as 'success' | 'danger' | 'warn'}>{estado.toUpperCase()}</Badge>
     },
   },
   {
