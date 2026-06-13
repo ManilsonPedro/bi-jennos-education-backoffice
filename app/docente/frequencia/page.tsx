@@ -4,7 +4,7 @@ import { useEffect, useState } from 'react';
 import { docenteAPI } from '@/lib/api';
 
 interface Aluno {
-  id: string;
+  aluno_id: string;
   nome_completo: string;
   numero_aluno: string;
 }
@@ -63,7 +63,7 @@ export default function DocenteFrequenciaPage() {
         setAlunos(data);
         const init: Record<string, FreqEntry> = {};
         data.forEach((a: Aluno) => {
-          init[a.id] = { aluno_id: a.id, presente: true, justificada: false };
+          init[a.aluno_id] = { aluno_id: a.aluno_id, presente: true, justificada: false };
         });
         setFrequencias(init);
       })
@@ -193,16 +193,16 @@ export default function DocenteFrequenciaPage() {
             </thead>
             <tbody className="divide-y divide-gray-100">
               {alunos.map(aluno => {
-                const f = frequencias[aluno.id];
+                const f = frequencias[aluno.aluno_id];
                 return (
-                  <tr key={aluno.id} className={`transition-colors ${!f?.presente ? 'bg-red-50' : ''}`}>
+                  <tr key={aluno.aluno_id} className={`transition-colors ${!f?.presente ? 'bg-red-50' : ''}`}>
                     <td className="px-4 py-3">
                       <div className="font-medium text-gray-900 text-sm">{aluno.nome_completo}</div>
                       <div className="text-xs text-gray-400">{aluno.numero_aluno}</div>
                     </td>
                     <td className="px-4 py-3 text-center">
                       <button
-                        onClick={() => toggle(aluno.id, 'presente')}
+                        onClick={() => toggle(aluno.aluno_id, 'presente')}
                         className={`w-8 h-8 rounded-full border-2 flex items-center justify-center mx-auto transition-colors ${
                           f?.presente
                             ? 'border-green-500 bg-green-500 text-white'
@@ -216,7 +216,7 @@ export default function DocenteFrequenciaPage() {
                       <input
                         type="checkbox"
                         checked={f?.justificada ?? false}
-                        onChange={() => toggle(aluno.id, 'justificada')}
+                        onChange={() => toggle(aluno.aluno_id, 'justificada')}
                         disabled={f?.presente}
                         className="h-4 w-4 text-blue-600 rounded"
                       />
