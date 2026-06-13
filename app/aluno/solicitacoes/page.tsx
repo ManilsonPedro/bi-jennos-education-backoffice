@@ -79,8 +79,8 @@ export default function SolicitacoesPage() {
     <div>
       <PageHeader title="Solicitações de Documentos" subtitle="Peça documentos oficiais online" />
 
-      {mensagem && <Alert type="success" message={mensagem} onClose={() => setMensagem('')} />}
-      {erro && <Alert type="error" message={erro} onClose={() => setErro('')} />}
+      {mensagem && <Alert tone="success">{mensagem}</Alert>}
+      {erro && <Alert tone="danger">{erro}</Alert>}
 
       <div style={{ marginBottom: 20 }}>
         <Button onClick={() => setMostrarForm(!mostrarForm)}>Nova Solicitação</Button>

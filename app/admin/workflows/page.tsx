@@ -89,8 +89,8 @@ export default function WorkflowsPage() {
     <div>
       <PageHeader title="Workflows de Aprovação" subtitle="Gestão de processos de aprovação" />
 
-      {mensagem && <Alert type="success" message={mensagem} onClose={() => setMensagem('')} />}
-      {erro && <Alert type="error" message={erro} onClose={() => setErro('')} />}
+      {mensagem && <Alert tone="success">{mensagem}</Alert>}
+      {erro && <Alert tone="danger">{erro}</Alert>}
 
       <Button onClick={() => setMostrarNovo(!mostrarNovo)}>Novo Workflow</Button>
 

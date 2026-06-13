@@ -62,8 +62,8 @@ export default function SaaSPage() {
     <div>
       <PageHeader title="Super Admin — SaaS Multi-Escola" subtitle="Gestão de escolas e assinaturas" />
 
-      {mensagem && <Alert type="success" message={mensagem} onClose={() => setMensagem('')} />}
-      {erro && <Alert type="error" message={erro} onClose={() => setErro('')} />}
+      {mensagem && <Alert tone="success">{mensagem}</Alert>}
+      {erro && <Alert tone="danger">{erro}</Alert>}
 
       {dashboard && (
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(180px, 1fr))', gap: 16, marginBottom: 24 }}>

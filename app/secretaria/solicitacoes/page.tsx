@@ -83,8 +83,8 @@ export default function SecretariaSolicitacoesPage() {
     <div>
       <PageHeader title="Gestão de Solicitações" subtitle="Processar pedidos de documentos" />
 
-      {mensagem && <Alert type="success" message={mensagem} onClose={() => setMensagem('')} />}
-      {erro && <Alert type="error" message={erro} onClose={() => setErro('')} />}
+      {mensagem && <Alert tone="success">{mensagem}</Alert>}
+      {erro && <Alert tone="danger">{erro}</Alert>}
 
       <div style={{ display: 'flex', gap: 12, marginBottom: 20, alignItems: 'center' }}>
         <label style={{ fontWeight: 600 }}>Filtrar por estado:</label>

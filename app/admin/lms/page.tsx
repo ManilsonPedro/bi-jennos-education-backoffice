@@ -67,8 +67,8 @@ export default function LMSPage() {
     <div>
       <PageHeader title="LMS — Cursos Online" subtitle="Gestão de conteúdos de ensino online" />
 
-      {mensagem && <Alert type="success" message={mensagem} onClose={() => setMensagem('')} />}
-      {erro && <Alert type="error" message={erro} onClose={() => setErro('')} />}
+      {mensagem && <Alert tone="success">{mensagem}</Alert>}
+      {erro && <Alert tone="danger">{erro}</Alert>}
 
       <div style={{ marginBottom: 20 }}>
         <Button onClick={() => setMostrarNovo(!mostrarNovo)}>Novo Curso</Button>

@@ -70,8 +70,8 @@ export default function PagamentoPage() {
     <div>
       <PageHeader title="Pagamento Online" subtitle="Pague as suas propinas de forma segura" />
 
-      {mensagem && <Alert type="success" message={mensagem} onClose={() => setMensagem('')} />}
-      {erro && <Alert type="error" message={erro} onClose={() => setErro('')} />}
+      {mensagem && <Alert tone="success">{mensagem}</Alert>}
+      {erro && <Alert tone="danger">{erro}</Alert>}
 
       {resultado ? (
         <Card>
