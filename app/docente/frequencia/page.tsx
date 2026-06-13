@@ -9,6 +9,11 @@ interface Aluno {
   numero_aluno: string;
 }
 
+interface TurmaAPI {
+  classe_id: string;
+  disciplinas: Array<{ id: string; nome: string }>;
+}
+
 interface Turma {
   disciplina_id: string;
   turma_id: string;
@@ -36,7 +41,18 @@ export default function DocenteFrequenciaPage() {
   const [msg, setMsg] = useState('');
 
   useEffect(() => {
-    docenteAPI.minhasTurmas().then(setTurmas).catch(console.error);
+    docenteAPI.minhasTurmas().then((data: TurmaAPI[]) => {
+      const flat: Turma[] = data.flatMap(t =>
+        t.disciplinas.map(d => ({
+          disciplina_id: d.id,
+          turma_id: t.classe_id,
+          disciplina: d.nome,
+          turma: t.classe_id,
+          classe: t.classe_id,
+        }))
+      );
+      setTurmas(flat);
+    }).catch(console.error);
   }, []);
 
   useEffect(() => {
@@ -69,12 +85,15 @@ export default function DocenteFrequenciaPage() {
     }
     setGuardando(true);
     try {
-      await docenteAPI.lancarFrequencia({
-        disciplina_id: disciplinaSelId,
-        turma_id: turmaSelId,
-        data_aula: data,
-        registos: Object.values(frequencias),
-      });
+      await docenteAPI.lancarFrequencia(
+        disciplinaSelId,
+        turmaSelId,
+        Object.values(frequencias).map(f => ({
+          aluno_id: f.aluno_id,
+          total_aulas: 1,
+          faltas: f.presente ? 0 : 1,
+        }))
+      );
       setMsg('Frequência guardada com sucesso!');
     } catch (e: unknown) {
       setMsg(`Erro: ${e instanceof Error ? e.message : String(e)}`);
