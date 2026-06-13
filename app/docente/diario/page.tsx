@@ -119,7 +119,7 @@ export default function DiarioPage() {
                 style={{ padding: '8px 12px', borderRadius: 6, border: '1px solid #ddd' }}
               />
             </div>
-            <Button label="Registar" onClick={registar} />
+            <Button onClick={registar} >Registar</Button>
           </div>
         </Card>
       )}

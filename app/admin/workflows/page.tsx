@@ -108,7 +108,7 @@ export default function WorkflowsPage() {
                 {TIPOS.map((t) => <option key={t} value={t}>{t}</option>)}
               </select>
             </div>
-            <Button label="Criar" onClick={criarWorkflow} />
+            <Button onClick={criarWorkflow} >Criar</Button>
           </div>
         </div>
       )}
@@ -121,7 +121,7 @@ export default function WorkflowsPage() {
               {['em_analise', 'aprovado', 'rejeitado'].map((e) => <option key={e} value={e}>{e}</option>)}
             </select>
             <input value={observacao} onChange={(e) => setObservacao(e.target.value)} placeholder="Observação..." style={{ padding: '8px 12px', borderRadius: 6, border: '1px solid #ddd', flex: 1 }} />
-            <Button label="Confirmar" onClick={avancar} />
+            <Button onClick={avancar} >Confirmar</Button>
             <Button label="Cancelar" onClick={() => setSeleccionada(null)} />
           </div>
         </div>

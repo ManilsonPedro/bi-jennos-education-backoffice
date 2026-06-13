@@ -94,7 +94,7 @@ export default function SaaSPage() {
               <label style={{ display: 'block', marginBottom: 4, fontWeight: 600 }}>Email</label>
               <input value={email} onChange={(e) => setEmail(e.target.value)} type="email" style={{ padding: '8px 12px', borderRadius: 6, border: '1px solid #ddd' }} />
             </div>
-            <Button label="Criar" onClick={criar} />
+            <Button onClick={criar} >Criar</Button>
             <Button label="Cancelar" onClick={() => setMostrarNovo(false)} />
           </div>
         </Card>

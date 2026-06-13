@@ -121,7 +121,7 @@ export default function SecretariaSolicitacoesPage() {
             />
           </div>
           <div style={{ display: 'flex', gap: 10 }}>
-            <Button label="Guardar" onClick={actualizar} />
+            <Button onClick={actualizar} >Guardar</Button>
             <Button label="Cancelar" onClick={() => setSeleccionada(null)} />
           </div>
         </div>

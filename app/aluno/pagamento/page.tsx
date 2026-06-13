@@ -122,7 +122,7 @@ export default function PagamentoPage() {
                 )}
               </select>
             </div>
-            <Button label="Gerar Referência" onClick={iniciarPagamento} />
+            <Button onClick={iniciarPagamento} >Gerar Referência</Button>
           </div>
         </Card>
       )}

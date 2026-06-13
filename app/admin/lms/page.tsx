@@ -92,7 +92,7 @@ export default function LMSPage() {
               style={{ padding: '8px 12px', borderRadius: 6, border: '1px solid #ddd' }}
             />
             <div style={{ display: 'flex', gap: 10 }}>
-              <Button label="Criar" onClick={criar} />
+              <Button onClick={criar} >Criar</Button>
               <Button label="Cancelar" onClick={() => setMostrarNovo(false)} />
             </div>
           </div>

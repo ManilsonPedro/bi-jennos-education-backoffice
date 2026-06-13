@@ -112,7 +112,7 @@ export default function SolicitacoesPage() {
             />
           </div>
           <div style={{ display: 'flex', gap: 10 }}>
-            <Button label="Enviar Solicitação" onClick={submeter} />
+            <Button onClick={submeter} >Enviar Solicitação</Button>
             <Button label="Cancelar" onClick={() => setMostrarForm(false)} />
           </div>
         </div>
