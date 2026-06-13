@@ -22,7 +22,7 @@ const COLUMNS: Column<CursoOnline>[] = [
   {
     key: 'is_publicado',
     label: 'Estado',
-    render: (r) => <Badge tone={r.is_publicado ? 'success' : 'warning'}>{r.is_publicado ? 'PUBLICADO' : 'RASCUNHO'}</Badge>,
+    render: (r) => <Badge tone={r.is_publicado ? 'success' : 'warn'}>{r.is_publicado ? 'PUBLICADO' : 'RASCUNHO'}</Badge>,
   },
 ]
 
