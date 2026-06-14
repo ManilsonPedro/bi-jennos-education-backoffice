@@ -915,3 +915,61 @@ export const pedidosReaberturaAPI = {
     fetchAPI<PedidoReabertura>(`/pedidos-reabertura/${id}/rejeitar`, { method: 'POST', body: JSON.stringify({ motivo }) }),
 }
 
+export interface LerBiResponse {
+  nome: string
+  bi_numero: string
+  data_nascimento: string
+  nif: string
+  sexo: string
+  fonte: string
+}
+
+export const documentosAPI = {
+  gerarDeclaracao: (data: {
+    aluno_id: string
+    tipo: string
+    ano_academico_id: string
+    finalidade?: string
+    observacoes?: string
+  }) =>
+    fetch(`${API_BASE}/documentos/declaracao/pdf`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        ...(readToken() ? { Authorization: `Bearer ${readToken()}` } : {}),
+      },
+      body: JSON.stringify(data),
+      credentials: 'include',
+    }),
+  gerarCaderneta: (aluno_id: string, ano_academico_id: string) =>
+    fetch(
+      `${API_BASE}/documentos/caderneta/${aluno_id}/pdf?ano_academico_id=${ano_academico_id}`,
+      {
+        headers: readToken() ? { Authorization: `Bearer ${readToken()}` } : {},
+        credentials: 'include',
+      },
+    ),
+  gerarCartao: (data: { aluno_id: string; ano_academico_id: string; foto_base64?: string }) =>
+    fetch(`${API_BASE}/documentos/cartao-aluno/pdf`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        ...(readToken() ? { Authorization: `Bearer ${readToken()}` } : {}),
+      },
+      body: JSON.stringify(data),
+      credentials: 'include',
+    }),
+  lerBi: (data: {
+    mrz_linha1?: string
+    mrz_linha2?: string
+    nome?: string
+    bi_numero?: string
+    data_nascimento?: string
+    nif?: string
+    sexo?: string
+  }) =>
+    fetchAPI<LerBiResponse>('/documentos/ler-bi', {
+      method: 'POST',
+      body: JSON.stringify(data),
+    }),
+}
