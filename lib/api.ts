@@ -827,7 +827,7 @@ function _eventoAPI(prefix: string) {
     listar: () => fetchAPI<Evento[]>(`/${prefix}`),
     criar: (data: { titulo: string; data_evento: string; descricao?: string; local?: string; palestrante?: string; vagas?: number }) =>
       fetchAPI<Evento>(`/${prefix}`, { method: 'POST', body: JSON.stringify(data) }),
-    actualizar: (id: string, data: { titulo?: string; data_evento?: string; descricao?: string; local?: string; vagas?: number }) =>
+    actualizar: (id: string, data: { titulo?: string; data_evento?: string; descricao?: string; local?: string; palestrante?: string; vagas?: number }) =>
       fetchAPI<Evento>(`/${prefix}/${id}`, { method: 'PATCH', body: JSON.stringify(data) }),
     remover: (id: string) =>
       fetchAPI(`/${prefix}/${id}`, { method: 'DELETE' }),
