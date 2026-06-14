@@ -886,3 +886,32 @@ export const ocorrenciasAPI = {
     fetchAPI<Ocorrencia>(`/ocorrencias/${id}/inactivar`, { method: 'POST', body: JSON.stringify({ motivo }) }),
 }
 
+// ── Pedidos de Reabertura ─────────────────────────────────
+export interface PedidoReabertura {
+  id: string
+  tipo: 'trimestre' | 'ano_academico' | 'pauta'
+  referencia_id: string
+  motivo: string
+  estado: 'pendente' | 'aprovado' | 'rejeitado'
+  solicitado_por_id: string
+  decidido_por_id: string | null
+  decisao_motivo: string | null
+  created_at: string
+}
+export const pedidosReaberturaAPI = {
+  criar: (data: { tipo: string; referencia_id: string; motivo: string }) =>
+    fetchAPI<PedidoReabertura>('/pedidos-reabertura', { method: 'POST', body: JSON.stringify(data) }),
+  listar: (estado?: string, tipo?: string) => {
+    const params = new URLSearchParams()
+    if (estado) params.set('estado', estado)
+    if (tipo) params.set('tipo', tipo)
+    const qs = params.toString()
+    return fetchAPI<PedidoReabertura[]>(`/pedidos-reabertura${qs ? `?${qs}` : ''}`)
+  },
+  meus: () => fetchAPI<PedidoReabertura[]>('/pedidos-reabertura/meus'),
+  aprovar: (id: string, motivo?: string) =>
+    fetchAPI<PedidoReabertura>(`/pedidos-reabertura/${id}/aprovar`, { method: 'POST', body: JSON.stringify({ motivo: motivo ?? '' }) }),
+  rejeitar: (id: string, motivo: string) =>
+    fetchAPI<PedidoReabertura>(`/pedidos-reabertura/${id}/rejeitar`, { method: 'POST', body: JSON.stringify({ motivo }) }),
+}
+

@@ -1,7 +1,7 @@
 'use client'
 
 import { useEffect, useState } from 'react'
-import { academicoAPI, type AnoAcademico, type Trimestre } from '@/lib/api'
+import { academicoAPI, pedidosReaberturaAPI, type AnoAcademico, type Trimestre } from '@/lib/api'
 import { InactivarModal } from '@/components/ui/InactivarModal'
 
 const s = {
@@ -40,6 +40,10 @@ export default function AnosAcademicosPage() {
   // Confirm fechar trimestre
   const [confirmFechar, setConfirmFechar] = useState<{ anoId: string; tri: Trimestre } | null>(null)
   const [confirmDelTri, setConfirmDelTri] = useState<{ anoId: string; tri: Trimestre } | null>(null)
+
+  // Pedido de reabertura
+  const [pedirReaberturaModal, setPedirReaberturaModal] = useState<{ anoId: string; tri: Trimestre } | null>(null)
+  const [motivoReabertura, setMotivoReabertura] = useState('')
 
   const [saving, setSaving] = useState(false)
 
@@ -136,6 +140,18 @@ export default function AnosAcademicosPage() {
     await carregarTrimestres(confirmDelTri.anoId)
   }
 
+  async function submeterPedidoReabertura() {
+    if (!pedirReaberturaModal) return
+    if (motivoReabertura.trim().length < 10) { setErro('Motivo deve ter pelo menos 10 caracteres.'); return }
+    setSaving(true); setErro(''); setMsg('')
+    try {
+      await pedidosReaberturaAPI.criar({ tipo: 'trimestre', referencia_id: pedirReaberturaModal.tri.id, motivo: motivoReabertura })
+      setMsg('Pedido de reabertura submetido. Aguarda aprovacao da Direccao.')
+      setPedirReaberturaModal(null); setMotivoReabertura('')
+    } catch (e) { setErro((e as Error).message) }
+    finally { setSaving(false) }
+  }
+
   return (
     <div>
       <h1 style={{ color: 'var(--primary)' }}>Anos Academicos & Trimestres</h1>
@@ -207,6 +223,9 @@ export default function AnosAcademicosPage() {
                                 <button style={btn('', '#333', { background: '#eee' })} onClick={() => abrirModalTrimestre(ano, t)}>Editar</button>
                                 <button style={btn('#e67e22')} onClick={() => setConfirmFechar({ anoId: ano.id, tri: t })}>Fechar trimestre</button>
                               </>
+                            )}
+                            {t.estado === 'fechado' && (
+                              <button style={btn('#3498db')} onClick={() => { setMotivoReabertura(''); setPedirReaberturaModal({ anoId: ano.id, tri: t }) }}>Pedir reabertura</button>
                             )}
                             <button style={btn('#e74c3c')} onClick={() => setConfirmDelTri({ anoId: ano.id, tri: t })}>Inactivar</button>
                           </td>
@@ -297,6 +316,41 @@ export default function AnosAcademicosPage() {
           onConfirm={inactivarTrimestre}
           onCancel={() => setConfirmDelTri(null)}
         />
+      )}
+
+      {pedirReaberturaModal && (
+        <div style={s.overlay} onClick={() => setPedirReaberturaModal(null)}>
+          <div style={{ ...s.modal, borderTop: '4px solid #3498db' }} onClick={e => e.stopPropagation()}>
+            <h3 style={{ marginTop: 0, color: '#3498db' }}>Pedir reabertura de trimestre</h3>
+            <p style={{ color: '#555', fontSize: 14, marginBottom: 12 }}>
+              <strong>{pedirReaberturaModal.tri.designacao ?? `${pedirReaberturaModal.tri.numero}.o Trimestre`}</strong><br />
+              O pedido sera enviado para aprovacao da Direccao.
+            </p>
+            <label htmlFor="pr-motivo">Motivo do pedido *</label>
+            <textarea
+              id="pr-motivo"
+              rows={4}
+              style={{ display: 'block', width: '100%', padding: 10, margin: '4px 0 12px', border: '1px solid var(--border-strong)', borderRadius: 8, boxSizing: 'border-box' }}
+              placeholder="ex: Erro de lancamento detectado na nota de Matematica do aluno X..."
+              value={motivoReabertura}
+              onChange={e => setMotivoReabertura(e.target.value)}
+            />
+            <div style={{ display: 'flex', gap: 10 }}>
+              <button
+                type="button"
+                style={btn('#3498db')}
+                onClick={submeterPedidoReabertura}
+                disabled={saving || motivoReabertura.trim().length < 10}
+              >
+                {saving ? 'A submeter...' : 'Submeter pedido'}
+              </button>
+              <button type="button" style={btn('#888')} onClick={() => setPedirReaberturaModal(null)}>Cancelar</button>
+            </div>
+            {motivoReabertura.trim().length > 0 && motivoReabertura.trim().length < 10 && (
+              <p style={{ color: '#e74c3c', fontSize: 12, marginTop: 6 }}>Minimo 10 caracteres.</p>
+            )}
+          </div>
+        </div>
       )}
     </div>
   )
