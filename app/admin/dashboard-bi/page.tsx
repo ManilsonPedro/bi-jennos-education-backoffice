@@ -1,115 +1,189 @@
 'use client'
 
 import { useEffect, useState } from 'react'
-import { fetchAPI } from '@/lib/api'
-import { PageHeader } from '@/components/ui/PageHeader'
+import { dashboardBIAPI } from '@/lib/api'
 import { StatCard } from '@/components/ui/StatCard'
 import { Card } from '@/components/ui/Card'
+import { PageHeader } from '@/components/ui/PageHeader'
+import { Alert } from '@/components/ui/Alert'
+import { Badge } from '@/components/ui/Badge'
 
-interface DashboardExecutivo {
-  total_alunos: number
-  matriculas_activas: number
-  propinas_pendentes: number
-  receita_total: string
-  receita_pendente: string
-  funcionarios_activos: number
+function Bar({ label, value, max, color }: { label: string; value: number; max: number; color: string }) {
+  const pct = max > 0 ? Math.min((value / max) * 100, 100) : 0
+  return (
+    <div style={{ marginBottom: 14 }}>
+      <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 4, fontSize: 13 }}>
+        <span style={{ color: 'var(--text)' }}>{label}</span>
+        <span style={{ fontWeight: 700, color: 'var(--text)' }}>{value}</span>
+      </div>
+      <div style={{ background: 'var(--border)', borderRadius: 6, height: 10, overflow: 'hidden' }}>
+        <div style={{
+          width: `${pct}%`, height: '100%', background: color,
+          borderRadius: 6, transition: 'width 0.7s ease',
+        }} />
+      </div>
+    </div>
+  )
 }
 
-interface DashboardPedagogico {
-  total_avaliados: number
-  aprovados: number
-  reprovados: number
-  taxa_aprovacao: number
-  taxa_reprovacao: number
-  media_geral: string | null
+function Kz(v: string | number) {
+  return `Kz ${Number(v).toLocaleString('pt-AO')}`
 }
 
-interface DashboardFinanceiro {
-  total_esperado: string
-  total_recebido: string
-  total_pendente: string
-  total_vencido: string
-  taxa_cobranca: number
+function SectionTitle({ children, accent = 'var(--primary)' }: { children: React.ReactNode; accent?: string }) {
+  return (
+    <div style={{
+      display: 'flex', alignItems: 'center', gap: 10,
+      fontSize: 13, fontWeight: 700, textTransform: 'uppercase',
+      letterSpacing: '0.08em', color: 'var(--text-muted)',
+      borderBottom: '2px solid var(--border)', paddingBottom: 10,
+      marginBottom: 16, marginTop: 32,
+    }}>
+      <span style={{ width: 4, height: 20, background: accent, borderRadius: 2, display: 'inline-block' }} />
+      {children}
+    </div>
+  )
 }
 
 export default function DashboardBIPage() {
-  const [executivo, setExecutivo] = useState<DashboardExecutivo | null>(null)
-  const [pedagogico, setPedagogico] = useState<DashboardPedagogico | null>(null)
-  const [financeiro, setFinanceiro] = useState<DashboardFinanceiro | null>(null)
+  const [executivo, setExecutivo] = useState<Awaited<ReturnType<typeof dashboardBIAPI.executivo>> | null>(null)
+  const [pedagogico, setPedagogico] = useState<Awaited<ReturnType<typeof dashboardBIAPI.pedagogico>> | null>(null)
+  const [financeiro, setFinanceiro] = useState<Awaited<ReturnType<typeof dashboardBIAPI.financeiro>> | null>(null)
+  const [rh, setRh] = useState<Awaited<ReturnType<typeof dashboardBIAPI.rh>> | null>(null)
   const [erro, setErro] = useState('')
 
   useEffect(() => {
     Promise.all([
-      fetchAPI<DashboardExecutivo>('/dashboard/executivo'),
-      fetchAPI<DashboardPedagogico>('/dashboard/pedagogico'),
-      fetchAPI<DashboardFinanceiro>('/dashboard/financeiro'),
+      dashboardBIAPI.executivo(),
+      dashboardBIAPI.pedagogico(),
+      dashboardBIAPI.financeiro(),
+      dashboardBIAPI.rh(),
     ])
-      .then(([e, p, f]) => { setExecutivo(e); setPedagogico(p); setFinanceiro(f) })
+      .then(([e, p, f, r]) => { setExecutivo(e); setPedagogico(p); setFinanceiro(f); setRh(r) })
       .catch((e) => setErro(e instanceof Error ? e.message : 'Erro ao carregar BI'))
   }, [])
 
-  return (
-    <div>
-      <PageHeader title="Dashboard Executivo" subtitle="Indicadores de gestão da escola" />
-      {erro && <p style={{ color: 'var(--danger)' }}>{erro}</p>}
+  const taxaCobranca = financeiro?.taxa_cobranca ?? 0
+  const taxaAprovacao = pedagogico?.taxa_aprovacao ?? 0
 
+  return (
+    <div className="animate-fade">
+      <PageHeader
+        title="Dashboard BI"
+        subtitle="Business Intelligence — indicadores executivos da escola"
+        breadcrumb={['Dashboard', 'BI Executivo']}
+        accent="var(--primary)"
+      />
+
+      {erro && <Alert tone="danger">{erro}</Alert>}
+      {!executivo && !erro && <p style={{ color: 'var(--text-muted)', fontSize: 14 }}>A carregar indicadores...</p>}
+
+      {/* ── DIRECÇÃO GERAL ─────────────────────────────────── */}
       {executivo && (
         <>
-          <h2 style={{ color: 'var(--primary)', marginTop: 24 }}>Direção Geral</h2>
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(180px, 1fr))', gap: 16, marginBottom: 24 }}>
-            <StatCard label="Total de Alunos" value={executivo.total_alunos} />
-            <StatCard label="Matrículas Activas" value={executivo.matriculas_activas} />
-            <StatCard label="Propinas Pendentes" value={executivo.propinas_pendentes} />
-            <StatCard label="Receita Cobrada" value={`Kz ${Number(executivo.receita_total).toLocaleString()}`} />
-            <StatCard label="Por Cobrar" value={`Kz ${Number(executivo.receita_pendente).toLocaleString()}`} />
-            <StatCard label="Funcionários" value={executivo.funcionarios_activos} />
+          <SectionTitle accent="var(--primary)">Direcção Geral</SectionTitle>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(170px, 1fr))', gap: 14 }}>
+            <StatCard label="Total de Alunos"      value={executivo.total_alunos}        accent="var(--cat-academico)" />
+            <StatCard label="Matrículas Activas"   value={executivo.matriculas_activas}  accent="var(--primary)" />
+            <StatCard label="Propinas Pendentes"   value={executivo.propinas_pendentes}  accent={executivo.propinas_pendentes > 20 ? 'var(--danger)' : 'var(--success)'} />
+            <StatCard label="Receita Cobrada"      value={Kz(executivo.receita_total)}   accent="var(--success)" />
+            <StatCard label="Por Cobrar"           value={Kz(executivo.receita_pendente)} accent="var(--warning)" />
+            <StatCard label="Funcionários Activos" value={executivo.funcionarios_activos} accent="var(--cat-rh)" />
           </div>
         </>
       )}
 
-      {pedagogico && (
-        <>
-          <h2 style={{ color: 'var(--primary)' }}>Direção Pedagógica</h2>
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(180px, 1fr))', gap: 16, marginBottom: 24 }}>
-            <StatCard label="Avaliados" value={pedagogico.total_avaliados} />
-            <StatCard label="Aprovados" value={pedagogico.aprovados} />
-            <StatCard label="Reprovados" value={pedagogico.reprovados} />
-            <StatCard label="Taxa de Aprovação" value={`${pedagogico.taxa_aprovacao}%`} />
-            <StatCard label="Taxa de Reprovação" value={`${pedagogico.taxa_reprovacao}%`} />
-            <StatCard label="Média Geral" value={pedagogico.media_geral ? `${pedagogico.media_geral} val` : '—'} />
-          </div>
-        </>
-      )}
-
+      {/* ── FINANCEIRO ─────────────────────────────────────── */}
       {financeiro && (
         <>
-          <h2 style={{ color: 'var(--primary)' }}>Financeiro</h2>
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(180px, 1fr))', gap: 16, marginBottom: 24 }}>
-            <StatCard label="Total Esperado" value={`Kz ${Number(financeiro.total_esperado).toLocaleString()}`} />
-            <StatCard label="Total Recebido" value={`Kz ${Number(financeiro.total_recebido).toLocaleString()}`} />
-            <StatCard label="Total Pendente" value={`Kz ${Number(financeiro.total_pendente).toLocaleString()}`} />
-            <StatCard label="Total Vencido" value={`Kz ${Number(financeiro.total_vencido).toLocaleString()}`} />
-            <StatCard label="Taxa de Cobrança" value={`${financeiro.taxa_cobranca}%`} />
-          </div>
-          <Card>
-            <div style={{ display: 'flex', alignItems: 'center', gap: 16 }}>
-              <div style={{ flex: 1 }}>
-                <div style={{ marginBottom: 6, fontSize: 13, color: '#666' }}>Progresso de Cobrança</div>
-                <div style={{ background: '#f0f0f0', borderRadius: 10, height: 16, overflow: 'hidden' }}>
-                  <div
-                    style={{
-                      width: `${Math.min(financeiro.taxa_cobranca, 100)}%`,
-                      height: '100%',
-                      background: financeiro.taxa_cobranca >= 80 ? '#22c55e' : financeiro.taxa_cobranca >= 60 ? '#f59e0b' : '#ef4444',
-                      borderRadius: 10,
-                      transition: 'width 0.5s ease',
-                    }}
-                  />
+          <SectionTitle accent="var(--cat-financeiro)">Financeiro</SectionTitle>
+          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 16 }}>
+            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 12 }}>
+              <StatCard label="Total Esperado"  value={Kz(financeiro.total_esperado)} accent="var(--text-muted)" />
+              <StatCard label="Total Recebido"  value={Kz(financeiro.total_recebido)} accent="var(--success)" />
+              <StatCard label="Total Pendente"  value={Kz(financeiro.total_pendente)} accent="var(--warning)" />
+              <StatCard label="Total Vencido"   value={Kz(financeiro.total_vencido)}  accent="var(--danger)" />
+            </div>
+            <Card title="Taxa de Cobrança" accent="var(--cat-financeiro)">
+              <div style={{ textAlign: 'center', marginBottom: 16 }}>
+                <span style={{
+                  fontSize: 52, fontWeight: 800,
+                  color: taxaCobranca >= 80 ? 'var(--success)' : taxaCobranca >= 60 ? 'var(--warning)' : 'var(--danger)',
+                }}>
+                  {taxaCobranca}%
+                </span>
+                <div style={{ marginTop: 4 }}>
+                  <Badge tone={taxaCobranca >= 80 ? 'success' : taxaCobranca >= 60 ? 'warn' : 'danger'}>
+                    {taxaCobranca >= 80 ? 'Excelente' : taxaCobranca >= 60 ? 'Aceitável' : 'Crítico'}
+                  </Badge>
                 </div>
               </div>
-              <span style={{ fontWeight: 700, fontSize: 20 }}>{financeiro.taxa_cobranca}%</span>
-            </div>
-          </Card>
+              <div style={{ background: 'var(--border)', borderRadius: 8, height: 14, overflow: 'hidden' }}>
+                <div style={{
+                  width: `${Math.min(taxaCobranca, 100)}%`, height: '100%',
+                  background: taxaCobranca >= 80 ? 'var(--success)' : taxaCobranca >= 60 ? 'var(--warning)' : 'var(--danger)',
+                  borderRadius: 8, transition: 'width 0.7s ease',
+                }} />
+              </div>
+              <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: 11, color: 'var(--text-muted)', marginTop: 8 }}>
+                <span>0%</span><span>Meta: 90%</span><span>100%</span>
+              </div>
+            </Card>
+          </div>
+        </>
+      )}
+
+      {/* ── PEDAGÓGICO ─────────────────────────────────────── */}
+      {pedagogico && (
+        <>
+          <SectionTitle accent="var(--cat-academico)">Direcção Pedagógica</SectionTitle>
+          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 16 }}>
+            <Card title="Resultados Escolares" accent="var(--cat-academico)">
+              <Bar label="Total Avaliados"  value={pedagogico.total_avaliados} max={pedagogico.total_avaliados} color="var(--primary)" />
+              <Bar label="Aprovados"        value={pedagogico.aprovados}       max={pedagogico.total_avaliados} color="var(--success)" />
+              <Bar label="Reprovados"       value={pedagogico.reprovados}      max={pedagogico.total_avaliados} color="var(--danger)" />
+            </Card>
+            <Card title="Taxas de Desempenho" accent="var(--cat-academico)">
+              <div style={{ textAlign: 'center', padding: '8px 0' }}>
+                <span style={{
+                  fontSize: 52, fontWeight: 800,
+                  color: taxaAprovacao >= 70 ? 'var(--success)' : taxaAprovacao >= 50 ? 'var(--warning)' : 'var(--danger)',
+                }}>
+                  {taxaAprovacao}%
+                </span>
+                <div style={{ marginTop: 4, marginBottom: 16 }}>
+                  <Badge tone={taxaAprovacao >= 70 ? 'success' : taxaAprovacao >= 50 ? 'warn' : 'danger'}>
+                    Taxa de Aprovação
+                  </Badge>
+                </div>
+              </div>
+              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 10 }}>
+                <StatCard label="Aprovados"  value={`${pedagogico.taxa_aprovacao}%`}  accent="var(--success)" />
+                <StatCard label="Reprovados" value={`${pedagogico.taxa_reprovacao}%`} accent="var(--danger)" />
+              </div>
+              {pedagogico.media_geral && (
+                <div style={{ marginTop: 12, textAlign: 'center', padding: 12, background: 'var(--surface-2)', borderRadius: 'var(--radius)' }}>
+                  <div style={{ fontSize: 11, color: 'var(--text-muted)', textTransform: 'uppercase', letterSpacing: '0.06em' }}>Média Geral</div>
+                  <div style={{ fontSize: 28, fontWeight: 700, marginTop: 4 }}>{Number(pedagogico.media_geral).toFixed(1)} <span style={{ fontSize: 14, color: 'var(--text-muted)' }}>val</span></div>
+                </div>
+              )}
+            </Card>
+          </div>
+        </>
+      )}
+
+      {/* ── RECURSOS HUMANOS ───────────────────────────────── */}
+      {rh && (
+        <>
+          <SectionTitle accent="var(--cat-rh)">Recursos Humanos</SectionTitle>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: 14 }}>
+            <StatCard label="Funcionários Activos"  value={rh.funcionarios_activos}                          accent="var(--cat-rh)" />
+            <StatCard label="Custo Salarial Base"   value={Kz(rh.custo_salarial_base)}                       accent="var(--cat-financeiro)" />
+            <StatCard label="Contratos a Expirar"   value={rh.contratos_a_expirar}
+              hint={rh.contratos_a_expirar > 0 ? 'Renovação necessária' : 'Tudo em ordem'}
+              accent={rh.contratos_a_expirar > 0 ? 'var(--warning)' : 'var(--success)'}
+            />
+          </div>
         </>
       )}
     </div>

@@ -48,8 +48,7 @@ export default function PagamentoPage() {
 
   useEffect(() => {
     fetchAPI<Gateway[]>('/pagamentos/gateways').then(setGateways).catch(() => {})
-    // Carregar propinas do aluno logado via /aluno/perfil + propinas
-    fetchAPI<Propina[]>('/financeiro/minhas-propinas').catch(() => {})
+    fetchAPI<Propina[]>('/aluno/minhas-propinas').then(setPropinas).catch(() => {})
   }, [])
 
   const iniciarPagamento = async () => {

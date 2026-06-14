@@ -5,7 +5,7 @@
   "devCommand": "next dev",
   "installCommand": "npm install",
   "env": {
-    "NEXT_PUBLIC_API_URL": "@bijennos_api_url"
+    "NEXT_PUBLIC_API_URL": "https://bijennos-api.onrender.com/api/v1"
   },
   "headers": [
     {

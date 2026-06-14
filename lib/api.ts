@@ -46,7 +46,7 @@ export const authAPI = {
       method: 'POST',
       body: JSON.stringify({ refresh_token }),
     }),
-  me: () => fetchAPI('/auth/me'),
+  me: () => fetchAPI<{ id: string; email: string; nome_completo: string; role: string }>('/auth/me'),
   meDetalhado: () => fetchAPI<MeDetalhado>('/auth/me-detalhado'),
 }
 
@@ -280,7 +280,7 @@ export const tesourariaAPI = {
       body: JSON.stringify({ saldo_abertura }),
     }),
   fechar: () => fetchAPI('/tesouraria/caixa/fechar', { method: 'POST' }),
-  hoje: () => fetchAPI<{ aberta: boolean; id?: string }>('/tesouraria/caixa/hoje'),
+  hoje: () => fetchAPI<{ aberta: boolean; id?: string; saldo_abertura?: string; total_entradas?: string; total_saidas?: string; estado?: string }>('/tesouraria/caixa/hoje'),
   movimento: (data: { tipo: string; categoria: string; valor: string; descricao?: string }) =>
     fetchAPI('/tesouraria/movimentos', { method: 'POST', body: JSON.stringify(data) }),
   relatorioDiario: () => fetchAPI<RelatorioCaixa>('/tesouraria/relatorio-diario'),
@@ -603,6 +603,11 @@ export const portalAlunoAPI = {
   }>>('/aluno/downloads'),
   registarDownload: (tipo: string, descricao?: string, ficheiro_url?: string) =>
     fetchAPI('/aluno/downloads', { method: 'POST', body: JSON.stringify({ tipo, descricao, ficheiro_url }) }),
+  minhasPropinas: () => fetchAPI<Array<{
+    id: string; mes: number; ano: number; valor: number; valor_pago: number
+    data_vencimento: string; data_pagamento: string | null; estado: string
+    referencia_pagamento: string | null
+  }>>('/aluno/minhas-propinas'),
 }
 
 // ── Solicitações ──────────────────────────────────────────
