@@ -8,6 +8,7 @@ import { PageHeader } from '@/components/ui/PageHeader'
 import { Alert } from '@/components/ui/Alert'
 import { Badge } from '@/components/ui/Badge'
 import Link from 'next/link'
+import { kz } from '@/lib/fmt'
 
 type Aluno = { id: string; aluno_id: string; nome_aluno: string; numero_aluno: string; grau_parentesco: string | null }
 type Propina = { id: string; mes: number; ano: number; valor: string; estado: string }
@@ -123,7 +124,7 @@ export default function EncarregadoDashboard() {
                     background: p.estado === 'PAGO' ? 'rgba(34,197,94,0.06)' : p.estado === 'VENCIDO' ? 'rgba(220,38,38,0.06)' : 'var(--surface-2)',
                   }}>
                     <div style={{ fontSize: 12, fontWeight: 700 }}>{MESES[p.mes]}/{p.ano}</div>
-                    <div style={{ fontSize: 11, color: 'var(--text-muted)', margin: '4px 0' }}>Kz {Number(p.valor).toLocaleString()}</div>
+                    <div style={{ fontSize: 11, color: 'var(--text-muted)', margin: '4px 0' }}>{kz(p.valor)}</div>
                     <Badge tone={p.estado === 'PAGO' ? 'success' : p.estado === 'VENCIDO' ? 'danger' : 'warn'}>
                       {p.estado === 'PAGO' ? 'Pago' : p.estado === 'VENCIDO' ? 'Vencido' : 'Pendente'}
                     </Badge>

@@ -49,11 +49,16 @@ export function DynamicShell({ title, fallbackNav = [], children }: DynamicShell
   const carregando = tree === null && !erro
 
   return (
-    <div style={{ display: 'flex', minHeight: '100vh', background: 'var(--bg)' }}>
-      {/* Sidebar */}
+    <div style={{ display: 'flex', minHeight: '100vh', background: 'var(--bg)', alignItems: 'flex-start' }}>
+      {/* Sidebar — sticky: fica parado enquanto o conteudo faz scroll */}
       <aside
         style={{
           width: 280,
+          flexShrink: 0,
+          position: 'sticky',
+          top: 0,
+          height: '100vh',
+          overflowY: 'auto',
           background: 'var(--surface)',
           borderRight: '1px solid var(--border)',
           display: 'flex',
@@ -81,7 +86,7 @@ export function DynamicShell({ title, fallbackNav = [], children }: DynamicShell
         </div>
 
         {/* Navegação */}
-        <nav style={{ flex: 1, overflowY: 'auto', padding: '12px 8px' }}>
+        <nav style={{ flex: 1, padding: '12px 8px' }}>
           {carregando && (
             <p style={{ color: 'var(--text-muted)', fontSize: 12, padding: '0 16px' }}>A carregar menus...</p>
           )}

@@ -8,10 +8,7 @@ import { PageHeader } from '@/components/ui/PageHeader'
 import { Alert } from '@/components/ui/Alert'
 import { Badge } from '@/components/ui/Badge'
 import Link from 'next/link'
-
-function Kz(v: string | number) {
-  return `Kz ${Number(v).toLocaleString('pt-AO')}`
-}
+import { kz as Kz } from '@/lib/fmt'
 
 export default function FinanceiroDashboard() {
   const [nome, setNome] = useState('')

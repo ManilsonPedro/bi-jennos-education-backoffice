@@ -8,6 +8,7 @@ import { Button } from '@/components/ui/Button'
 import { Badge } from '@/components/ui/Badge'
 import { Alert } from '@/components/ui/Alert'
 import { Card } from '@/components/ui/Card'
+import { kz } from '@/lib/fmt'
 
 interface Propina {
   id: string
@@ -80,7 +81,7 @@ export default function PagamentoPage() {
             <div style={{ fontSize: 24, fontWeight: 700, letterSpacing: 4, color: '#166534' }}>
               {resultado.instrucoes.referencia}
             </div>
-            <div style={{ fontSize: 14, color: '#166534', marginTop: 4 }}>Valor: Kz {resultado.valor}</div>
+            <div style={{ fontSize: 14, color: '#166534', marginTop: 4 }}>Valor: {kz(resultado.valor)}</div>
           </div>
           <h4>Instruções:</h4>
           <ol>

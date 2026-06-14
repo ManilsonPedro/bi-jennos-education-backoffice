@@ -3,6 +3,7 @@
 import { useEffect, useState } from 'react'
 import { rhAPI } from '@/lib/api'
 import { InactivarModal } from '@/components/ui/InactivarModal'
+import { kz } from '@/lib/fmt'
 
 interface Funcionario {
   id: string
@@ -157,7 +158,7 @@ export default function FuncionariosPage() {
               <tr key={f.id} style={{ borderTop: '1px solid var(--border)' }}>
                 <td style={{ padding: '10px 14px', fontWeight: 600 }}>{f.nome_completo}</td>
                 <td style={{ padding: '10px 14px', color: '#555' }}>{f.categoria_profissional ?? '—'}</td>
-                <td style={{ padding: '10px 14px' }}>{Number(f.salario_base).toLocaleString('pt-AO')} Kz</td>
+                <td style={{ padding: '10px 14px' }}>{kz(f.salario_base)}</td>
                 <td style={{ padding: '10px 14px', display: 'flex', gap: 8, justifyContent: 'center' }}>
                   <button style={btn('#6c757d')} onClick={() => { setEditF(f); setEditForm(fromF(f)) }}>Editar</button>
                   <button style={btn('#e74c3c')} onClick={() => setConfirmDel(f)}>Inactivar</button>

@@ -6,6 +6,7 @@ import { fetchAPI } from '@/lib/api'
 import { PageHeader } from '@/components/ui/PageHeader'
 import { DataTable, type Column } from '@/components/shared/DataTable'
 import { Badge } from '@/components/ui/Badge'
+import { kz } from '@/lib/fmt'
 
 interface Propina {
   id: string
@@ -21,8 +22,8 @@ const MESES = ['', 'Jan', 'Fev', 'Mar', 'Abr', 'Mai', 'Jun', 'Jul', 'Ago', 'Set'
 
 const COLUMNS: Column<Propina>[] = [
   { key: 'mes', label: 'Mês', render: (r) => `${MESES[r.mes]} ${r.ano}` },
-  { key: 'valor', label: 'Valor', render: (r) => `Kz ${r.valor}` },
-  { key: 'valor_pago', label: 'Pago', render: (r) => `Kz ${r.valor_pago}` },
+  { key: 'valor', label: 'Valor', render: (r) => kz(r.valor) },
+  { key: 'valor_pago', label: 'Pago', render: (r) => kz(r.valor_pago) },
   {
     key: 'estado',
     label: 'Estado',

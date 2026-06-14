@@ -6,6 +6,7 @@ import { StatCard } from '@/components/ui/StatCard'
 import { Card } from '@/components/ui/Card'
 import { PageHeader } from '@/components/ui/PageHeader'
 import { Alert } from '@/components/ui/Alert'
+import { kz } from '@/lib/fmt'
 
 function ProgressBar({ value, max, color }: { value: number; max: number; color: string }) {
   const pct = max > 0 ? Math.min((value / max) * 100, 100) : 0
@@ -88,7 +89,7 @@ export default function DashboardPage() {
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: 16, marginBottom: 20 }}>
             <StatCard
               label="Total Cobrado"
-              value={`Kz ${totalRecebido.toLocaleString()}`}
+              value={kz(totalRecebido)}
               hint="Propinas recebidas"
               accent="var(--success)"
             />

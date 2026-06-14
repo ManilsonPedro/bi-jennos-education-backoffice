@@ -3,6 +3,7 @@
 import { useEffect, useState } from 'react'
 import { fetchAPI } from '@/lib/api'
 import { PageHeader } from '@/components/ui/PageHeader'
+import { kz } from '@/lib/fmt'
 import { StatCard } from '@/components/ui/StatCard'
 import { DataTable, type Column } from '@/components/shared/DataTable'
 import { Button } from '@/components/ui/Button'
@@ -66,7 +67,7 @@ const PLAN_COLS: Column<Plan>[] = [
       return <Badge tone={tone}>{r.tipo}</Badge>
     }
   },
-  { key: 'preco_mensal', label: 'Preço/mês', render: (r) => `Kz ${Number(r.preco_mensal).toLocaleString()}` },
+  { key: 'preco_mensal', label: 'Preço/mês', render: (r) => kz(r.preco_mensal) },
   { key: 'max_alunos', label: 'Max Alunos', render: (r) => r.max_alunos ? String(r.max_alunos) : 'Ilimitado' },
   { key: 'max_utilizadores', label: 'Max Users', render: (r) => r.max_utilizadores ? String(r.max_utilizadores) : 'Ilimitado' },
 ]
@@ -178,7 +179,7 @@ export default function SaaSPage() {
           <StatCard label="Total Escolas" value={dashboard.total_schools} />
           <StatCard label="Escolas Activas" value={dashboard.schools_activas} />
           <StatCard label="Assinaturas Activas" value={dashboard.assinaturas_activas} />
-          <StatCard label="Receita Total" value={`Kz ${Number(dashboard.receita_total).toLocaleString()}`} />
+          <StatCard label="Receita Total" value={kz(dashboard.receita_total)} />
         </div>
       )}
 
@@ -275,7 +276,7 @@ export default function SaaSPage() {
                   <select value={planSel} onChange={(e) => setPlanSel(e.target.value)} style={inputStyle}>
                     <option value="">Seleccione um plano...</option>
                     {plans.map((p) => (
-                      <option key={p.id} value={p.id}>{p.nome} — Kz {Number(p.preco_mensal).toLocaleString()}/mes</option>
+                      <option key={p.id} value={p.id}>{p.nome} — {kz(p.preco_mensal)}/mês</option>
                     ))}
                   </select>
                 </div>

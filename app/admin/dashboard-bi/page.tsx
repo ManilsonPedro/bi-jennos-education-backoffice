@@ -7,6 +7,7 @@ import { Card } from '@/components/ui/Card'
 import { PageHeader } from '@/components/ui/PageHeader'
 import { Alert } from '@/components/ui/Alert'
 import { Badge } from '@/components/ui/Badge'
+import { kz as Kz } from '@/lib/fmt'
 
 function Bar({ label, value, max, color }: { label: string; value: number; max: number; color: string }) {
   const pct = max > 0 ? Math.min((value / max) * 100, 100) : 0
@@ -24,10 +25,6 @@ function Bar({ label, value, max, color }: { label: string; value: number; max: 
       </div>
     </div>
   )
-}
-
-function Kz(v: string | number) {
-  return `Kz ${Number(v).toLocaleString('pt-AO', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`
 }
 
 function Nota(v: string | number | null | undefined) {
