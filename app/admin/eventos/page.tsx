@@ -114,7 +114,7 @@ export default function EventosPage() {
 
   async function cancelarInscricao(inscId: string) {
     if (!inscModal) return
-    try { await api().cancelarInscricao(inscId); setInscricoes(await api().inscricoes(inscModal.id) as Inscricao[]) }
+    try { await api().cancelarInscricao(inscId, 'Cancelado pela secretaria'); setInscricoes(await api().inscricoes(inscModal.id) as Inscricao[]) }
     catch (err) { setErro((err as Error).message) }
   }
 
