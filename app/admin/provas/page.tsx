@@ -175,7 +175,7 @@ export default function ProvasPage() {
 
       {pautas.length === 0 && (
         <div style={{ ...s.card, color: '#888', textAlign: 'center', padding: 40 }}>
-          Seleccione os filtros e clique em "Gerar pauta" para criar uma nova pauta.
+          Seleccione os filtros e clique em &quot;Gerar pauta&quot; para criar uma nova pauta.
         </div>
       )}
     </div>
