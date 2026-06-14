@@ -27,7 +27,12 @@ function Bar({ label, value, max, color }: { label: string; value: number; max: 
 }
 
 function Kz(v: string | number) {
-  return `Kz ${Number(v).toLocaleString('pt-AO')}`
+  return `Kz ${Number(v).toLocaleString('pt-AO', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`
+}
+
+function Nota(v: string | number | null | undefined) {
+  if (v == null) return '—'
+  return `${Number(v).toFixed(1)} / 20`
 }
 
 function SectionTitle({ children, accent = 'var(--primary)' }: { children: React.ReactNode; accent?: string }) {
@@ -164,7 +169,10 @@ export default function DashboardBIPage() {
               {pedagogico.media_geral && (
                 <div style={{ marginTop: 12, textAlign: 'center', padding: 12, background: 'var(--surface-2)', borderRadius: 'var(--radius)' }}>
                   <div style={{ fontSize: 11, color: 'var(--text-muted)', textTransform: 'uppercase', letterSpacing: '0.06em' }}>Média Geral</div>
-                  <div style={{ fontSize: 28, fontWeight: 700, marginTop: 4 }}>{Number(pedagogico.media_geral).toFixed(1)} <span style={{ fontSize: 14, color: 'var(--text-muted)' }}>val</span></div>
+                  <div style={{ fontSize: 28, fontWeight: 700, marginTop: 4 }}>
+                    {Number(pedagogico.media_geral).toFixed(1)}
+                    <span style={{ fontSize: 14, color: 'var(--text-muted)', marginLeft: 4 }}>/ 20</span>
+                  </div>
                 </div>
               )}
             </Card>
