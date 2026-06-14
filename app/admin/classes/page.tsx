@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from 'react'
 import { academicoAPI, classesAPI, cursosAPI, type AnoAcademico, type Classe, type Curso } from '@/lib/api'
+import { InactivarModal } from '@/components/ui/InactivarModal'
 
 const s = {
   card: { background: 'var(--surface)', padding: 24, borderRadius: 12, maxWidth: 720, boxShadow: 'var(--shadow-sm)', marginBottom: 24 } as React.CSSProperties,
@@ -64,13 +65,11 @@ export default function ClassesPage() {
     finally { setSaving(false) }
   }
 
-  async function apagar() {
+  async function inactivar(motivo: string) {
     if (!confirmDelete) return
-    try {
-      await classesAPI.remover(confirmDelete.id)
-      setConfirmDelete(null)
-      await carregar()
-    } catch (err) { setErro((err as Error).message) }
+    await classesAPI.inactivar(confirmDelete.id, motivo)
+    setConfirmDelete(null)
+    await carregar()
   }
 
   const nomeCurso = (id: string) => cursos.find(c => c.id === id)?.nome ?? id.slice(0, 8)
@@ -132,7 +131,7 @@ export default function ClassesPage() {
                 <td style={{ padding: '9px 12px' }}>{c.vagas ?? '-'}</td>
                 <td style={{ padding: '9px 12px', display: 'flex', gap: 6, justifyContent: 'center' }}>
                   <button style={btn()} onClick={() => abrirEditar(c)}>Editar</button>
-                  <button style={btn('#e74c3c')} onClick={() => setConfirmDelete(c)}>Apagar</button>
+                  <button style={btn('#e74c3c')} onClick={() => setConfirmDelete(c)}>Inactivar</button>
                 </td>
               </tr>
             ))}
@@ -167,18 +166,13 @@ export default function ClassesPage() {
         </div>
       )}
 
-      {/* Confirmar apagar */}
       {confirmDelete && (
-        <div style={s.overlay} onClick={() => setConfirmDelete(null)}>
-          <div style={{ ...s.modal, width: 380 }} onClick={e => e.stopPropagation()}>
-            <h3 style={{ marginTop: 0 }}>Confirmar remocao</h3>
-            <p>Remover classe <strong>{confirmDelete.nome}</strong>?</p>
-            <div style={{ display: 'flex', gap: 10 }}>
-              <button style={btn('#e74c3c')} onClick={apagar}>Remover</button>
-              <button style={btn('#888')} onClick={() => setConfirmDelete(null)}>Cancelar</button>
-            </div>
-          </div>
-        </div>
+        <InactivarModal
+          titulo={`Inactivar classe — ${confirmDelete.nome}`}
+          descricao="A classe ficará inactiva. Indique o motivo."
+          onConfirm={inactivar}
+          onCancel={() => setConfirmDelete(null)}
+        />
       )}
     </>
   )

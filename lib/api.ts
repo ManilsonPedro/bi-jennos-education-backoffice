@@ -75,8 +75,10 @@ export const alunosAPI = {
   obter: (id: string) => fetchAPI(`/alunos/${id}`),
   actualizar: (id: string, data: unknown) =>
     fetchAPI(`/alunos/${id}`, { method: 'PATCH', body: JSON.stringify(data) }),
-  remover: (id: string) =>
-    fetchAPI(`/alunos/${id}`, { method: 'DELETE' }),
+  inactivar: (id: string, motivo: string) =>
+    fetchAPI(`/alunos/${id}/inactivar`, { method: 'POST', body: JSON.stringify({ motivo }) }),
+  activar: (id: string, motivo: string) =>
+    fetchAPI(`/alunos/${id}/activar`, { method: 'POST', body: JSON.stringify({ motivo }) }),
 }
 
 export const certificadosAPI = {
@@ -139,8 +141,10 @@ export const academicoAPI = {
     fetchAPI<AnoAcademico>('/anos-academicos', { method: 'POST', body: JSON.stringify(data) }),
   actualizarAno: (id: string, data: { designacao?: string; data_inicio?: string; data_fim?: string }) =>
     fetchAPI<AnoAcademico>(`/anos-academicos/${id}`, { method: 'PATCH', body: JSON.stringify(data) }),
-  removerAno: (id: string) =>
-    fetchAPI(`/anos-academicos/${id}`, { method: 'DELETE' }),
+  inactivarAno: (id: string, motivo: string) =>
+    fetchAPI<AnoAcademico>(`/anos-academicos/${id}/inactivar`, { method: 'POST', body: JSON.stringify({ motivo }) }),
+  activarAno: (id: string, motivo: string) =>
+    fetchAPI<AnoAcademico>(`/anos-academicos/${id}/activar`, { method: 'POST', body: JSON.stringify({ motivo }) }),
   abrirAno: (id: string) =>
     fetchAPI<AnoAcademico>(`/anos-academicos/${id}/abrir`, { method: 'POST' }),
   encerrarAno: (id: string) =>
@@ -151,10 +155,14 @@ export const academicoAPI = {
     fetchAPI<Trimestre>(`/anos-academicos/${anoId}/trimestres`, { method: 'POST', body: JSON.stringify(data) }),
   actualizarTrimestre: (anoId: string, triId: string, data: { designacao?: string; data_inicio?: string; data_fim?: string }) =>
     fetchAPI<Trimestre>(`/anos-academicos/${anoId}/trimestres/${triId}`, { method: 'PATCH', body: JSON.stringify(data) }),
-  removerTrimestre: (anoId: string, triId: string) =>
-    fetchAPI(`/anos-academicos/${anoId}/trimestres/${triId}`, { method: 'DELETE' }),
-  fecharTrimestre: (anoId: string, triId: string) =>
-    fetchAPI<Trimestre>(`/anos-academicos/${anoId}/trimestres/${triId}/fechar`, { method: 'POST' }),
+  inactivarTrimestre: (anoId: string, triId: string, motivo: string) =>
+    fetchAPI<Trimestre>(`/anos-academicos/${anoId}/trimestres/${triId}/inactivar`, { method: 'POST', body: JSON.stringify({ motivo }) }),
+  activarTrimestre: (anoId: string, triId: string, motivo: string) =>
+    fetchAPI<Trimestre>(`/anos-academicos/${anoId}/trimestres/${triId}/activar`, { method: 'POST', body: JSON.stringify({ motivo }) }),
+  fecharTrimestre: (anoId: string, triId: string, motivo?: string) =>
+    fetchAPI<Trimestre>(`/anos-academicos/${anoId}/trimestres/${triId}/fechar`, { method: 'POST', body: JSON.stringify({ motivo: motivo ?? '' }) }),
+  reabrirTrimestre: (anoId: string, triId: string, motivo: string) =>
+    fetchAPI<Trimestre>(`/anos-academicos/${anoId}/trimestres/${triId}/reabrir`, { method: 'POST', body: JSON.stringify({ motivo }) }),
 }
 
 export const turmasAPI = {
@@ -168,16 +176,20 @@ export const turmasAPI = {
   }) => fetchAPI<Turma>('/turmas', { method: 'POST', body: JSON.stringify(data) }),
   actualizar: (id: string, data: { nome?: string; max_alunos?: number }) =>
     fetchAPI<Turma>(`/turmas/${id}`, { method: 'PATCH', body: JSON.stringify(data) }),
-  remover: (id: string) =>
-    fetchAPI(`/turmas/${id}`, { method: 'DELETE' }),
+  inactivar: (id: string, motivo: string) =>
+    fetchAPI<Turma>(`/turmas/${id}/inactivar`, { method: 'POST', body: JSON.stringify({ motivo }) }),
+  activar: (id: string, motivo: string) =>
+    fetchAPI<Turma>(`/turmas/${id}/activar`, { method: 'POST', body: JSON.stringify({ motivo }) }),
   listarDisciplinas: (turmaId: string) =>
     fetchAPI<{ id: string; nome: string; turma_id: string; docente_id: string | null; carga_horaria: number | null }[]>(`/turmas/${turmaId}/disciplinas`),
   criarDisciplina: (turmaId: string, data: { nome: string; carga_horaria?: number }) =>
     fetchAPI(`/turmas/${turmaId}/disciplinas`, { method: 'POST', body: JSON.stringify(data) }),
   actualizarDisciplina: (turmaId: string, disciplinaId: string, data: { nome?: string; carga_horaria?: number }) =>
     fetchAPI(`/turmas/${turmaId}/disciplinas/${disciplinaId}`, { method: 'PATCH', body: JSON.stringify(data) }),
-  removerDisciplina: (turmaId: string, disciplinaId: string) =>
-    fetchAPI(`/turmas/${turmaId}/disciplinas/${disciplinaId}`, { method: 'DELETE' }),
+  inactivarDisciplina: (turmaId: string, disciplinaId: string, motivo: string) =>
+    fetchAPI(`/turmas/${turmaId}/disciplinas/${disciplinaId}/inactivar`, { method: 'POST', body: JSON.stringify({ motivo }) }),
+  activarDisciplina: (turmaId: string, disciplinaId: string, motivo: string) =>
+    fetchAPI(`/turmas/${turmaId}/disciplinas/${disciplinaId}/activar`, { method: 'POST', body: JSON.stringify({ motivo }) }),
 }
 
 // ── Publico (sem autenticacao) ─────────────────────────────
@@ -396,8 +408,10 @@ export const rhAPI = {
       method: 'PATCH',
       body: JSON.stringify(data),
     }),
-  removerFuncionario: (id: string) =>
-    fetchAPI(`/rh/funcionarios/${id}`, { method: 'DELETE' }),
+  inactivarFuncionario: (id: string, motivo: string) =>
+    fetchAPI(`/rh/funcionarios/${id}/inactivar`, { method: 'POST', body: JSON.stringify({ motivo }) }),
+  activarFuncionario: (id: string, motivo: string) =>
+    fetchAPI(`/rh/funcionarios/${id}/activar`, { method: 'POST', body: JSON.stringify({ motivo }) }),
   criarContrato: (
     funcionarioId: string,
     data: { tipo: string; data_inicio: string; data_fim?: string; valor_hora_ou_mes: string; observacoes?: string },
@@ -493,8 +507,8 @@ export const horariosAPI = {
     fetchAPI<Sala>('/horarios/salas', { method: 'POST', body: JSON.stringify(data) }),
   actualizarSala: (id: string, data: { nome?: string; capacidade?: number; tipo?: string }) =>
     fetchAPI<Sala>(`/horarios/salas/${id}`, { method: 'PATCH', body: JSON.stringify(data) }),
-  removerSala: (id: string) =>
-    fetchAPI(`/horarios/salas/${id}`, { method: 'DELETE' }),
+  inactivarSala: (id: string, motivo: string) =>
+    fetchAPI<Sala>(`/horarios/salas/${id}/inactivar`, { method: 'POST', body: JSON.stringify({ motivo }) }),
   criarCronograma: (data: { classe_id: string; ano_academico_id: string }) =>
     fetchAPI<{ id: string }>('/horarios/cronogramas', { method: 'POST', body: JSON.stringify(data) }),
   itens: (cronogramaId: string) =>
@@ -503,8 +517,8 @@ export const horariosAPI = {
     fetchAPI<ItemCronograma>(`/horarios/cronogramas/${cronogramaId}/itens`, {
       method: 'POST', body: JSON.stringify(data),
     }),
-  removerItem: (id: string) =>
-    fetchAPI(`/horarios/itens/${id}`, { method: 'DELETE' }),
+  inactivarItem: (id: string, motivo: string) =>
+    fetchAPI<ItemCronograma>(`/horarios/itens/${id}/inactivar`, { method: 'POST', body: JSON.stringify({ motivo }) }),
 }
 
 // ── Conteudos programaticos ───────────────────────────────
@@ -610,8 +624,10 @@ export const cursosAPI = {
     fetchAPI<Curso>('/cursos', { method: 'POST', body: JSON.stringify(data) }),
   actualizar: (id: string, data: { nome?: string; descricao?: string; duracao_anos?: number; nivel?: string }) =>
     fetchAPI<Curso>(`/cursos/${id}`, { method: 'PATCH', body: JSON.stringify(data) }),
-  remover: (id: string) =>
-    fetchAPI(`/cursos/${id}`, { method: 'DELETE' }),
+  inactivar: (id: string, motivo: string) =>
+    fetchAPI<Curso>(`/cursos/${id}/inactivar`, { method: 'POST', body: JSON.stringify({ motivo }) }),
+  activar: (id: string, motivo: string) =>
+    fetchAPI<Curso>(`/cursos/${id}/activar`, { method: 'POST', body: JSON.stringify({ motivo }) }),
 }
 export const classesAPI = {
   listar: (anoId?: string, cursoId?: string) => {
@@ -625,8 +641,10 @@ export const classesAPI = {
     fetchAPI<Classe>('/classes', { method: 'POST', body: JSON.stringify(data) }),
   actualizar: (id: string, data: { nome?: string; turno?: string; sala?: string; max_alunos?: number }) =>
     fetchAPI<Classe>(`/classes/${id}`, { method: 'PATCH', body: JSON.stringify(data) }),
-  remover: (id: string) =>
-    fetchAPI(`/classes/${id}`, { method: 'DELETE' }),
+  inactivar: (id: string, motivo: string) =>
+    fetchAPI<Classe>(`/classes/${id}/inactivar`, { method: 'POST', body: JSON.stringify({ motivo }) }),
+  activar: (id: string, motivo: string) =>
+    fetchAPI<Classe>(`/classes/${id}/activar`, { method: 'POST', body: JSON.stringify({ motivo }) }),
 }
 
 // ── Modulos UI (admin) ────────────────────────────────────
@@ -829,14 +847,14 @@ function _eventoAPI(prefix: string) {
       fetchAPI<Evento>(`/${prefix}`, { method: 'POST', body: JSON.stringify(data) }),
     actualizar: (id: string, data: { titulo?: string; data_evento?: string; descricao?: string; local?: string; palestrante?: string; vagas?: number }) =>
       fetchAPI<Evento>(`/${prefix}/${id}`, { method: 'PATCH', body: JSON.stringify(data) }),
-    remover: (id: string) =>
-      fetchAPI(`/${prefix}/${id}`, { method: 'DELETE' }),
+    inactivar: (id: string, motivo: string) =>
+      fetchAPI<Evento>(`/${prefix}/${id}/inactivar`, { method: 'POST', body: JSON.stringify({ motivo }) }),
     inscrever: (id: string, data: { participante_nome: string; participante_email?: string; aluno_id?: string }) =>
       fetchAPI(`/${prefix}/${id}/inscricoes`, { method: 'POST', body: JSON.stringify(data) }),
     inscricoes: (id: string) =>
       fetchAPI<Array<{ id: string; participante_nome: string; participante_email: string | null }>>(`/${prefix}/${id}/inscricoes`),
-    cancelarInscricao: (inscricaoId: string) =>
-      fetchAPI(`/${prefix}/inscricoes/${inscricaoId}`, { method: 'DELETE' }),
+    cancelarInscricao: (inscricaoId: string, motivo: string) =>
+      fetchAPI(`/${prefix}/inscricoes/${inscricaoId}/cancelar`, { method: 'POST', body: JSON.stringify({ motivo }) }),
   }
 }
 
@@ -864,7 +882,7 @@ export const ocorrenciasAPI = {
     fetchAPI<Ocorrencia>('/ocorrencias', { method: 'POST', body: JSON.stringify(data) }),
   actualizar: (id: string, data: { titulo?: string; descricao?: string; tipo?: string; gravidade?: string; resolucao?: string; data_resolucao?: string }) =>
     fetchAPI<Ocorrencia>(`/ocorrencias/${id}`, { method: 'PATCH', body: JSON.stringify(data) }),
-  remover: (id: string) =>
-    fetchAPI(`/ocorrencias/${id}`, { method: 'DELETE' }),
+  inactivar: (id: string, motivo: string) =>
+    fetchAPI<Ocorrencia>(`/ocorrencias/${id}/inactivar`, { method: 'POST', body: JSON.stringify({ motivo }) }),
 }
 

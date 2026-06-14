@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from 'react'
 import { academicoAPI, type AnoAcademico, type Trimestre } from '@/lib/api'
+import { InactivarModal } from '@/components/ui/InactivarModal'
 
 const s = {
   card: { background: 'var(--surface)', padding: 24, borderRadius: 12, maxWidth: 680, boxShadow: 'var(--shadow-sm)', marginBottom: 24 } as React.CSSProperties,
@@ -82,10 +83,11 @@ export default function AnosAcademicosPage() {
     finally { setSaving(false) }
   }
 
-  async function removerAno() {
+  async function inactivarAno(motivo: string) {
     if (!confirmDel) return
-    try { await academicoAPI.removerAno(confirmDel.id); setConfirmDel(null); await carregar() }
-    catch (err) { setErro((err as Error).message) }
+    await academicoAPI.inactivarAno(confirmDel.id, motivo)
+    setConfirmDel(null)
+    await carregar()
   }
 
   async function transicionarAno(id: string, acao: 'abrir' | 'encerrar') {
@@ -119,23 +121,19 @@ export default function AnosAcademicosPage() {
     finally { setSaving(false) }
   }
 
-  async function fecharTrimestre() {
+  async function fecharTrimestre(motivo: string) {
     if (!confirmFechar) return
-    try {
-      await academicoAPI.fecharTrimestre(confirmFechar.anoId, confirmFechar.tri.id)
-      setConfirmFechar(null)
-      await carregarTrimestres(confirmFechar.anoId)
-      setMsg('Trimestre fechado com sucesso.')
-    } catch (err) { setErro((err as Error).message) }
+    await academicoAPI.fecharTrimestre(confirmFechar.anoId, confirmFechar.tri.id, motivo)
+    setConfirmFechar(null)
+    await carregarTrimestres(confirmFechar.anoId)
+    setMsg('Trimestre fechado com sucesso.')
   }
 
-  async function removerTrimestre() {
+  async function inactivarTrimestre(motivo: string) {
     if (!confirmDelTri) return
-    try {
-      await academicoAPI.removerTrimestre(confirmDelTri.anoId, confirmDelTri.tri.id)
-      setConfirmDelTri(null)
-      await carregarTrimestres(confirmDelTri.anoId)
-    } catch (err) { setErro((err as Error).message) }
+    await academicoAPI.inactivarTrimestre(confirmDelTri.anoId, confirmDelTri.tri.id, motivo)
+    setConfirmDelTri(null)
+    await carregarTrimestres(confirmDelTri.anoId)
   }
 
   return (
@@ -170,7 +168,7 @@ export default function AnosAcademicosPage() {
               <button style={btn()} onClick={() => { setEditAno(ano); setEditAnoForm({ designacao: ano.designacao, data_inicio: ano.data_inicio, data_fim: ano.data_fim }) }}>Editar</button>
               {ano.estado === 'configuracao' && <button style={btn('#27ae60')} onClick={() => transicionarAno(ano.id, 'abrir')}>Abrir</button>}
               {ano.estado === 'aberto' && <button style={btn('#e67e22')} onClick={() => transicionarAno(ano.id, 'encerrar')}>Encerrar ano lectivo</button>}
-              {ano.estado !== 'aberto' && <button style={btn('#e74c3c')} onClick={() => setConfirmDel(ano)}>Apagar</button>}
+              {ano.estado !== 'aberto' && <button style={btn('#e74c3c')} onClick={() => setConfirmDel(ano)}>Inactivar</button>}
             </div>
           </div>
 
@@ -210,7 +208,7 @@ export default function AnosAcademicosPage() {
                                 <button style={btn('#e67e22')} onClick={() => setConfirmFechar({ anoId: ano.id, tri: t })}>Fechar trimestre</button>
                               </>
                             )}
-                            <button style={btn('#e74c3c')} onClick={() => setConfirmDelTri({ anoId: ano.id, tri: t })}>Apagar</button>
+                            <button style={btn('#e74c3c')} onClick={() => setConfirmDelTri({ anoId: ano.id, tri: t })}>Inactivar</button>
                           </td>
                         </tr>
                       ))}
@@ -274,47 +272,31 @@ export default function AnosAcademicosPage() {
         </div>
       )}
 
-      {/* Confirmar apagar ano */}
       {confirmDel && (
-        <div style={s.overlay} onClick={() => setConfirmDel(null)}>
-          <div style={{ ...s.modal, width: 380 }} onClick={e => e.stopPropagation()}>
-            <h3 style={{ marginTop: 0 }}>Remover ano academico</h3>
-            <p>Remover <strong>{confirmDel.designacao}</strong>? Esta acao e irreversivel.</p>
-            <div style={{ display: 'flex', gap: 10 }}>
-              <button style={btn('#e74c3c')} onClick={removerAno}>Remover</button>
-              <button style={btn('#888')} onClick={() => setConfirmDel(null)}>Cancelar</button>
-            </div>
-          </div>
-        </div>
+        <InactivarModal
+          titulo={`Inactivar ano academico — ${confirmDel.designacao}`}
+          descricao="O ano academico ficará inactivo. Indique o motivo."
+          onConfirm={inactivarAno}
+          onCancel={() => setConfirmDel(null)}
+        />
       )}
 
-      {/* Confirmar fechar trimestre */}
       {confirmFechar && (
-        <div style={s.overlay} onClick={() => setConfirmFechar(null)}>
-          <div style={{ ...s.modal, width: 420 }} onClick={e => e.stopPropagation()}>
-            <h3 style={{ marginTop: 0 }}>Fechar trimestre</h3>
-            <p>Fechar o <strong>{confirmFechar.tri.designacao ?? `${confirmFechar.tri.numero}.o Trimestre`}</strong>?</p>
-            <p style={{ color: '#888', fontSize: 13 }}>Apos o fecho, o lancamento de notas fica bloqueado para este periodo.</p>
-            <div style={{ display: 'flex', gap: 10 }}>
-              <button style={btn('#e67e22')} onClick={fecharTrimestre}>Fechar trimestre</button>
-              <button style={btn('#888')} onClick={() => setConfirmFechar(null)}>Cancelar</button>
-            </div>
-          </div>
-        </div>
+        <InactivarModal
+          titulo={`Fechar trimestre — ${confirmFechar.tri.designacao ?? `${confirmFechar.tri.numero}.o Trimestre`}`}
+          descricao="Apos o fecho, o lancamento de notas fica bloqueado para este periodo. Indique o motivo (opcional)."
+          onConfirm={fecharTrimestre}
+          onCancel={() => setConfirmFechar(null)}
+        />
       )}
 
-      {/* Confirmar apagar trimestre */}
       {confirmDelTri && (
-        <div style={s.overlay} onClick={() => setConfirmDelTri(null)}>
-          <div style={{ ...s.modal, width: 380 }} onClick={e => e.stopPropagation()}>
-            <h3 style={{ marginTop: 0 }}>Remover trimestre</h3>
-            <p>Remover <strong>{confirmDelTri.tri.designacao ?? `${confirmDelTri.tri.numero}.o Trimestre`}</strong>?</p>
-            <div style={{ display: 'flex', gap: 10 }}>
-              <button style={btn('#e74c3c')} onClick={removerTrimestre}>Remover</button>
-              <button style={btn('#888')} onClick={() => setConfirmDelTri(null)}>Cancelar</button>
-            </div>
-          </div>
-        </div>
+        <InactivarModal
+          titulo={`Inactivar trimestre — ${confirmDelTri.tri.designacao ?? `${confirmDelTri.tri.numero}.o Trimestre`}`}
+          descricao="O trimestre ficará inactivo. Indique o motivo."
+          onConfirm={inactivarTrimestre}
+          onCancel={() => setConfirmDelTri(null)}
+        />
       )}
     </div>
   )

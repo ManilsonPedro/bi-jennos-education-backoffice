@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from 'react'
 import { palestrasAPI, workshopsAPI, olimpiadasAPI, reunioesAPI } from '@/lib/api'
+import { InactivarModal } from '@/components/ui/InactivarModal'
 
 interface Evento {
   id: string
@@ -88,10 +89,11 @@ export default function EventosPage() {
     finally { setSaving(false) }
   }
 
-  async function remover() {
+  async function inactivar(motivo: string) {
     if (!confirmDel) return
-    try { await api().remover(confirmDel.id); setConfirmDel(null); await carregar() }
-    catch (err) { setErro((err as Error).message) }
+    await api().inactivar(confirmDel.id, motivo)
+    setConfirmDel(null)
+    await carregar()
   }
 
   async function abrirInscricoes(ev: Evento) {
@@ -177,7 +179,7 @@ export default function EventosPage() {
                 <td style={{ padding: '10px 14px', display: 'flex', gap: 6, justifyContent: 'center', flexWrap: 'wrap' }}>
                   <button style={btn('#6c757d')} onClick={() => { setEditEvento(ev); setEditForm({ titulo: ev.titulo, data_evento: ev.data_evento, descricao: ev.descricao ?? '', local: ev.local ?? '', palestrante: ev.palestrante ?? '', vagas: String(ev.vagas) }) }}>Editar</button>
                   <button style={btn('#27ae60')} onClick={() => abrirInscricoes(ev)}>Inscricoes</button>
-                  <button style={btn('#e74c3c')} onClick={() => setConfirmDel(ev)}>Apagar</button>
+                  <button style={btn('#e74c3c')} onClick={() => setConfirmDel(ev)}>Inactivar</button>
                 </td>
               </tr>
             ))}
@@ -215,18 +217,13 @@ export default function EventosPage() {
         </div>
       )}
 
-      {/* Confirmar apagar */}
       {confirmDel && (
-        <div style={s.overlay} onClick={() => setConfirmDel(null)}>
-          <div style={{ ...s.modal, width: 380 }} onClick={e => e.stopPropagation()}>
-            <h3 style={{ marginTop: 0 }}>Remover evento</h3>
-            <p>Remover <strong>{confirmDel.titulo}</strong>?</p>
-            <div style={{ display: 'flex', gap: 10 }}>
-              <button style={btn('#e74c3c')} onClick={remover}>Remover</button>
-              <button style={btn('#888')} onClick={() => setConfirmDel(null)}>Cancelar</button>
-            </div>
-          </div>
-        </div>
+        <InactivarModal
+          titulo={`Inactivar evento — ${confirmDel.titulo}`}
+          descricao="O evento ficará inactivo. Indique o motivo."
+          onConfirm={inactivar}
+          onCancel={() => setConfirmDel(null)}
+        />
       )}
 
       {/* Modal inscricoes */}

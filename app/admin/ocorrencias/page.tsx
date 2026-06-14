@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from 'react'
 import { ocorrenciasAPI } from '@/lib/api'
+import { InactivarModal } from '@/components/ui/InactivarModal'
 
 interface Ocorrencia {
   id: string
@@ -86,10 +87,11 @@ export default function OcorrenciasPage() {
     finally { setSaving(false) }
   }
 
-  async function remover() {
+  async function inactivar(motivo: string) {
     if (!confirmDel) return
-    try { await ocorrenciasAPI.remover(confirmDel.id); setConfirmDel(null); await carregar() }
-    catch (err) { setErro((err as Error).message) }
+    await ocorrenciasAPI.inactivar(confirmDel.id, motivo)
+    setConfirmDel(null)
+    await carregar()
   }
 
   const filtrados = lista.filter(oc => {
@@ -178,7 +180,7 @@ export default function OcorrenciasPage() {
                 <td style={{ padding: '10px 14px', fontSize: 12, color: oc.resolucao ? '#27ae60' : '#aaa' }}>{oc.resolucao ? 'Resolvida' : 'Pendente'}</td>
                 <td style={{ padding: '10px 14px', display: 'flex', gap: 8, justifyContent: 'center' }}>
                   <button style={btn('#6c757d')} onClick={() => { setEditOc(oc); setEditForm({ titulo: oc.titulo, descricao: oc.descricao ?? '', tipo: oc.tipo ?? 'disciplinar', gravidade: oc.gravidade ?? 'leve', data_ocorrencia: oc.data_ocorrencia, aluno_id: oc.aluno_id ?? '', resolucao: oc.resolucao ?? '', data_resolucao: oc.data_resolucao ?? '' }) }}>Editar</button>
-                  <button style={btn('#e74c3c')} onClick={() => setConfirmDel(oc)}>Apagar</button>
+                  <button style={btn('#e74c3c')} onClick={() => setConfirmDel(oc)}>Inactivar</button>
                 </td>
               </tr>
             ))}
@@ -215,16 +217,12 @@ export default function OcorrenciasPage() {
       )}
 
       {confirmDel && (
-        <div style={s.overlay} onClick={() => setConfirmDel(null)}>
-          <div style={{ ...s.modal, width: 380 }} onClick={e => e.stopPropagation()}>
-            <h3 style={{ marginTop: 0 }}>Remover ocorrencia</h3>
-            <p>Remover <strong>{confirmDel.titulo}</strong>?</p>
-            <div style={{ display: 'flex', gap: 10 }}>
-              <button style={btn('#e74c3c')} onClick={remover}>Remover</button>
-              <button style={btn('#888')} onClick={() => setConfirmDel(null)}>Cancelar</button>
-            </div>
-          </div>
-        </div>
+        <InactivarModal
+          titulo={`Inactivar ocorrencia — ${confirmDel.titulo}`}
+          descricao="A ocorrencia ficará inactiva. Indique o motivo."
+          onConfirm={inactivar}
+          onCancel={() => setConfirmDel(null)}
+        />
       )}
     </div>
   )

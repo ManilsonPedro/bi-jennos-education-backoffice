@@ -3,6 +3,7 @@
 
 import { useEffect, useState } from 'react'
 import { horariosAPI, type ItemCronograma, type Sala } from '@/lib/api'
+import { InactivarModal } from '@/components/ui/InactivarModal'
 
 const card: React.CSSProperties = {
   background: 'var(--surface)', padding: 24, borderRadius: 12, maxWidth: 720,
@@ -68,8 +69,8 @@ export default function HorariosPage() {
       await listar()
     } catch (err) { setErro((err as Error).message) }
   }
-  async function remover(id: string) {
-    await horariosAPI.removerItem(id); await listar()
+  async function removerItem(id: string) {
+    await horariosAPI.inactivarItem(id, 'Removido do cronograma'); await listar()
   }
 
   async function guardarSala(e: React.FormEvent) {
@@ -84,13 +85,11 @@ export default function HorariosPage() {
     finally { setSavingSala(false) }
   }
 
-  async function apagarSala() {
+  async function inactivarSala(motivo: string) {
     if (!confirmDeleteSala) return
-    try {
-      await horariosAPI.removerSala(confirmDeleteSala.id)
-      setConfirmDeleteSala(null)
-      await carregarSalas()
-    } catch (err) { setErro((err as Error).message) }
+    await horariosAPI.inactivarSala(confirmDeleteSala.id, motivo)
+    setConfirmDeleteSala(null)
+    await carregarSalas()
   }
 
   const overlay: React.CSSProperties = { position: 'fixed', inset: 0, background: 'rgba(0,0,0,.45)', display: 'flex', alignItems: 'center', justifyContent: 'center', zIndex: 1000 }
@@ -118,7 +117,7 @@ export default function HorariosPage() {
                 <td style={{ padding: '8px 10px' }}>{sala.capacidade ?? '-'}</td>
                 <td style={{ padding: '8px 10px', display: 'flex', gap: 6, justifyContent: 'center' }}>
                   <button style={{ ...btn, marginRight: 0 }} onClick={() => { setEditSala(sala); setEditSalaForm({ nome: sala.nome, capacidade: String(sala.capacidade ?? 0) }) }}>Editar</button>
-                  <button style={{ ...btn, background: '#e74c3c', marginRight: 0 }} onClick={() => setConfirmDeleteSala(sala)}>Apagar</button>
+                  <button style={{ ...btn, background: '#e74c3c', marginRight: 0 }} onClick={() => setConfirmDeleteSala(sala)}>Inactivar</button>
                 </td>
               </tr>
             ))}
@@ -180,7 +179,7 @@ export default function HorariosPage() {
                   <td>{it.hora_inicio}</td>
                   <td>{it.hora_fim}</td>
                   <td>{salas.find((s) => s.id === it.sala_id)?.nome ?? it.sala_id}</td>
-                  <td><button style={btn} onClick={() => remover(it.id)}>x</button></td>
+                  <td><button style={btn} onClick={() => removerItem(it.id)}>x</button></td>
                 </tr>
               ))}
             </tbody>
@@ -206,18 +205,13 @@ export default function HorariosPage() {
         </div>
       )}
 
-      {/* Confirmar apagar sala */}
       {confirmDeleteSala && (
-        <div style={overlay} onClick={() => setConfirmDeleteSala(null)}>
-          <div style={{ ...modal, width: 360 }} onClick={e => e.stopPropagation()}>
-            <h3 style={{ marginTop: 0 }}>Remover sala</h3>
-            <p>Remover sala <strong>{confirmDeleteSala.nome}</strong>?</p>
-            <div style={{ display: 'flex', gap: 10 }}>
-              <button type="button" style={{ ...btn, background: '#e74c3c' }} onClick={apagarSala}>Remover</button>
-              <button type="button" style={{ ...btn, background: '#888' }} onClick={() => setConfirmDeleteSala(null)}>Cancelar</button>
-            </div>
-          </div>
-        </div>
+        <InactivarModal
+          titulo={`Inactivar sala — ${confirmDeleteSala.nome}`}
+          descricao="A sala ficará inactiva. Indique o motivo."
+          onConfirm={inactivarSala}
+          onCancel={() => setConfirmDeleteSala(null)}
+        />
       )}
     </>
   )

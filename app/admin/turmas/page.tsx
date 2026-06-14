@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from 'react'
 import { academicoAPI, turmasAPI, type AnoAcademico, type Turma } from '@/lib/api'
+import { InactivarModal } from '@/components/ui/InactivarModal'
 
 const s = {
   card: { background: 'var(--surface)', padding: 24, borderRadius: 12, maxWidth: 520, boxShadow: 'var(--shadow-sm)', marginBottom: 24 } as React.CSSProperties,
@@ -64,15 +65,11 @@ export default function TurmasPage() {
     } finally { setSaving(false) }
   }
 
-  async function apagar() {
+  async function inactivar(motivo: string) {
     if (!confirmDelete) return
-    try {
-      await turmasAPI.remover(confirmDelete.id)
-      setConfirmDelete(null)
-      carregar(anoId)
-    } catch (err) {
-      setMsg({ ok: false, texto: err instanceof Error ? err.message : 'Erro ao remover' })
-    }
+    await turmasAPI.inactivar(confirmDelete.id, motivo)
+    setConfirmDelete(null)
+    carregar(anoId)
   }
 
   return (
@@ -115,7 +112,7 @@ export default function TurmasPage() {
                   <td style={{ padding: '9px 12px' }}>{t.max_alunos}</td>
                   <td style={{ padding: '9px 12px', display: 'flex', gap: 6, justifyContent: 'center' }}>
                     <button style={btn()} onClick={() => abrirEditar(t)}>Editar</button>
-                    <button style={btn('#e74c3c')} onClick={() => setConfirmDelete(t)}>Apagar</button>
+                    <button style={btn('#e74c3c')} onClick={() => setConfirmDelete(t)}>Inactivar</button>
                   </td>
                 </tr>
               ))}
@@ -144,18 +141,13 @@ export default function TurmasPage() {
         </div>
       )}
 
-      {/* Confirmar apagar */}
       {confirmDelete && (
-        <div style={s.overlay} onClick={() => setConfirmDelete(null)}>
-          <div style={{ ...s.modal, width: 380 }} onClick={e => e.stopPropagation()}>
-            <h3 style={{ marginTop: 0 }}>Confirmar remocao</h3>
-            <p>Remover turma <strong>{confirmDelete.nome}</strong>?</p>
-            <div style={{ display: 'flex', gap: 10 }}>
-              <button style={btn('#e74c3c')} onClick={apagar}>Remover</button>
-              <button style={btn('#888')} onClick={() => setConfirmDelete(null)}>Cancelar</button>
-            </div>
-          </div>
-        </div>
+        <InactivarModal
+          titulo={`Inactivar turma — ${confirmDelete.nome}`}
+          descricao="A turma ficará inactiva. Indique o motivo."
+          onConfirm={inactivar}
+          onCancel={() => setConfirmDelete(null)}
+        />
       )}
     </div>
   )

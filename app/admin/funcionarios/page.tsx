@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from 'react'
 import { rhAPI } from '@/lib/api'
+import { InactivarModal } from '@/components/ui/InactivarModal'
 
 interface Funcionario {
   id: string
@@ -79,10 +80,11 @@ export default function FuncionariosPage() {
     finally { setSaving(false) }
   }
 
-  async function remover() {
+  async function inactivar(motivo: string) {
     if (!confirmDel) return
-    try { await rhAPI.removerFuncionario(confirmDel.id); setConfirmDel(null); await carregar() }
-    catch (err) { setErro((err as Error).message) }
+    await rhAPI.inactivarFuncionario(confirmDel.id, motivo)
+    setConfirmDel(null)
+    await carregar()
   }
 
   const filtrados = lista.filter(f => f.nome_completo.toLowerCase().includes(filtro.toLowerCase()))
@@ -158,7 +160,7 @@ export default function FuncionariosPage() {
                 <td style={{ padding: '10px 14px' }}>{Number(f.salario_base).toLocaleString('pt-AO')} Kz</td>
                 <td style={{ padding: '10px 14px', display: 'flex', gap: 8, justifyContent: 'center' }}>
                   <button style={btn('#6c757d')} onClick={() => { setEditF(f); setEditForm(fromF(f)) }}>Editar</button>
-                  <button style={btn('#e74c3c')} onClick={() => setConfirmDel(f)}>Apagar</button>
+                  <button style={btn('#e74c3c')} onClick={() => setConfirmDel(f)}>Inactivar</button>
                 </td>
               </tr>
             ))}
@@ -195,16 +197,12 @@ export default function FuncionariosPage() {
       )}
 
       {confirmDel && (
-        <div style={s.overlay} onClick={() => setConfirmDel(null)}>
-          <div style={{ ...s.modal, width: 380 }} onClick={e => e.stopPropagation()}>
-            <h3 style={{ marginTop: 0 }}>Remover funcionario</h3>
-            <p>Remover <strong>{confirmDel.nome_completo}</strong>? Esta acao e irreversivel.</p>
-            <div style={{ display: 'flex', gap: 10 }}>
-              <button style={btn('#e74c3c')} onClick={remover}>Remover</button>
-              <button style={btn('#888')} onClick={() => setConfirmDel(null)}>Cancelar</button>
-            </div>
-          </div>
-        </div>
+        <InactivarModal
+          titulo={`Inactivar funcionario — ${confirmDel.nome_completo}`}
+          descricao="O funcionario ficará inactivo. Indique o motivo."
+          onConfirm={inactivar}
+          onCancel={() => setConfirmDel(null)}
+        />
       )}
     </div>
   )

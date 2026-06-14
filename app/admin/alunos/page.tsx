@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from 'react'
 import { alunosAPI, type PaginatedAlunos } from '@/lib/api'
+import { InactivarModal } from '@/components/ui/InactivarModal'
 
 type Aluno = PaginatedAlunos['items'][number]
 
@@ -68,16 +69,12 @@ export default function AlunosPage() {
     } finally { setSaving(false) }
   }
 
-  async function apagar() {
+  async function inactivar(motivo: string) {
     if (!confirmDelete) return
-    try {
-      await alunosAPI.remover(confirmDelete.id)
-      setConfirmDelete(null)
-      if (data && data.items.length === 1 && page > 1) setPage(p => p - 1)
-      else carregar()
-    } catch (err) {
-      setErro(err instanceof Error ? err.message : 'Erro ao remover')
-    }
+    await alunosAPI.inactivar(confirmDelete.id, motivo)
+    setConfirmDelete(null)
+    if (data && data.items.length === 1 && page > 1) setPage(p => p - 1)
+    else carregar()
   }
 
   return (
@@ -113,7 +110,7 @@ export default function AlunosPage() {
                 <td style={{ padding: '9px 12px' }}>{a.telefone ?? '-'}</td>
                 <td style={{ padding: '9px 12px', textAlign: 'center', display: 'flex', gap: 6, justifyContent: 'center' }}>
                   <button style={btn()} onClick={() => abrirEditar(a)}>Editar</button>
-                  <button style={btn('#e74c3c')} onClick={() => setConfirmDelete(a)}>Apagar</button>
+                  <button style={btn('#e74c3c')} onClick={() => setConfirmDelete(a)}>Inactivar</button>
                 </td>
               </tr>
             ))}
@@ -155,19 +152,13 @@ export default function AlunosPage() {
         </div>
       )}
 
-      {/* Modal confirmar apagar */}
       {confirmDelete && (
-        <div style={overlay} onClick={() => setConfirmDelete(null)}>
-          <div style={{ ...modal, width: 380 }} onClick={e => e.stopPropagation()}>
-            <h3 style={{ marginTop: 0 }}>Confirmar remocao</h3>
-            <p>Tem a certeza que deseja remover <strong>{confirmDelete.nome_completo}</strong>?</p>
-            <p style={{ color: '#888', fontSize: 13 }}>Esta acao e irreversivel.</p>
-            <div style={{ display: 'flex', gap: 10 }}>
-              <button style={btn('#e74c3c')} onClick={apagar}>Remover</button>
-              <button style={btn('#888')} onClick={() => setConfirmDelete(null)}>Cancelar</button>
-            </div>
-          </div>
-        </div>
+        <InactivarModal
+          titulo={`Inactivar aluno — ${confirmDelete.nome_completo}`}
+          descricao="O aluno ficará inactivo mas o registo é mantido. Indique o motivo."
+          onConfirm={inactivar}
+          onCancel={() => setConfirmDelete(null)}
+        />
       )}
     </div>
   )
