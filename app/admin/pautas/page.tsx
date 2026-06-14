@@ -74,9 +74,18 @@ export default function PautasPage() {
           <h3>Pauta gerada</h3>
           <p>Serie: <b>{pauta.numero_serie}</b></p>
           <p>Tipo: {pauta.tipo} · Estado: <b>{pauta.estado}</b></p>
-          {pauta.pdf_url && <p><a href={pauta.pdf_url} target="_blank">Abrir PDF</a></p>}
-          <button style={btn} onClick={validar}>Validar</button>
-          <button style={btn} onClick={publicar}>Publicar</button>
+          <div style={{ display: 'flex', gap: 8, marginTop: 10, flexWrap: 'wrap' }}>
+            <button style={btn} onClick={validar}>Validar</button>
+            <button style={btn} onClick={publicar}>Publicar</button>
+            <a
+              href={`${process.env.NEXT_PUBLIC_API_URL ?? 'https://bijennos-api.onrender.com/api/v1'}/pautas/${pauta.id}/pdf`}
+              target="_blank"
+              rel="noreferrer"
+              style={{ ...btn, background: '#e74c3c', textDecoration: 'none', display: 'inline-flex', alignItems: 'center' }}
+            >
+              Descarregar PDF
+            </a>
+          </div>
         </section>
       )}
     </>
