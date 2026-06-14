@@ -16,6 +16,13 @@ export default function LoginPage() {
   const [erro, setErro] = useState('')
   const [loading, setLoading] = useState(false)
 
+  // Recuperar senha
+  const [mostrarRecuperar, setMostrarRecuperar] = useState(false)
+  const [emailRecuperar, setEmailRecuperar] = useState('')
+  const [recuperarLoading, setRecuperarLoading] = useState(false)
+  const [recuperarMsg, setRecuperarMsg] = useState('')
+  const [recuperarErro, setRecuperarErro] = useState('')
+
   async function onSubmit(e: React.FormEvent) {
     e.preventDefault()
     setErro('')
@@ -27,6 +34,25 @@ export default function LoginPage() {
       setErro(err instanceof Error ? err.message : 'Falha no login')
     } finally {
       setLoading(false)
+    }
+  }
+
+  async function onRecuperar(e: React.FormEvent) {
+    e.preventDefault()
+    setRecuperarErro('')
+    setRecuperarMsg('')
+    setRecuperarLoading(true)
+    try {
+      const { fetchAPI } = await import('@/lib/api')
+      await fetchAPI('/auth/forgot-password', {
+        method: 'POST',
+        body: JSON.stringify({ email: emailRecuperar }),
+      })
+      setRecuperarMsg('Se o email existir na plataforma, receberá as instruções em breve.')
+    } catch {
+      setRecuperarErro('Erro ao enviar pedido. Tente mais tarde.')
+    } finally {
+      setRecuperarLoading(false)
     }
   }
 
@@ -177,10 +203,72 @@ export default function LoginPage() {
             {loading ? 'A entrar...' : 'Entrar →'}
           </Button>
 
-          <p style={{ marginTop: 24, fontSize: 12, color: 'var(--text-muted)', textAlign: 'center' }}>
-            Esqueceu a palavra-passe? Contacte a administração.
+          <p style={{ marginTop: 20, fontSize: 13, textAlign: 'center' }}>
+            <button
+              type="button"
+              onClick={() => { setMostrarRecuperar(true); setRecuperarMsg(''); setRecuperarErro('') }}
+              style={{ background: 'none', border: 'none', color: 'var(--primary)', cursor: 'pointer', fontSize: 13, textDecoration: 'underline' }}
+            >
+              Esqueceu a palavra-passe?
+            </button>
           </p>
         </form>
+
+        {/* Modal recuperar senha */}
+        {mostrarRecuperar && (
+          <div style={{
+            position: 'fixed', inset: 0, background: 'rgba(0,0,0,0.5)',
+            display: 'grid', placeItems: 'center', zIndex: 100,
+          }}>
+            <div className="animate-fade" style={{
+              background: 'var(--surface)', borderRadius: 'var(--radius-lg)',
+              padding: 36, width: '100%', maxWidth: 420,
+              boxShadow: 'var(--shadow-md)', border: '1px solid var(--border)',
+            }}>
+              <h3 style={{ margin: '0 0 6px' }}>Recuperar palavra-passe</h3>
+              <p style={{ color: 'var(--text-muted)', fontSize: 14, marginBottom: 20 }}>
+                Indique o seu email e receberá um link para redefinir a senha.
+              </p>
+
+              {recuperarMsg && (
+                <div style={{ background: '#f0fdf4', border: '1px solid #86efac', borderRadius: 8, padding: '10px 14px', marginBottom: 16, fontSize: 14, color: '#166534' }}>
+                  {recuperarMsg}
+                </div>
+              )}
+              {recuperarErro && (
+                <div style={{ background: '#fef2f2', border: '1px solid #fca5a5', borderRadius: 8, padding: '10px 14px', marginBottom: 16, fontSize: 14, color: '#991b1b' }}>
+                  {recuperarErro}
+                </div>
+              )}
+
+              {!recuperarMsg && (
+                <form onSubmit={onRecuperar} style={{ display: 'flex', flexDirection: 'column', gap: 14 }}>
+                  <FormField label="Email">
+                    <Input
+                      type="email"
+                      value={emailRecuperar}
+                      onChange={(e) => setEmailRecuperar(e.target.value)}
+                      placeholder="o-meu-email@escola.ao"
+                      required
+                      autoFocus
+                    />
+                  </FormField>
+                  <Button type="submit" variant="accent" disabled={recuperarLoading} style={{ width: '100%' }}>
+                    {recuperarLoading ? 'A enviar...' : 'Enviar link de recuperação'}
+                  </Button>
+                </form>
+              )}
+
+              <button
+                type="button"
+                onClick={() => setMostrarRecuperar(false)}
+                style={{ marginTop: 16, width: '100%', padding: '10px', borderRadius: 8, border: '1px solid var(--border)', background: 'transparent', cursor: 'pointer', fontSize: 14 }}
+              >
+                Voltar ao login
+              </button>
+            </div>
+          </div>
+        )}
       </section>
     </main>
   )
