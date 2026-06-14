@@ -1,4 +1,3 @@
-// app/rh/layout.tsx
 import { DynamicShell } from '@/components/shared/DynamicShell'
 
 export default function RHLayout({ children }: { children: React.ReactNode }) {
@@ -6,8 +5,8 @@ export default function RHLayout({ children }: { children: React.ReactNode }) {
     <DynamicShell
       title="Recursos Humanos"
       fallbackNav={[
-        { href: '/rh/funcionarios', label: 'Funcionarios' },
-        { href: '/rh/salarios', label: 'Salarios' },
+        { href: '/rh/funcionarios', label: 'Funcionários' },
+        { href: '/rh/salarios',     label: 'Salários' },
       ]}
     >
       {children}

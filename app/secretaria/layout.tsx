@@ -1,4 +1,3 @@
-// app/secretaria/layout.tsx
 import { DynamicShell } from '@/components/shared/DynamicShell'
 
 export default function SecretariaLayout({ children }: { children: React.ReactNode }) {
@@ -6,8 +5,11 @@ export default function SecretariaLayout({ children }: { children: React.ReactNo
     <DynamicShell
       title="Secretaria"
       fallbackNav={[
-        { href: '/secretaria/matriculas', label: 'Matriculas' },
-        { href: '/secretaria/pre-inscricoes', label: 'Pedidos (leads)' },
+        { href: '/secretaria/dashboard',      label: 'Dashboard' },
+        { href: '/secretaria/matriculas',     label: 'Matrículas' },
+        { href: '/secretaria/inscricoes',     label: 'Inscrições' },
+        { href: '/secretaria/pre-inscricoes', label: 'Pré-Inscrições' },
+        { href: '/secretaria/solicitacoes',   label: 'Solicitações' },
       ]}
     >
       {children}

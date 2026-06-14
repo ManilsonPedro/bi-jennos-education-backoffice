@@ -5,9 +5,9 @@ export default function EncarregadoLayout({ children }: { children: React.ReactN
     <DynamicShell
       title="Portal do Encarregado"
       fallbackNav={[
-        { href: '/encarregado/dashboard', label: 'Dashboard' },
-        { href: '/encarregado/alunos', label: 'Os Meus Educandos' },
-        { href: '/encarregado/notas', label: 'Notas' },
+        { href: '/encarregado/dashboard',  label: 'Início' },
+        { href: '/encarregado/alunos',     label: 'Os Meus Educandos' },
+        { href: '/encarregado/notas',      label: 'Notas' },
         { href: '/encarregado/frequencia', label: 'Frequência' },
         { href: '/encarregado/financeiro', label: 'Financeiro' },
       ]}

@@ -1,14 +1,17 @@
-// app/docente/layout.tsx
 import { DynamicShell } from '@/components/shared/DynamicShell'
 
 export default function DocenteLayout({ children }: { children: React.ReactNode }) {
   return (
     <DynamicShell
-      title="Docente"
+      title="Portal do Docente"
       fallbackNav={[
-        { href: '/docente/turmas', label: 'Turmas' },
-        { href: '/docente/avaliacoes', label: 'Avaliacoes' },
-        { href: '/docente/conteudos', label: 'Conteudos' },
+        { href: '/docente/dashboard',   label: 'Dashboard' },
+        { href: '/docente/turmas',      label: 'Minhas Turmas' },
+        { href: '/docente/avaliacoes',  label: 'Avaliações' },
+        { href: '/docente/frequencia',  label: 'Frequência' },
+        { href: '/docente/conteudos',   label: 'Conteúdos' },
+        { href: '/docente/plano-aula',  label: 'Plano de Aula' },
+        { href: '/docente/diario',      label: 'Diário de Aula' },
       ]}
     >
       {children}
