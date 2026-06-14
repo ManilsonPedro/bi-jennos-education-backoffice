@@ -73,6 +73,10 @@ export const alunosAPI = {
   criar: (data: unknown) =>
     fetchAPI('/alunos', { method: 'POST', body: JSON.stringify(data) }),
   obter: (id: string) => fetchAPI(`/alunos/${id}`),
+  actualizar: (id: string, data: unknown) =>
+    fetchAPI(`/alunos/${id}`, { method: 'PATCH', body: JSON.stringify(data) }),
+  remover: (id: string) =>
+    fetchAPI(`/alunos/${id}`, { method: 'DELETE' }),
 }
 
 export const certificadosAPI = {
@@ -132,6 +136,18 @@ export const turmasAPI = {
     max_alunos?: number
     director_turma_id?: string
   }) => fetchAPI<Turma>('/turmas', { method: 'POST', body: JSON.stringify(data) }),
+  actualizar: (id: string, data: { nome?: string; max_alunos?: number }) =>
+    fetchAPI<Turma>(`/turmas/${id}`, { method: 'PATCH', body: JSON.stringify(data) }),
+  remover: (id: string) =>
+    fetchAPI(`/turmas/${id}`, { method: 'DELETE' }),
+  listarDisciplinas: (turmaId: string) =>
+    fetchAPI<{ id: string; nome: string; turma_id: string; docente_id: string | null; carga_horaria: number | null }[]>(`/turmas/${turmaId}/disciplinas`),
+  criarDisciplina: (turmaId: string, data: { nome: string; carga_horaria?: number }) =>
+    fetchAPI(`/turmas/${turmaId}/disciplinas`, { method: 'POST', body: JSON.stringify(data) }),
+  actualizarDisciplina: (turmaId: string, disciplinaId: string, data: { nome?: string; carga_horaria?: number }) =>
+    fetchAPI(`/turmas/${turmaId}/disciplinas/${disciplinaId}`, { method: 'PATCH', body: JSON.stringify(data) }),
+  removerDisciplina: (turmaId: string, disciplinaId: string) =>
+    fetchAPI(`/turmas/${turmaId}/disciplinas/${disciplinaId}`, { method: 'DELETE' }),
 }
 
 // ── Publico (sem autenticacao) ─────────────────────────────
@@ -431,6 +447,10 @@ export const horariosAPI = {
   salas: () => fetchAPI<Sala[]>('/horarios/salas'),
   criarSala: (data: { nome: string; capacidade?: number }) =>
     fetchAPI<Sala>('/horarios/salas', { method: 'POST', body: JSON.stringify(data) }),
+  actualizarSala: (id: string, data: { nome?: string; capacidade?: number; tipo?: string }) =>
+    fetchAPI<Sala>(`/horarios/salas/${id}`, { method: 'PATCH', body: JSON.stringify(data) }),
+  removerSala: (id: string) =>
+    fetchAPI(`/horarios/salas/${id}`, { method: 'DELETE' }),
   criarCronograma: (data: { classe_id: string; ano_academico_id: string }) =>
     fetchAPI<{ id: string }>('/horarios/cronogramas', { method: 'POST', body: JSON.stringify(data) }),
   itens: (cronogramaId: string) =>
@@ -542,8 +562,12 @@ export interface Classe {
 }
 export const cursosAPI = {
   listar: () => fetchAPI<Curso[]>('/cursos'),
-  criar: (data: { nome: string; descricao?: string }) =>
+  criar: (data: { nome: string; codigo: string; descricao?: string; duracao_anos?: number; nivel?: string }) =>
     fetchAPI<Curso>('/cursos', { method: 'POST', body: JSON.stringify(data) }),
+  actualizar: (id: string, data: { nome?: string; descricao?: string; duracao_anos?: number; nivel?: string }) =>
+    fetchAPI<Curso>(`/cursos/${id}`, { method: 'PATCH', body: JSON.stringify(data) }),
+  remover: (id: string) =>
+    fetchAPI(`/cursos/${id}`, { method: 'DELETE' }),
 }
 export const classesAPI = {
   listar: (anoId?: string, cursoId?: string) => {
@@ -555,6 +579,10 @@ export const classesAPI = {
   },
   criar: (data: unknown) =>
     fetchAPI<Classe>('/classes', { method: 'POST', body: JSON.stringify(data) }),
+  actualizar: (id: string, data: { nome?: string; turno?: string; sala?: string; max_alunos?: number }) =>
+    fetchAPI<Classe>(`/classes/${id}`, { method: 'PATCH', body: JSON.stringify(data) }),
+  remover: (id: string) =>
+    fetchAPI(`/classes/${id}`, { method: 'DELETE' }),
 }
 
 // ── Modulos UI (admin) ────────────────────────────────────

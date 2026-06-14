@@ -30,6 +30,10 @@ export default function HorariosPage() {
     dia_semana: '1', hora_inicio: '08:00', hora_fim: '09:00',
   })
   const [erro, setErro] = useState('')
+  const [editSala, setEditSala] = useState<Sala | null>(null)
+  const [editSalaForm, setEditSalaForm] = useState({ nome: '', capacidade: '0' })
+  const [confirmDeleteSala, setConfirmDeleteSala] = useState<Sala | null>(null)
+  const [savingSala, setSavingSala] = useState(false)
 
   async function carregarSalas() {
     try { setSalas(await horariosAPI.salas()) }
@@ -68,6 +72,30 @@ export default function HorariosPage() {
     await horariosAPI.removerItem(id); await listar()
   }
 
+  async function guardarSala(e: React.FormEvent) {
+    e.preventDefault()
+    if (!editSala) return
+    setSavingSala(true)
+    try {
+      await horariosAPI.actualizarSala(editSala.id, { nome: editSalaForm.nome, capacidade: Number(editSalaForm.capacidade) })
+      setEditSala(null)
+      await carregarSalas()
+    } catch (err) { setErro((err as Error).message) }
+    finally { setSavingSala(false) }
+  }
+
+  async function apagarSala() {
+    if (!confirmDeleteSala) return
+    try {
+      await horariosAPI.removerSala(confirmDeleteSala.id)
+      setConfirmDeleteSala(null)
+      await carregarSalas()
+    } catch (err) { setErro((err as Error).message) }
+  }
+
+  const overlay: React.CSSProperties = { position: 'fixed', inset: 0, background: 'rgba(0,0,0,.45)', display: 'flex', alignItems: 'center', justifyContent: 'center', zIndex: 1000 }
+  const modal: React.CSSProperties = { background: 'var(--surface)', borderRadius: 14, padding: 28, width: 420, boxShadow: '0 8px 32px rgba(0,0,0,.25)' }
+
   return (
     <>
       <h1>Horarios</h1>
@@ -75,9 +103,31 @@ export default function HorariosPage() {
 
       <section style={card}>
         <h3>Salas ({salas.length})</h3>
-        <ul>{salas.map((s) => <li key={s.id}>{s.nome}</li>)}</ul>
-        <input style={input} placeholder="Nova sala" value={novaSala} onChange={(e) => setNovaSala(e.target.value)} />
-        <button style={btn} disabled={!novaSala} onClick={criarSala}>Criar sala</button>
+        <table style={{ width: '100%', borderCollapse: 'collapse', marginBottom: 16 }}>
+          <thead>
+            <tr style={{ background: 'var(--surface-alt, #f5f5f5)' }}>
+              <th align="left" style={{ padding: '8px 10px' }}>Nome</th>
+              <th align="left" style={{ padding: '8px 10px' }}>Capacidade</th>
+              <th style={{ padding: '8px 10px' }}>Acoes</th>
+            </tr>
+          </thead>
+          <tbody>
+            {salas.map(sala => (
+              <tr key={sala.id} style={{ borderTop: '1px solid var(--border)' }}>
+                <td style={{ padding: '8px 10px' }}>{sala.nome}</td>
+                <td style={{ padding: '8px 10px' }}>{sala.capacidade ?? '-'}</td>
+                <td style={{ padding: '8px 10px', display: 'flex', gap: 6, justifyContent: 'center' }}>
+                  <button style={{ ...btn, marginRight: 0 }} onClick={() => { setEditSala(sala); setEditSalaForm({ nome: sala.nome, capacidade: String(sala.capacidade ?? 0) }) }}>Editar</button>
+                  <button style={{ ...btn, background: '#e74c3c', marginRight: 0 }} onClick={() => setConfirmDeleteSala(sala)}>Apagar</button>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+        <div style={{ display: 'flex', gap: 8 }}>
+          <input style={{ ...input, margin: 0, flex: 1 }} placeholder="Nome da nova sala" value={novaSala} onChange={(e) => setNovaSala(e.target.value)} />
+          <button style={btn} disabled={!novaSala} onClick={criarSala}>Criar</button>
+        </div>
       </section>
 
       <section style={card}>
@@ -136,6 +186,38 @@ export default function HorariosPage() {
             </tbody>
           </table>
         </section>
+      )}
+      {/* Modal editar sala */}
+      {editSala && (
+        <div style={overlay} onClick={() => setEditSala(null)}>
+          <div style={modal} onClick={e => e.stopPropagation()}>
+            <h3 style={{ marginTop: 0 }}>Editar sala</h3>
+            <form onSubmit={guardarSala}>
+              <label htmlFor="edit-sala-nome">Nome</label>
+              <input id="edit-sala-nome" style={input} value={editSalaForm.nome} onChange={e => setEditSalaForm({ ...editSalaForm, nome: e.target.value })} required />
+              <label htmlFor="edit-sala-cap">Capacidade</label>
+              <input id="edit-sala-cap" style={input} type="number" min="0" value={editSalaForm.capacidade} onChange={e => setEditSalaForm({ ...editSalaForm, capacidade: e.target.value })} />
+              <div style={{ display: 'flex', gap: 10 }}>
+                <button type="submit" style={btn} disabled={savingSala}>{savingSala ? 'A guardar...' : 'Guardar'}</button>
+                <button type="button" style={{ ...btn, background: '#888' }} onClick={() => setEditSala(null)}>Cancelar</button>
+              </div>
+            </form>
+          </div>
+        </div>
+      )}
+
+      {/* Confirmar apagar sala */}
+      {confirmDeleteSala && (
+        <div style={overlay} onClick={() => setConfirmDeleteSala(null)}>
+          <div style={{ ...modal, width: 360 }} onClick={e => e.stopPropagation()}>
+            <h3 style={{ marginTop: 0 }}>Remover sala</h3>
+            <p>Remover sala <strong>{confirmDeleteSala.nome}</strong>?</p>
+            <div style={{ display: 'flex', gap: 10 }}>
+              <button type="button" style={{ ...btn, background: '#e74c3c' }} onClick={apagarSala}>Remover</button>
+              <button type="button" style={{ ...btn, background: '#888' }} onClick={() => setConfirmDeleteSala(null)}>Cancelar</button>
+            </div>
+          </div>
+        </div>
       )}
     </>
   )
