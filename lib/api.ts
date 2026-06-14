@@ -848,18 +848,21 @@ export const reunioesAPI = _eventoAPI('reunioes')
 // ── Ocorrencias / Disciplinar ─────────────────────────────
 export interface Ocorrencia {
   id: string
-  aluno_id: string
-  tipo: string
-  descricao: string
+  titulo: string
+  descricao: string | null
+  tipo: string | null
+  gravidade: string | null
   data_ocorrencia: string
-  estado: string
+  aluno_id: string | null
+  resolucao: string | null
+  data_resolucao: string | null
 }
 export const ocorrenciasAPI = {
   listar: (alunoId?: string) =>
     fetchAPI<Ocorrencia[]>(`/ocorrencias${alunoId ? `?aluno_id=${alunoId}` : ''}`),
-  criar: (data: { aluno_id: string; tipo: string; descricao: string; data_ocorrencia: string }) =>
+  criar: (data: { titulo: string; descricao?: string; tipo?: string; gravidade?: string; data_ocorrencia: string; aluno_id?: string; resolucao?: string; data_resolucao?: string }) =>
     fetchAPI<Ocorrencia>('/ocorrencias', { method: 'POST', body: JSON.stringify(data) }),
-  actualizar: (id: string, data: { estado?: string; descricao?: string }) =>
+  actualizar: (id: string, data: { titulo?: string; descricao?: string; tipo?: string; gravidade?: string; resolucao?: string; data_resolucao?: string }) =>
     fetchAPI<Ocorrencia>(`/ocorrencias/${id}`, { method: 'PATCH', body: JSON.stringify(data) }),
   remover: (id: string) =>
     fetchAPI(`/ocorrencias/${id}`, { method: 'DELETE' }),
