@@ -6,7 +6,8 @@ import { authAPI } from './api'
 const ACCESS_COOKIE = 'access_token'
 
 function setCookie(name: string, value: string, maxAgeSeconds: number) {
-  document.cookie = `${name}=${value}; path=/; max-age=${maxAgeSeconds}; SameSite=Lax`
+  const secure = location.protocol === 'https:' ? '; Secure' : ''
+  document.cookie = `${name}=${encodeURIComponent(value)}; path=/; max-age=${maxAgeSeconds}; SameSite=Lax${secure}`
 }
 
 function clearCookie(name: string) {
