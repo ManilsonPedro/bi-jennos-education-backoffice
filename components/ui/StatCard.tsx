@@ -1,4 +1,3 @@
-// components/ui/StatCard.tsx
 interface Props {
   label: string
   value: string | number
@@ -7,6 +6,9 @@ interface Props {
 }
 
 export function StatCard({ label, value, hint, accent = 'var(--primary)' }: Props) {
+  const str = String(value)
+  const fontSize = str.length > 14 ? 16 : str.length > 10 ? 20 : 28
+
   return (
     <div
       className="animate-fade"
@@ -24,7 +26,7 @@ export function StatCard({ label, value, hint, accent = 'var(--primary)' }: Prop
         fontSize: 11, textTransform: 'uppercase', letterSpacing: '0.05em',
         color: 'var(--text-muted)', fontWeight: 600, marginBottom: 8,
       }}>{label}</div>
-      <div style={{ fontSize: 28, fontWeight: 700, color: 'var(--text)', lineHeight: 1.1 }}>
+      <div style={{ fontSize, fontWeight: 700, color: 'var(--text)', lineHeight: 1.2, wordBreak: 'break-word' }}>
         {value}
       </div>
       {hint && (
