@@ -116,6 +116,16 @@ export interface AnoAcademico {
   data_fim: string
   estado: string
 }
+export interface Trimestre {
+  id: string
+  ano_academico_id: string
+  numero: number
+  designacao: string | null
+  data_inicio: string
+  data_fim: string
+  estado: string
+  data_fecho: string | null
+}
 export interface Turma {
   id: string
   nome: string
@@ -125,6 +135,26 @@ export interface Turma {
 
 export const academicoAPI = {
   listarAnos: () => fetchAPI<AnoAcademico[]>('/anos-academicos'),
+  criarAno: (data: { designacao: string; data_inicio: string; data_fim: string }) =>
+    fetchAPI<AnoAcademico>('/anos-academicos', { method: 'POST', body: JSON.stringify(data) }),
+  actualizarAno: (id: string, data: { designacao?: string; data_inicio?: string; data_fim?: string }) =>
+    fetchAPI<AnoAcademico>(`/anos-academicos/${id}`, { method: 'PATCH', body: JSON.stringify(data) }),
+  removerAno: (id: string) =>
+    fetchAPI(`/anos-academicos/${id}`, { method: 'DELETE' }),
+  abrirAno: (id: string) =>
+    fetchAPI<AnoAcademico>(`/anos-academicos/${id}/abrir`, { method: 'POST' }),
+  encerrarAno: (id: string) =>
+    fetchAPI<AnoAcademico>(`/anos-academicos/${id}/encerrar`, { method: 'POST' }),
+  listarTrimestres: (anoId: string) =>
+    fetchAPI<Trimestre[]>(`/anos-academicos/${anoId}/trimestres`),
+  criarTrimestre: (anoId: string, data: { numero: number; designacao?: string; data_inicio: string; data_fim: string }) =>
+    fetchAPI<Trimestre>(`/anos-academicos/${anoId}/trimestres`, { method: 'POST', body: JSON.stringify(data) }),
+  actualizarTrimestre: (anoId: string, triId: string, data: { designacao?: string; data_inicio?: string; data_fim?: string }) =>
+    fetchAPI<Trimestre>(`/anos-academicos/${anoId}/trimestres/${triId}`, { method: 'PATCH', body: JSON.stringify(data) }),
+  removerTrimestre: (anoId: string, triId: string) =>
+    fetchAPI(`/anos-academicos/${anoId}/trimestres/${triId}`, { method: 'DELETE' }),
+  fecharTrimestre: (anoId: string, triId: string) =>
+    fetchAPI<Trimestre>(`/anos-academicos/${anoId}/trimestres/${triId}/fechar`, { method: 'POST' }),
 }
 
 export const turmasAPI = {
@@ -354,6 +384,20 @@ export const rhAPI = {
       method: 'POST',
       body: JSON.stringify(data),
     }),
+  actualizarFuncionario: (id: string, data: {
+    nome_completo?: string
+    bi_numero?: string
+    nif?: string
+    categoria_profissional?: string
+    vinculo?: string
+    salario_base?: string
+  }) =>
+    fetchAPI<Funcionario>(`/rh/funcionarios/${id}`, {
+      method: 'PATCH',
+      body: JSON.stringify(data),
+    }),
+  removerFuncionario: (id: string) =>
+    fetchAPI(`/rh/funcionarios/${id}`, { method: 'DELETE' }),
   criarContrato: (
     funcionarioId: string,
     data: { tipo: string; data_inicio: string; data_fim?: string; valor_hora_ou_mes: string; observacoes?: string },
@@ -765,5 +809,59 @@ export const saasAPI = {
   plans: () => fetchAPI<Array<{ id: string; nome: string; tipo: string; preco_mensal: string }>>('/saas/plans'),
   assinar: (school_id: string, plan_id: string, data_inicio: string) =>
     fetchAPI('/saas/subscriptions', { method: 'POST', body: JSON.stringify({ school_id, plan_id, data_inicio }) }),
+}
+
+// ── Eventos (Palestras, Workshops, Olimpiadas, Reunioes) ──
+export interface Evento {
+  id: string
+  titulo: string
+  data_evento: string
+  descricao: string | null
+  local: string | null
+  palestrante: string | null
+  vagas: number
+}
+
+function _eventoAPI(prefix: string) {
+  return {
+    listar: () => fetchAPI<Evento[]>(`/${prefix}`),
+    criar: (data: { titulo: string; data_evento: string; descricao?: string; local?: string; palestrante?: string; vagas?: number }) =>
+      fetchAPI<Evento>(`/${prefix}`, { method: 'POST', body: JSON.stringify(data) }),
+    actualizar: (id: string, data: { titulo?: string; data_evento?: string; descricao?: string; local?: string; vagas?: number }) =>
+      fetchAPI<Evento>(`/${prefix}/${id}`, { method: 'PATCH', body: JSON.stringify(data) }),
+    remover: (id: string) =>
+      fetchAPI(`/${prefix}/${id}`, { method: 'DELETE' }),
+    inscrever: (id: string, data: { participante_nome: string; participante_email?: string; aluno_id?: string }) =>
+      fetchAPI(`/${prefix}/${id}/inscricoes`, { method: 'POST', body: JSON.stringify(data) }),
+    inscricoes: (id: string) =>
+      fetchAPI<Array<{ id: string; participante_nome: string; participante_email: string | null }>>(`/${prefix}/${id}/inscricoes`),
+    cancelarInscricao: (inscricaoId: string) =>
+      fetchAPI(`/${prefix}/inscricoes/${inscricaoId}`, { method: 'DELETE' }),
+  }
+}
+
+export const palestrasAPI = _eventoAPI('palestras')
+export const workshopsAPI = _eventoAPI('workshops')
+export const olimpiadasAPI = _eventoAPI('olimpiadas')
+export const reunioesAPI = _eventoAPI('reunioes')
+
+// ── Ocorrencias / Disciplinar ─────────────────────────────
+export interface Ocorrencia {
+  id: string
+  aluno_id: string
+  tipo: string
+  descricao: string
+  data_ocorrencia: string
+  estado: string
+}
+export const ocorrenciasAPI = {
+  listar: (alunoId?: string) =>
+    fetchAPI<Ocorrencia[]>(`/ocorrencias${alunoId ? `?aluno_id=${alunoId}` : ''}`),
+  criar: (data: { aluno_id: string; tipo: string; descricao: string; data_ocorrencia: string }) =>
+    fetchAPI<Ocorrencia>('/ocorrencias', { method: 'POST', body: JSON.stringify(data) }),
+  actualizar: (id: string, data: { estado?: string; descricao?: string }) =>
+    fetchAPI<Ocorrencia>(`/ocorrencias/${id}`, { method: 'PATCH', body: JSON.stringify(data) }),
+  remover: (id: string) =>
+    fetchAPI(`/ocorrencias/${id}`, { method: 'DELETE' }),
 }
 
