@@ -4,10 +4,33 @@
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import { useEffect, useState } from 'react'
+import {
+  BookOpen,
+  ChevronDown,
+  ChevronRight,
+  ClipboardList,
+  GraduationCap,
+  LayoutGrid,
+  type LucideIcon,
+  Settings,
+  Users,
+  Wallet,
+} from 'lucide-react'
 import { uiAPI, type ModuloTree } from '@/lib/api'
 import { logout } from '@/lib/auth'
 import { Logo } from '@/components/ui/Logo'
 import { ThemeToggle } from '@/components/ui/ThemeToggle'
+
+// Familia unica de icones (Lucide) — mapeia o modulo ao seu icone.
+const MODULO_ICON: Record<string, LucideIcon> = {
+  Academico: GraduationCap,
+  Secretaria: ClipboardList,
+  Financeiro: Wallet,
+  RH: Users,
+  Administracao: Settings,
+  'Meu Curso': BookOpen,
+  Estudante: GraduationCap,
+}
 
 interface DynamicShellProps {
   title: string
@@ -92,7 +115,8 @@ export function DynamicShell({ title, fallbackNav = [], children }: DynamicShell
           )}
           {erro && (
             <div style={{
-              margin: 8, padding: 10, background: '#fef2f2', color: '#7f1d1d',
+              margin: 8, padding: 10,
+              background: 'rgba(192, 57, 43, .1)', color: 'var(--danger)',
               borderRadius: 'var(--radius)', fontSize: 11,
             }}>
               {erro}
@@ -102,6 +126,7 @@ export function DynamicShell({ title, fallbackNav = [], children }: DynamicShell
           {tree && tree.map((mod) => {
             const aberto = openModuloId === mod.id
             const accent = MODULO_ACCENT[mod.nome] ?? 'var(--primary)'
+            const Icon = MODULO_ICON[mod.nome] ?? LayoutGrid
             return (
               <div key={mod.id} style={{ marginBottom: 4 }}>
                 <button
@@ -126,13 +151,12 @@ export function DynamicShell({ title, fallbackNav = [], children }: DynamicShell
                   }}
                 >
                   <span style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
-                    <span style={{
-                      display: 'inline-block', width: 6, height: 6, borderRadius: '50%',
-                      background: accent,
-                    }} />
+                    <Icon size={17} style={{ color: accent, flexShrink: 0 }} strokeWidth={2} />
                     {mod.nome}
                   </span>
-                  <span style={{ color: 'var(--text-muted)', fontSize: 10 }}>{aberto ? '▼' : '▶'}</span>
+                  {aberto
+                    ? <ChevronDown size={15} style={{ color: 'var(--text-muted)' }} />
+                    : <ChevronRight size={15} style={{ color: 'var(--text-muted)' }} />}
                 </button>
                 {aberto && (
                   <div style={{ paddingLeft: 8, marginTop: 2 }}>
