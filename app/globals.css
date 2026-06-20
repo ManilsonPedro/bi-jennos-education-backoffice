@@ -1,190 +1,233 @@
-/* === Design tokens (inspirado AIEC) === */
+/* ============================================================================
+   Bi Jennos — Design tokens
+   Ancora: logótipo (gradiente cyan -> indigo -> violeta; monograma caligrafico).
+   Leitura: "crescimento premium e fluido com um toque de conexao".
+   Gradiente reservado ao SIGNATURE element + marca; UI usa cores solidas.
+   ============================================================================ */
 :root {
-  /* Cores institucionais Bi.Jennos (cyan → roxo do logo) */
-  --primary: #4c0c75;         /* roxo escuro do logo (BI JENNOS) */
-  --primary-strong: #36085a;
-  --primary-soft: #6b1fa6;
-  --accent: #1bb5e8;          /* cyan do topo do "B" — CTA */
-  --accent-strong: #0d8fc3;
-  --brand-cyan: #1bb5e8;
-  --brand-purple: #6b1fa6;
-  --brand-deep: #36085a;
-  --brand-gradient: linear-gradient(180deg, #1bb5e8 0%, #4a4fc8 45%, #6b1fa6 80%, #4c0c75 100%);
-  --warn: #f37021;            /* laranja acento secundário */
+  /* — Cor da marca (derivada dos pixeis do logo) — */
+  --brand-cyan: #00c0f0;       /* topo do gradiente — energia/CTA */
+  --brand-indigo: #3e4cc0;     /* transicao */
+  --brand-purple: #7a0e8e;     /* base + wordmark */
+  --brand-deep: #4c0c75;       /* violeta profundo */
+  --brand-gradient: linear-gradient(180deg, #00c0f0 0%, #3e4cc0 46%, #7a0e8e 82%, #4c0c75 100%);
+  --brand-gradient-h: linear-gradient(90deg, #00c0f0 0%, #3e4cc0 50%, #7a0e8e 100%);
+
+  /* Papeis de UI */
+  --primary: #5b1287;          /* violeta — acoes primarias */
+  --primary-strong: #420a64;
+  --primary-soft: #7a2aa6;
+  --accent: #00a6d6;           /* cyan (escurecido p/ contraste AA em texto/CTA) */
+  --accent-strong: #0089b3;
+
+  /* Semanticas */
+  --warn: #d9610f;
   --success: #1f8a4c;
   --danger: #c0392b;
-  --info: #1976d2;
+  --info: #2563c9;
 
-  /* Categorias harmonizadas com a paleta Bi.Jennos */
-  --cat-academico: #1bb5e8;       /* cyan claro */
-  --cat-administrativo: #4c0c75;  /* roxo profundo */
-  --cat-estudante: #20a982;       /* verde teal */
-  --cat-financeiro: #f0b400;      /* dourado */
-  --cat-curso: #f37021;           /* laranja */
-  --cat-rh: #6b1fa6;              /* roxo */
-  --cat-secretaria: #00a8c4;      /* turquesa */
+  /* Categorias (mantidas para compat com modulos existentes) */
+  --cat-academico: #00a6d6;
+  --cat-administrativo: #5b1287;
+  --cat-estudante: #1f9e7a;
+  --cat-financeiro: #c98a00;
+  --cat-curso: #d9610f;
+  --cat-rh: #7a2aa6;
+  --cat-secretaria: #0095b3;
 
-  /* Superficies */
-  --bg: #f3f5f9;
+  /* — Superficies: neutros com leve tinta VIOLETA (nao slate frio) — */
+  --bg: #f6f4fa;
   --surface: #ffffff;
-  --surface-2: #f8fafc;
-  --border: #e2e8f0;
-  --border-strong: #cbd5e1;
+  --surface-2: #f3eff8;
+  --border: #e9e3f2;
+  --border-strong: #d6cce6;
 
-  /* Texto */
-  --text: #0f172a;
-  --text-muted: #64748b;
+  /* Texto: quase-preto com matiz violeta */
+  --text: #1c1626;
+  --text-muted: #6b6280;
   --text-on-primary: #ffffff;
 
-  /* Sombras */
-  --shadow-sm: 0 1px 2px rgba(15, 23, 42, .06);
-  --shadow-md: 0 4px 12px rgba(15, 23, 42, .08);
-  --shadow-lg: 0 12px 32px rgba(15, 23, 42, .12);
+  /* Sombras (tonalidade violeta, nao cinza puro) */
+  --shadow-sm: 0 1px 2px rgba(43, 18, 66, .06);
+  --shadow-md: 0 6px 18px rgba(43, 18, 66, .09);
+  --shadow-lg: 0 16px 40px rgba(43, 18, 66, .14);
+  --ring: 0 0 0 3px rgba(0, 166, 214, .35);
 
-  /* Geometria */
-  --radius-sm: 6px;
-  --radius: 10px;
-  --radius-lg: 14px;
+  /* Geometria — cantos suavemente arredondados (eco do wordmark) */
+  --radius-sm: 8px;
+  --radius: 12px;
+  --radius-lg: 18px;
+  --radius-pill: 999px;
+
+  /* Tipografia */
+  --font-display: 'Fraunces', Georgia, 'Times New Roman', serif;
+  --font-body: 'Plus Jakarta Sans', system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
+  --font-mono: 'JetBrains Mono', Consolas, Menlo, monospace;
+
+  /* Movimento */
+  --ease: cubic-bezier(0.22, 1, 0.36, 1);
+  --dur: 180ms;
 }
 
-/* === Tema escuro === */
+/* === Tema escuro (identidade igual; superficies violeta-escuras) === */
 [data-theme="dark"] {
-  /* Identidade fica igual — só mudam superfícies */
-  --bg: #0b0913;
-  --surface: #16111f;
-  --surface-2: #1d1729;
-  --border: #2a2138;
-  --border-strong: #3b3050;
-
-  --text: #f1eef6;
-  --text-muted: #a59bb8;
-
-  /* Tornar a paleta brand ligeiramente mais vibrante em dark */
-  --primary: #8b3fc4;
-  --primary-soft: #a85cd9;
-  --brand-cyan: #3ec4ee;
-  --brand-deep: #d4b8ee;
-
+  --bg: #0d0916;
+  --surface: #181126;
+  --surface-2: #211733;
+  --border: #2e2342;
+  --border-strong: #3f3057;
+  --text: #f2ecfa;
+  --text-muted: #a99cc2;
+  --primary: #9a52d6;
+  --primary-soft: #b274e6;
+  --accent: #2fc4ee;
   --shadow-sm: 0 1px 2px rgba(0, 0, 0, .4);
-  --shadow-md: 0 4px 12px rgba(0, 0, 0, .45);
-  --shadow-lg: 0 12px 32px rgba(0, 0, 0, .55);
+  --shadow-md: 0 6px 18px rgba(0, 0, 0, .5);
+  --shadow-lg: 0 16px 40px rgba(0, 0, 0, .6);
 }
-
-/* Auto dark mode quando o utilizador prefere e ainda não escolheu manualmente */
 @media (prefers-color-scheme: dark) {
   :root:not([data-theme="light"]):not([data-theme="dark"]) {
-    --bg: #0b0913;
-    --surface: #16111f;
-    --surface-2: #1d1729;
-    --border: #2a2138;
-    --border-strong: #3b3050;
-    --text: #f1eef6;
-    --text-muted: #a59bb8;
-    --primary: #8b3fc4;
-    --primary-soft: #a85cd9;
-    --brand-cyan: #3ec4ee;
-    --brand-deep: #d4b8ee;
-    --shadow-sm: 0 1px 2px rgba(0, 0, 0, .4);
-    --shadow-md: 0 4px 12px rgba(0, 0, 0, .45);
-    --shadow-lg: 0 12px 32px rgba(0, 0, 0, .55);
+    --bg: #0d0916; --surface: #181126; --surface-2: #211733;
+    --border: #2e2342; --border-strong: #3f3057;
+    --text: #f2ecfa; --text-muted: #a99cc2;
+    --primary: #9a52d6; --primary-soft: #b274e6; --accent: #2fc4ee;
+    --shadow-sm: 0 1px 2px rgba(0,0,0,.4); --shadow-md: 0 6px 18px rgba(0,0,0,.5); --shadow-lg: 0 16px 40px rgba(0,0,0,.6);
   }
 }
 
 * { box-sizing: border-box; }
-
 html { color-scheme: light; }
 [data-theme="dark"] { color-scheme: dark; }
 
 html, body {
   margin: 0;
   padding: 0;
-  font-family: 'Inter', system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+  font-family: var(--font-body);
   background: var(--bg);
   color: var(--text);
   font-size: 14px;
-  line-height: 1.5;
+  line-height: 1.55;
   -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
 }
 
-/* === Form controls nativos respeitam tokens === */
+/* === Tipografia: display Fraunces para titulos, body Jakarta para o resto === */
+h1, h2, h3 {
+  margin: 0 0 16px;
+  color: var(--text);
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-optical-sizing: auto;
+  letter-spacing: -0.012em;
+  line-height: 1.12;
+}
+h1 { font-size: clamp(26px, 3.2vw, 34px); }
+h2 { font-size: clamp(20px, 2.4vw, 25px); }
+h3 { font-size: 18px; letter-spacing: -0.006em; }
+h4 {
+  margin: 0 0 12px;
+  font-family: var(--font-body);
+  font-size: 12px; font-weight: 700;
+  color: var(--text-muted);
+  text-transform: uppercase; letter-spacing: 0.08em;
+}
+p { margin: 0 0 12px; }
+
+a { color: var(--primary); text-decoration: none; transition: color var(--dur) var(--ease); }
+a:hover { color: var(--accent-strong); }
+
+code {
+  font-family: var(--font-mono);
+  background: var(--surface-2);
+  padding: 1px 6px; border-radius: 5px; font-size: 12px;
+}
+
+/* === Form controls === */
 input, select, textarea {
   background: var(--surface);
   color: var(--text);
   border: 1px solid var(--border-strong);
-  font-family: inherit;
-  font-size: inherit;
+  border-radius: var(--radius-sm);
+  font-family: inherit; font-size: inherit;
+  transition: border-color var(--dur) var(--ease), box-shadow var(--dur) var(--ease);
 }
-input::placeholder, textarea::placeholder {
-  color: var(--text-muted);
-  opacity: 0.7;
-}
+input::placeholder, textarea::placeholder { color: var(--text-muted); opacity: .7; }
 input:focus, select:focus, textarea:focus {
-  outline: 2px solid var(--brand-cyan);
-  outline-offset: 1px;
-  border-color: var(--brand-cyan);
+  outline: none;
+  border-color: var(--accent);
+  box-shadow: var(--ring);
 }
+label { color: var(--text); font-weight: 600; }
 
-/* Section "card" genérico — quando alguém usa <section style={{ background:'var(--surface)' }}>
-   já está coberto. Aqui apenas garantimos hover de linhas em tabelas. */
-section { color: var(--text); }
+/* Foco visivel por teclado em qualquer elemento interativo (AA) */
+:focus-visible { outline: none; box-shadow: var(--ring); border-radius: var(--radius-sm); }
 
-/* Cores forçadas que aparecem em código antigo */
-label { color: var(--text); }
-
-h1, h2, h3, h4 {
-  margin: 0 0 16px;
-  color: var(--text);
-  font-weight: 700;
-  letter-spacing: -0.01em;
-}
-h1 { font-size: 28px; }
-h2 { font-size: 22px; }
-h3 { font-size: 17px; }
-h4 { font-size: 15px; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.06em; }
-
-p { margin: 0 0 12px; }
-
-a { color: var(--primary); text-decoration: none; }
-a:hover { color: var(--accent); }
-
-code {
-  font-family: 'JetBrains Mono', Consolas, Menlo, monospace;
-  background: var(--surface-2);
-  padding: 1px 6px;
-  border-radius: 4px;
-  font-size: 12px;
-}
-
-table {
-  width: 100%;
-  border-collapse: separate;
-  border-spacing: 0;
-  font-size: 13px;
-}
+/* === Tabelas === */
+table { width: 100%; border-collapse: separate; border-spacing: 0; font-size: 13px; }
 table th {
-  text-align: left;
-  font-weight: 600;
-  color: var(--text-muted);
-  font-size: 11px;
-  text-transform: uppercase;
-  letter-spacing: 0.05em;
-  padding: 10px 12px;
-  background: var(--surface-2);
-  border-bottom: 1px solid var(--border);
+  text-align: left; font-weight: 700; color: var(--text-muted);
+  font-size: 11px; text-transform: uppercase; letter-spacing: .06em;
+  padding: 11px 14px; background: var(--surface-2); border-bottom: 1px solid var(--border);
 }
-table td {
-  padding: 12px;
-  border-bottom: 1px solid var(--border);
-  vertical-align: middle;
-}
+table td { padding: 13px 14px; border-bottom: 1px solid var(--border); vertical-align: middle; }
+table tbody tr { transition: background var(--dur) var(--ease); }
 table tbody tr:hover { background: var(--surface-2); }
 
-::-webkit-scrollbar { width: 8px; height: 8px; }
-::-webkit-scrollbar-thumb { background: var(--border-strong); border-radius: 4px; }
+::-webkit-scrollbar { width: 9px; height: 9px; }
+::-webkit-scrollbar-thumb { background: var(--border-strong); border-radius: var(--radius-pill); }
 ::-webkit-scrollbar-thumb:hover { background: var(--text-muted); }
 
-@keyframes fade-in {
-  from { opacity: 0; transform: translateY(4px); }
-  to { opacity: 1; transform: translateY(0); }
+/* ============================================================================
+   SIGNATURE ELEMENT — "trilho ascendente + nó"
+   Deriva do logo: o gradiente cyan->violeta sobe como uma trajetoria e termina
+   num ponto (eco do no terminal do monograma). Usado em nav ativo, cabecalhos
+   e separadores. E o unico sitio onde o gradiente aparece.
+   ============================================================================ */
+.brand-rail {
+  position: relative;
+  padding-left: 16px;
 }
-.animate-fade { animation: fade-in .2s ease-out; }
+.brand-rail::before {
+  content: "";
+  position: absolute;
+  left: 0; top: 2px; bottom: 2px;
+  width: 4px;
+  border-radius: var(--radius-pill);
+  background: var(--brand-gradient);
+}
+.brand-rail::after {           /* o "no" terminal */
+  content: "";
+  position: absolute;
+  left: -1px; top: -3px;
+  width: 6px; height: 6px;
+  border-radius: 50%;
+  background: var(--brand-cyan);
+  box-shadow: 0 0 0 2px var(--surface);
+}
+
+/* Régua horizontal de cabeçalho (gradiente fino sob títulos de página) */
+.brand-underline {
+  height: 3px; width: 56px;
+  border-radius: var(--radius-pill);
+  background: var(--brand-gradient-h);
+}
+
+/* Texto com o gradiente da marca (usar com parcimónia: marca/realces) */
+.brand-text {
+  background: var(--brand-gradient-h);
+  -webkit-background-clip: text; background-clip: text;
+  -webkit-text-fill-color: transparent; color: transparent;
+}
+
+/* === Movimento, com respeito por prefers-reduced-motion === */
+@keyframes fade-in { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: none; } }
+.animate-fade { animation: fade-in var(--dur) var(--ease); }
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: .001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: .001ms !important;
+    scroll-behavior: auto !important;
+  }
+}
