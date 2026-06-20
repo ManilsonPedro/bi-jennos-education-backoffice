@@ -3,6 +3,7 @@
 
 import { useState } from 'react'
 import { useRouter } from 'next/navigation'
+import { ArrowRight, Eye, EyeOff } from 'lucide-react'
 import { login } from '@/lib/auth'
 import { Button } from '@/components/ui/Button'
 import { FormField, Input } from '@/components/ui/Field'
@@ -121,10 +122,11 @@ export default function LoginPage() {
             opacity: 0.8, marginBottom: 14,
           }}>Plataforma de gestão escolar</div>
           <h2 style={{
-            fontSize: 38, color: '#fff', lineHeight: 1.15,
-            marginBottom: 18, fontWeight: 800, letterSpacing: '-0.01em',
+            fontFamily: 'var(--font-display)',
+            fontSize: 40, color: '#fff', lineHeight: 1.1,
+            marginBottom: 18, fontWeight: 600, letterSpacing: '-0.015em',
           }}>
-            Educação que vai <span style={{ color: 'var(--brand-cyan)' }}>além</span>.
+            Educação que vai <span style={{ color: 'var(--brand-cyan)', fontStyle: 'italic' }}>além</span>.
           </h2>
           <p style={{ fontSize: 16, opacity: 0.88, maxWidth: 440, lineHeight: 1.65 }}>
             Académico, financeiro, secretaria e RH numa única plataforma — gerida com a elegância e segurança que a tua instituição merece.
@@ -137,15 +139,15 @@ export default function LoginPage() {
           position: 'relative', zIndex: 1,
         }}>
           <div>
-            <div style={{ fontWeight: 800, fontSize: 30, color: 'var(--brand-cyan)' }}>360°</div>
+            <div style={{ fontFamily: 'var(--font-display)', fontWeight: 600, fontSize: 32, color: 'var(--brand-cyan)' }}>360°</div>
             <div style={{ opacity: 0.7 }}>Gestão integrada</div>
           </div>
           <div>
-            <div style={{ fontWeight: 800, fontSize: 30, color: 'var(--brand-cyan)' }}>RBAC</div>
+            <div style={{ fontFamily: 'var(--font-display)', fontWeight: 600, fontSize: 32, color: 'var(--brand-cyan)' }}>RBAC</div>
             <div style={{ opacity: 0.7 }}>Permissões dinâmicas</div>
           </div>
           <div>
-            <div style={{ fontWeight: 800, fontSize: 30, color: 'var(--brand-cyan)' }}>v3.0</div>
+            <div style={{ fontFamily: 'var(--font-display)', fontWeight: 600, fontSize: 32, color: 'var(--brand-cyan)' }}>v3.0</div>
             <div style={{ opacity: 0.7 }}>Master Prompt</div>
           </div>
         </div>
@@ -204,30 +206,19 @@ export default function LoginPage() {
                 }}
                 aria-label={mostrarSenha ? 'Ocultar senha' : 'Mostrar senha'}
               >
-                {mostrarSenha ? (
-                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                    <path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94"/>
-                    <path d="M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19"/>
-                    <line x1="1" y1="1" x2="23" y2="23"/>
-                  </svg>
-                ) : (
-                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                    <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/>
-                    <circle cx="12" cy="12" r="3"/>
-                  </svg>
-                )}
+                {mostrarSenha ? <EyeOff size={18} /> : <Eye size={18} />}
               </button>
             </div>
           </FormField>
 
           <Button
             type="submit"
-            variant="accent"
+            variant="brand"
             size="lg"
             disabled={loading}
             style={{ width: '100%', marginTop: 8 }}
           >
-            {loading ? 'A entrar...' : 'Entrar →'}
+            {loading ? 'A entrar...' : <>Entrar <ArrowRight size={16} /></>}
           </Button>
 
           <p style={{ marginTop: 20, fontSize: 13, textAlign: 'center' }}>
@@ -257,16 +248,8 @@ export default function LoginPage() {
                 Indique o seu email e receberá um link para redefinir a senha.
               </p>
 
-              {recuperarMsg && (
-                <div style={{ background: '#f0fdf4', border: '1px solid #86efac', borderRadius: 8, padding: '10px 14px', marginBottom: 16, fontSize: 14, color: '#166534' }}>
-                  {recuperarMsg}
-                </div>
-              )}
-              {recuperarErro && (
-                <div style={{ background: '#fef2f2', border: '1px solid #fca5a5', borderRadius: 8, padding: '10px 14px', marginBottom: 16, fontSize: 14, color: '#991b1b' }}>
-                  {recuperarErro}
-                </div>
-              )}
+              {recuperarMsg && <Alert tone="success">{recuperarMsg}</Alert>}
+              {recuperarErro && <Alert tone="danger">{recuperarErro}</Alert>}
 
               {!recuperarMsg && (
                 <form onSubmit={onRecuperar} style={{ display: 'flex', flexDirection: 'column', gap: 14 }}>
