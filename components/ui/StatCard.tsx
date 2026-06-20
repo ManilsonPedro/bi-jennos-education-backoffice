@@ -7,7 +7,7 @@ interface Props {
 
 export function StatCard({ label, value, hint, accent = 'var(--primary)' }: Props) {
   const str = String(value)
-  const fontSize = str.length > 14 ? 16 : str.length > 10 ? 20 : 28
+  const fontSize = str.length > 14 ? 18 : str.length > 10 ? 22 : 30
 
   return (
     <div
@@ -23,14 +23,22 @@ export function StatCard({ label, value, hint, accent = 'var(--primary)' }: Prop
       }}
     >
       <div style={{
-        fontSize: 11, textTransform: 'uppercase', letterSpacing: '0.05em',
-        color: 'var(--text-muted)', fontWeight: 600, marginBottom: 8,
+        fontSize: 11, textTransform: 'uppercase', letterSpacing: '0.06em',
+        color: 'var(--text-muted)', fontWeight: 700, marginBottom: 10,
       }}>{label}</div>
-      <div style={{ fontSize, fontWeight: 700, color: 'var(--text)', lineHeight: 1.2, wordBreak: 'break-word' }}>
+      <div style={{
+        fontFamily: 'var(--font-display)',
+        fontSize,
+        fontWeight: 600,
+        color: 'var(--text)',
+        lineHeight: 1.05,
+        letterSpacing: '-0.02em',
+        wordBreak: 'break-word',
+      }}>
         {value}
       </div>
       {hint && (
-        <div style={{ marginTop: 6, fontSize: 12, color: 'var(--text-muted)' }}>{hint}</div>
+        <div style={{ marginTop: 8, fontSize: 12, color: 'var(--text-muted)' }}>{hint}</div>
       )}
     </div>
   )

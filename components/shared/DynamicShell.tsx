@@ -149,16 +149,23 @@ export function DynamicShell({ title, fallbackNav = [], children }: DynamicShell
                             <Link
                               key={p.id}
                               href={p.rota}
+                              aria-current={activo ? 'page' : undefined}
                               style={{
                                 display: 'block',
                                 padding: '7px 14px',
                                 margin: '2px 0',
-                                color: activo ? 'var(--accent)' : 'var(--text)',
-                                background: activo ? '#fef2f2' : 'transparent',
+                                color: activo ? 'var(--primary)' : 'var(--text)',
+                                background: activo ? 'var(--surface-2)' : 'transparent',
                                 fontSize: 13,
-                                fontWeight: activo ? 600 : 400,
+                                fontWeight: activo ? 700 : 400,
                                 borderRadius: 'var(--radius)',
-                                borderLeft: activo ? `3px solid var(--accent)` : '3px solid transparent',
+                                // Signature: trilho com gradiente da marca no item activo
+                                borderLeft: activo
+                                  ? '3px solid transparent'
+                                  : '3px solid transparent',
+                                borderImage: activo
+                                  ? 'linear-gradient(180deg, var(--brand-cyan), var(--brand-purple)) 1'
+                                  : 'none',
                               }}
                             >
                               {p.nome}
@@ -179,14 +186,15 @@ export function DynamicShell({ title, fallbackNav = [], children }: DynamicShell
               <Link
                 key={n.href}
                 href={n.href}
+                aria-current={activo ? 'page' : undefined}
                 style={{
                   display: 'block',
                   padding: '9px 14px',
-                  color: activo ? 'var(--accent)' : 'var(--text)',
-                  background: activo ? '#fef2f2' : 'transparent',
+                  color: activo ? 'var(--primary)' : 'var(--text)',
+                  background: activo ? 'var(--surface-2)' : 'transparent',
                   borderRadius: 'var(--radius)',
                   fontSize: 13,
-                  fontWeight: activo ? 600 : 500,
+                  fontWeight: activo ? 700 : 500,
                   margin: '2px 0',
                 }}
               >
