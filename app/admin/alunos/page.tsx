@@ -3,6 +3,7 @@
 import { useEffect, useState } from 'react'
 import { alunosAPI, type PaginatedAlunos } from '@/lib/api'
 import { InactivarModal } from '@/components/ui/InactivarModal'
+import { PageHeader } from '@/components/ui/PageHeader'
 
 type Aluno = PaginatedAlunos['items'][number]
 
@@ -79,7 +80,7 @@ export default function AlunosPage() {
 
   return (
     <div>
-      <h1 style={{ color: 'var(--primary)' }}>Alunos</h1>
+      <PageHeader title="Alunos" subtitle="Cadastro e histórico dos estudantes" />
 
       <input
         placeholder="Pesquisar por nome ou numero..."

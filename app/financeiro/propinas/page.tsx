@@ -8,6 +8,7 @@ import {
   type AnoAcademico,
   type RelatorioFinanceiro,
 } from '@/lib/api'
+import { PageHeader } from '@/components/ui/PageHeader'
 
 const card: React.CSSProperties = {
   background: 'var(--surface)',
@@ -76,7 +77,7 @@ export default function PropinasPage() {
 
   return (
     <div>
-      <h1 style={{ color: 'var(--primary)' }}>Propinas</h1>
+      <PageHeader title="Propinas" subtitle="Gestão de mensalidades e cobranças" />
 
       <form onSubmit={gerar} style={card}>
         <h3 style={{ marginTop: 0 }}>Gerar propinas mensais</h3>

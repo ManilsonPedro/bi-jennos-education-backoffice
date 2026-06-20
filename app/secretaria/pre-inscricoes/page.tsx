@@ -3,6 +3,7 @@
 
 import { useEffect, useState } from 'react'
 import { publicAPI, type PreInscricao } from '@/lib/api'
+import { PageHeader } from '@/components/ui/PageHeader'
 
 const ESTADOS = ['nova', 'contactada', 'convertida', 'descartada']
 
@@ -44,7 +45,7 @@ export default function PreInscricoesPage() {
 
   return (
     <div>
-      <h1 style={{ color: 'var(--primary)' }}>Pedidos de inscricao (leads)</h1>
+      <PageHeader title="Pedidos de inscrição" subtitle="Leads de pré-inscrição pública" />
       {erro && <p style={{ color: 'var(--danger)' }}>{erro}</p>}
       <table style={{ width: '100%', borderCollapse: 'collapse', background: 'var(--surface)' }}>
         <thead>
