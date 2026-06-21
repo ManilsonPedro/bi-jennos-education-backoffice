@@ -126,7 +126,7 @@ export default function LoginPage() {
             fontSize: 40, color: '#fff', lineHeight: 1.1,
             marginBottom: 18, fontWeight: 600, letterSpacing: '-0.015em',
           }}>
-            Educação que vai <span style={{ color: 'var(--brand-cyan)', fontStyle: 'italic' }}>além</span>.
+            Educação que vai <span style={{ color: 'var(--brand-cyan)' }}>além</span>.
           </h2>
           <p style={{ fontSize: 16, opacity: 0.88, maxWidth: 440, lineHeight: 1.65 }}>
             Académico, financeiro, secretaria e RH numa única plataforma — gerida com a elegância e segurança que a tua instituição merece.

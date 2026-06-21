@@ -20,6 +20,7 @@ import { uiAPI, type ModuloTree } from '@/lib/api'
 import { logout } from '@/lib/auth'
 import { Logo } from '@/components/ui/Logo'
 import { ThemeToggle } from '@/components/ui/ThemeToggle'
+import { Topbar } from '@/components/ui/Topbar'
 
 // Familia unica de icones (Lucide) — mapeia o modulo ao seu icone.
 const MODULO_ICON: Record<string, LucideIcon> = {
@@ -255,10 +256,13 @@ export function DynamicShell({ title, fallbackNav = [], children }: DynamicShell
         </div>
       </aside>
 
-      {/* Conteúdo */}
-      <main style={{ flex: 1, padding: '32px 40px', overflowX: 'auto' }}>
-        {children}
-      </main>
+      {/* Coluna de conteúdo: barra de topo (pesquisa/notificações/utilizador) + conteúdo */}
+      <div style={{ flex: 1, minWidth: 0, display: 'flex', flexDirection: 'column' }}>
+        <Topbar />
+        <main style={{ flex: 1, padding: '28px 36px', overflowX: 'auto' }}>
+          {children}
+        </main>
+      </div>
     </div>
   )
 }

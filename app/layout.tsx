@@ -1,19 +1,10 @@
 // app/layout.tsx
 import type { Metadata } from 'next'
-import { Fraunces, JetBrains_Mono, Plus_Jakarta_Sans } from 'next/font/google'
+import { JetBrains_Mono, Plus_Jakarta_Sans } from 'next/font/google'
 import './globals.css'
 import { themeBootstrapScript } from '@/components/ui/ThemeToggle'
 
-// Display: soft-serif com contraste grosso/fino — ecoa o monograma caligrafico.
-const display = Fraunces({
-  subsets: ['latin'],
-  weight: ['400', '500', '600', '700'],
-  style: ['normal', 'italic'],
-  variable: '--font-display',
-  display: 'swap',
-})
-
-// Body/UI: geometrica humanista levemente arredondada — ecoa o wordmark.
+// Sans limpo e profissional (estilo ERP) — display e body.
 const body = Plus_Jakarta_Sans({
   subsets: ['latin'],
   weight: ['400', '500', '600', '700', '800'],
@@ -36,7 +27,7 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="pt" className={`${display.variable} ${body.variable} ${mono.variable}`}>
+    <html lang="pt" className={`${body.variable} ${mono.variable}`}>
       <head>
         <script dangerouslySetInnerHTML={{ __html: themeBootstrapScript }} />
       </head>
