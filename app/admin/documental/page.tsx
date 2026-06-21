@@ -2,6 +2,8 @@
 
 import { useEffect, useState } from 'react';
 import { fetchAPI } from '@/lib/api';
+import { PageHeader } from '@/components/ui/PageHeader';
+import { Button } from '@/components/ui/Button';
 
 interface Folder {
   id: string;
@@ -99,16 +101,13 @@ export default function DocumentalPage() {
   const TIPOS_FOLDER = ['GERAL', 'ACADEMICO', 'FINANCEIRO', 'RH', 'JURIDICO', 'SECRETARIA'];
 
   return (
-    <div className="p-6 max-w-7xl mx-auto">
-      <div className="flex items-center justify-between mb-6">
-        <h1 className="text-2xl font-bold text-gray-900">Gestão Documental</h1>
-        <button
-          onClick={() => setShowAddFolder(!showAddFolder)}
-          className="px-4 py-2 bg-blue-600 text-white rounded-lg text-sm font-medium hover:bg-blue-700"
-        >
-          + Nova Pasta
-        </button>
-      </div>
+    <div style={{ padding: 24, maxWidth: 1120, margin: '0 auto' }}>
+      <PageHeader
+        title="Gestão Documental"
+        actions={
+          <Button onClick={() => setShowAddFolder(!showAddFolder)}>+ Nova Pasta</Button>
+        }
+      />
 
       {showAddFolder && (
         <div className="bg-white border rounded-lg p-4 mb-6">

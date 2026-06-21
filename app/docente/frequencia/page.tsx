@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from 'react';
 import { docenteAPI } from '@/lib/api';
+import { PageHeader } from '@/components/ui/PageHeader';
 
 interface Aluno {
   aluno_id: string;
@@ -105,8 +106,8 @@ export default function DocenteFrequenciaPage() {
   const turma = turmas.find(t => t.turma_id === turmaSelId);
 
   return (
-    <div className="p-6 max-w-4xl mx-auto">
-      <h1 className="text-2xl font-bold text-gray-900 mb-6">Lançamento de Frequência</h1>
+    <div style={{ padding: 24, maxWidth: 900, margin: '0 auto' }}>
+      <PageHeader title="Lançamento de Frequência" />
 
       {/* Filtros */}
       <div className="bg-white rounded-lg border p-4 mb-6 grid grid-cols-1 md:grid-cols-3 gap-4">

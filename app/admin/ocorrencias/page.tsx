@@ -3,6 +3,7 @@
 import { useEffect, useState } from 'react'
 import { ocorrenciasAPI } from '@/lib/api'
 import { InactivarModal } from '@/components/ui/InactivarModal'
+import { PageHeader } from '@/components/ui/PageHeader'
 
 interface Ocorrencia {
   id: string
@@ -135,10 +136,12 @@ export default function OcorrenciasPage() {
 
   return (
     <div>
-      <div style={{ display: 'flex', alignItems: 'center', gap: 16, marginBottom: 20, flexWrap: 'wrap' }}>
-        <h1 style={{ color: 'var(--primary)', margin: 0 }}>Ocorrencias</h1>
-        <button style={btn()} onClick={() => { setModalCriar(true); setFormCriar(vazio()) }}>+ Registar ocorrencia</button>
-      </div>
+      <PageHeader
+        title="Ocorrencias"
+        actions={
+          <button style={btn()} onClick={() => { setModalCriar(true); setFormCriar(vazio()) }}>+ Registar ocorrencia</button>
+        }
+      />
 
       {erro && <p style={{ color: 'var(--danger)', marginBottom: 12 }}>{erro}</p>}
       {msg && <p style={{ color: '#27ae60', marginBottom: 12 }}>{msg}</p>}

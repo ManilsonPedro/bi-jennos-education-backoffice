@@ -2,6 +2,8 @@
 
 import { useEffect, useState } from 'react'
 import { pedidosReaberturaAPI, type PedidoReabertura } from '@/lib/api'
+import { PageHeader } from '@/components/ui/PageHeader'
+import { Badge } from '@/components/ui/Badge'
 
 const TIPO_LABEL: Record<string, string> = {
   trimestre: 'Trimestre',
@@ -80,14 +82,14 @@ export default function PedidosReaberturaPage() {
 
   return (
     <div>
-      <div style={{ display: 'flex', alignItems: 'center', gap: 16, marginBottom: 20, flexWrap: 'wrap' }}>
-        <h1 style={{ color: 'var(--primary)', margin: 0 }}>Pedidos de Reabertura</h1>
-        {pendentes > 0 && (
-          <span style={{ background: '#e74c3c', color: '#fff', borderRadius: 20, padding: '2px 12px', fontSize: 13, fontWeight: 700 }}>
-            {pendentes} pendente{pendentes !== 1 ? 's' : ''}
-          </span>
-        )}
-      </div>
+      <PageHeader
+        title="Pedidos de Reabertura"
+        actions={
+          pendentes > 0 ? (
+            <Badge tone="danger">{pendentes} pendente{pendentes !== 1 ? 's' : ''}</Badge>
+          ) : undefined
+        }
+      />
 
       {erro && <p style={{ color: 'var(--danger)', marginBottom: 12 }}>{erro}</p>}
       {msg && <p style={{ color: '#27ae60', marginBottom: 12 }}>{msg}</p>}
