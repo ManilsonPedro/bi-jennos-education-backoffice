@@ -2,6 +2,7 @@
 'use client'
 
 import { useEffect, useState } from 'react'
+import { PageHeader } from '@/components/ui/PageHeader'
 import {
   academicoAPI,
   calendarioAPI,
@@ -66,7 +67,7 @@ export default function CalendarioPage() {
 
   return (
     <>
-      <h1>Calendario academico</h1>
+      <PageHeader title="Calendario academico" />
       {erro && <p style={{ color: 'var(--danger)' }}>{erro}</p>}
 
       <section style={card}>

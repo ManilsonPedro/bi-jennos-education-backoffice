@@ -2,6 +2,7 @@
 'use client'
 
 import { useEffect, useState } from 'react'
+import { PageHeader } from '@/components/ui/PageHeader'
 import { gruposAPI, permissoesAPI, type Grupo, type Permissao } from '@/lib/api'
 
 const card: React.CSSProperties = {
@@ -52,7 +53,7 @@ export default function GruposPage() {
 
   return (
     <>
-      <h1>Grupos & Permissoes</h1>
+      <PageHeader title="Grupos & Permissoes" />
       {erro && <p style={{ color: 'var(--danger)' }}>{erro}</p>}
 
       <section style={card}>

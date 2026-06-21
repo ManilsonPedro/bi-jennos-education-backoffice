@@ -2,6 +2,7 @@
 'use client'
 
 import { useEffect, useRef, useState } from 'react'
+import { PageHeader } from '@/components/ui/PageHeader'
 import {
   academicoAPI,
   certificadosAPI,
@@ -89,7 +90,7 @@ export default function CertificadosPage() {
 
   return (
     <div>
-      <h1 style={{ color: 'var(--primary)' }}>Certificados (geracao massiva)</h1>
+      <PageHeader title="Certificados (geracao massiva)" />
       <form onSubmit={gerar} style={card}>
         <label htmlFor="ano">Ano academico</label>
         <select id="ano" aria-label="Ano academico" style={input} value={anoId}

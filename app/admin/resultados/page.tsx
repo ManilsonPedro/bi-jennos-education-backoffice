@@ -2,6 +2,7 @@
 'use client'
 
 import { useEffect, useState } from 'react'
+import { PageHeader } from '@/components/ui/PageHeader'
 import { academicoAPI, resultadosAPI, type AnoAcademico, type ResultadoAluno } from '@/lib/api'
 
 const card: React.CSSProperties = {
@@ -48,7 +49,7 @@ export default function ResultadosPage() {
 
   return (
     <>
-      <h1>Resultados finais</h1>
+      <PageHeader title="Resultados finais" />
       {erro && <p style={{ color: 'var(--danger)' }}>{erro}</p>}
       {msg && <p style={{ color: 'var(--success)' }}>{msg}</p>}
 

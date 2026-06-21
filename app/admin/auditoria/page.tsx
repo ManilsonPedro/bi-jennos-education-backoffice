@@ -2,6 +2,7 @@
 'use client'
 
 import { useEffect, useState } from 'react'
+import { PageHeader } from '@/components/ui/PageHeader'
 import { auditoriaAPI, type AuditLog } from '@/lib/api'
 
 const card: React.CSSProperties = {
@@ -35,7 +36,7 @@ export default function AuditoriaPage() {
 
   return (
     <>
-      <h1>Auditoria</h1>
+      <PageHeader title="Auditoria" />
       {erro && <p style={{ color: 'var(--danger)' }}>{erro}</p>}
 
       <section style={card}>

@@ -1,6 +1,7 @@
 'use client'
 
 import { useEffect, useState } from 'react'
+import { PageHeader } from '@/components/ui/PageHeader'
 import { palestrasAPI, workshopsAPI, olimpiadasAPI, reunioesAPI } from '@/lib/api'
 import { InactivarModal } from '@/components/ui/InactivarModal'
 
@@ -139,7 +140,7 @@ export default function EventosPage() {
 
   return (
     <div>
-      <h1 style={{ color: 'var(--primary)' }}>Eventos Academicos</h1>
+      <PageHeader title="Eventos Academicos" />
       {erro && <p style={{ color: 'var(--danger)', marginBottom: 12 }}>{erro}</p>}
       {msg && <p style={{ color: '#27ae60', marginBottom: 12 }}>{msg}</p>}
 

@@ -1,6 +1,7 @@
 'use client'
 
 import { useState, useRef } from 'react'
+import { PageHeader } from '@/components/ui/PageHeader'
 import { documentosAPI, type LerBiResponse } from '@/lib/api'
 
 const card: React.CSSProperties = {
@@ -143,7 +144,7 @@ export default function DocumentosPage() {
 
   return (
     <>
-      <h1>Documentos PDF</h1>
+      <PageHeader title="Documentos PDF" />
       {erro && <p style={{ color: 'var(--danger)', marginBottom: 16 }}>{erro}</p>}
 
       <div style={{ display: 'flex', marginBottom: 0, borderBottom: '2px solid var(--border)' }}>

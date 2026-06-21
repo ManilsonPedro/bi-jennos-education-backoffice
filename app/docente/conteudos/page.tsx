@@ -2,6 +2,7 @@
 'use client'
 
 import { useState } from 'react'
+import { PageHeader } from '@/components/ui/PageHeader'
 import { conteudosAPI, type Cumprimento, type Unidade } from '@/lib/api'
 
 const card: React.CSSProperties = {
@@ -55,7 +56,7 @@ export default function ConteudosPage() {
 
   return (
     <>
-      <h1>Conteudos programaticos</h1>
+      <PageHeader title="Conteudos programaticos" />
       {erro && <p style={{ color: 'var(--danger)' }}>{erro}</p>}
 
       <section style={card}>

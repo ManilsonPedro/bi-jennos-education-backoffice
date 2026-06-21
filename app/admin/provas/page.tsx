@@ -1,6 +1,7 @@
 'use client'
 
 import { useEffect, useState } from 'react'
+import { PageHeader } from '@/components/ui/PageHeader'
 import { academicoAPI, turmasAPI, pautasAPI, type AnoAcademico, type Trimestre } from '@/lib/api'
 
 interface Turma { id: string; nome: string; ano_academico_id: string; max_alunos: number }
@@ -90,7 +91,7 @@ export default function ProvasPage() {
 
   return (
     <div>
-      <h1 style={{ color: 'var(--primary)' }}>Pautas & Provas</h1>
+      <PageHeader title="Pautas & Provas" />
       {erro && <p style={{ color: 'var(--danger)', marginBottom: 12 }}>{erro}</p>}
       {msg && <p style={{ color: '#27ae60', marginBottom: 12 }}>{msg}</p>}
 

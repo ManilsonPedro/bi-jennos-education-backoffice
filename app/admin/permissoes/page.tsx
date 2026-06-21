@@ -2,6 +2,7 @@
 'use client'
 
 import { useEffect, useState } from 'react'
+import { PageHeader } from '@/components/ui/PageHeader'
 import { permissoesAPI, type Permissao } from '@/lib/api'
 
 const card: React.CSSProperties = {
@@ -25,7 +26,7 @@ export default function PermissoesPage() {
 
   return (
     <>
-      <h1>Permissoes registadas</h1>
+      <PageHeader title="Permissoes registadas" />
       {erro && <p style={{ color: 'var(--danger)' }}>{erro}</p>}
       <section style={card}>
         {Object.entries(porModulo).map(([modulo, lista]) => (

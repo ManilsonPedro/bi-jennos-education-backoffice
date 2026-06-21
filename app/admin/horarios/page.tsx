@@ -2,6 +2,7 @@
 'use client'
 
 import { useEffect, useState } from 'react'
+import { PageHeader } from '@/components/ui/PageHeader'
 import { horariosAPI, type ItemCronograma, type Sala } from '@/lib/api'
 import { InactivarModal } from '@/components/ui/InactivarModal'
 
@@ -97,7 +98,7 @@ export default function HorariosPage() {
 
   return (
     <>
-      <h1>Horarios</h1>
+      <PageHeader title="Horarios" />
       {erro && <p style={{ color: 'var(--danger)' }}>{erro}</p>}
 
       <section style={card}>

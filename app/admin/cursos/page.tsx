@@ -1,6 +1,7 @@
 'use client'
 
 import { useEffect, useState } from 'react'
+import { PageHeader } from '@/components/ui/PageHeader'
 import { cursosAPI, type Curso } from '@/lib/api'
 import { InactivarModal } from '@/components/ui/InactivarModal'
 
@@ -64,7 +65,7 @@ export default function CursosPage() {
 
   return (
     <>
-      <h1>Cursos</h1>
+      <PageHeader title="Cursos" />
       {erro && <p style={{ color: 'var(--danger)' }}>{erro}</p>}
 
       <section style={s.card}>

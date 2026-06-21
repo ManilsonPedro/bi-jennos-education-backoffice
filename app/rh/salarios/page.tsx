@@ -2,6 +2,7 @@
 'use client'
 
 import { useState } from 'react'
+import { PageHeader } from '@/components/ui/PageHeader'
 import { rhAPI } from '@/lib/api'
 
 const card: React.CSSProperties = {
@@ -35,7 +36,7 @@ export default function SalariosPage() {
 
   return (
     <>
-      <h1>Processamento de salarios</h1>
+      <PageHeader title="Processamento de salarios" />
       {erro && <p style={{ color: 'var(--danger)' }}>{erro}</p>}
       {msg && <p style={{ color: 'var(--success)' }}>{msg}</p>}
 

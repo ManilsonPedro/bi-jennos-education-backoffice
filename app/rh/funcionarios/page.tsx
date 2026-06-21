@@ -2,6 +2,7 @@
 'use client'
 
 import { useEffect, useState } from 'react'
+import { PageHeader } from '@/components/ui/PageHeader'
 import { rhAPI, type Funcionario } from '@/lib/api'
 
 const card: React.CSSProperties = {
@@ -57,7 +58,7 @@ export default function FuncionariosPage() {
 
   return (
     <>
-      <h1>Funcionarios</h1>
+      <PageHeader title="Funcionarios" />
       {erro && <p style={{ color: 'var(--danger)' }}>{erro}</p>}
 
       <section style={card}>

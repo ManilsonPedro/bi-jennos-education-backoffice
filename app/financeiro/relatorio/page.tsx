@@ -2,6 +2,7 @@
 'use client'
 
 import { useEffect, useState } from 'react'
+import { PageHeader } from '@/components/ui/PageHeader'
 import {
   academicoAPI, financeiroAPI,
   type AnoAcademico, type RelatorioFinanceiro,
@@ -38,7 +39,7 @@ export default function RelatorioFinanceiroPage() {
 
   return (
     <>
-      <h1>Relatorio financeiro</h1>
+      <PageHeader title="Relatorio financeiro" />
       {erro && <p style={{ color: 'var(--danger)' }}>{erro}</p>}
 
       <section style={card}>

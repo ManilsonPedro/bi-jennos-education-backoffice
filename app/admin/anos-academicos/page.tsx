@@ -1,6 +1,7 @@
 'use client'
 
 import { useEffect, useState } from 'react'
+import { PageHeader } from '@/components/ui/PageHeader'
 import { academicoAPI, pedidosReaberturaAPI, type AnoAcademico, type Trimestre } from '@/lib/api'
 import { InactivarModal } from '@/components/ui/InactivarModal'
 
@@ -154,7 +155,7 @@ export default function AnosAcademicosPage() {
 
   return (
     <div>
-      <h1 style={{ color: 'var(--primary)' }}>Anos Academicos & Trimestres</h1>
+      <PageHeader title="Anos Academicos & Trimestres" />
       {erro && <p style={{ color: 'var(--danger)', marginBottom: 12 }}>{erro}</p>}
       {msg && <p style={{ color: '#27ae60', marginBottom: 12 }}>{msg}</p>}
 

@@ -2,6 +2,7 @@
 'use client'
 
 import { useState } from 'react'
+import { PageHeader } from '@/components/ui/PageHeader'
 import { pautasAPI, type Pauta } from '@/lib/api'
 
 const card: React.CSSProperties = {
@@ -48,7 +49,7 @@ export default function PautasPage() {
 
   return (
     <>
-      <h1>Pautas</h1>
+      <PageHeader title="Pautas" />
       {erro && <p style={{ color: 'var(--danger)' }}>{erro}</p>}
 
       <section style={card}>

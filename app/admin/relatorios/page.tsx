@@ -2,6 +2,7 @@
 'use client'
 
 import { useEffect, useState } from 'react'
+import { PageHeader } from '@/components/ui/PageHeader'
 import {
   academicoAPI,
   financeiroAPI,
@@ -47,7 +48,7 @@ export default function RelatoriosPage() {
 
   return (
     <div>
-      <h1 style={{ color: 'var(--primary)' }}>Relatorios financeiros</h1>
+      <PageHeader title="Relatorios financeiros" />
       <label htmlFor="ano">Ano academico</label>
       <select
         id="ano"

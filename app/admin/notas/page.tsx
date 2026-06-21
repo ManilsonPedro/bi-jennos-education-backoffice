@@ -1,6 +1,7 @@
 'use client'
 
 import { useEffect, useState } from 'react'
+import { PageHeader } from '@/components/ui/PageHeader'
 import { academicoAPI, turmasAPI, avaliacoesAPI, docenteAPI, type AnoAcademico, type Trimestre } from '@/lib/api'
 
 interface Disciplina { id: string; nome: string; turma_id: string; docente_id: string | null; carga_horaria: number | null }
@@ -75,7 +76,7 @@ export default function NotasPage() {
 
   return (
     <div>
-      <h1 style={{ color: 'var(--primary)' }}>Lancamento de Notas</h1>
+      <PageHeader title="Lancamento de Notas" />
       {erro && <p style={{ color: 'var(--danger)', marginBottom: 12 }}>{erro}</p>}
       {msg && <p style={{ color: '#27ae60', marginBottom: 12 }}>{msg}</p>}
 

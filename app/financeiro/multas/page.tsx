@@ -2,6 +2,7 @@
 'use client'
 
 import { useState } from 'react'
+import { PageHeader } from '@/components/ui/PageHeader'
 import { multasAPI, type Multa } from '@/lib/api'
 
 const card: React.CSSProperties = {
@@ -75,7 +76,7 @@ export default function MultasPage() {
 
   return (
     <>
-      <h1>Multas</h1>
+      <PageHeader title="Multas" />
       {erro && <p style={{ color: 'var(--danger)' }}>{erro}</p>}
       {msg && <p style={{ color: 'var(--success)' }}>{msg}</p>}
 

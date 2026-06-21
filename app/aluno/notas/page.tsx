@@ -2,6 +2,7 @@
 'use client'
 
 import { useEffect, useState } from 'react'
+import { PageHeader } from '@/components/ui/PageHeader'
 import { authAPI, avaliacoesAPI, type Nota } from '@/lib/api'
 import { DataTable, type Column } from '@/components/shared/DataTable'
 
@@ -36,7 +37,7 @@ export default function NotasPage() {
 
   return (
     <div>
-      <h1 style={{ color: 'var(--primary)' }}>As minhas notas</h1>
+      <PageHeader title="As minhas notas" />
       {erro && <p style={{ color: 'var(--danger)' }}>{erro}</p>}
       {me && (
         <p>

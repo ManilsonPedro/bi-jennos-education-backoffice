@@ -1,6 +1,7 @@
 'use client'
 
 import { useEffect, useState } from 'react'
+import { PageHeader } from '@/components/ui/PageHeader'
 import { academicoAPI, turmasAPI, type AnoAcademico, type Turma } from '@/lib/api'
 import { InactivarModal } from '@/components/ui/InactivarModal'
 
@@ -74,7 +75,7 @@ export default function TurmasPage() {
 
   return (
     <div>
-      <h1 style={{ color: 'var(--primary)' }}>Turmas</h1>
+      <PageHeader title="Turmas" />
 
       <form onSubmit={criar} style={s.card}>
         <h3 style={{ marginTop: 0 }}>Nova turma</h3>

@@ -2,6 +2,7 @@
 'use client'
 
 import { useEffect, useState } from 'react'
+import { PageHeader } from '@/components/ui/PageHeader'
 import { modulosAdminAPI, uiAPI, type ModuloTree } from '@/lib/api'
 
 const card: React.CSSProperties = {
@@ -69,7 +70,7 @@ export default function ModulosUIPage() {
 
   return (
     <>
-      <h1>Modulos / Menus / Paginas (UI dinamica)</h1>
+      <PageHeader title="Modulos / Menus / Paginas (UI dinamica)" />
       {erro && <p style={{ color: 'var(--danger)' }}>{erro}</p>}
 
       <section style={card}>

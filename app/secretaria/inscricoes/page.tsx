@@ -2,6 +2,7 @@
 'use client'
 
 import { useEffect, useState } from 'react'
+import { PageHeader } from '@/components/ui/PageHeader'
 import {
   academicoAPI, classesAPI, inscricoesAPI,
   type AnoAcademico, type Classe, type Inscricao,
@@ -83,7 +84,7 @@ export default function InscricoesPage() {
 
   return (
     <>
-      <h1>Inscricoes</h1>
+      <PageHeader title="Inscricoes" />
       {erro && <p style={{ color: 'var(--danger)' }}>{erro}</p>}
       {msg && <p style={{ color: 'var(--success)' }}>{msg}</p>}
 

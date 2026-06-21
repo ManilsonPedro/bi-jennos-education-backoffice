@@ -1,6 +1,7 @@
 'use client'
 
 import { useEffect, useState } from 'react'
+import { PageHeader } from '@/components/ui/PageHeader'
 import { fetchAPI } from '@/lib/api'
 
 interface Matricula {
@@ -46,7 +47,7 @@ export default function MatriculasAdminPage() {
 
   return (
     <>
-      <h1>Matrículas</h1>
+      <PageHeader title="Matrículas" />
       {erro && <p style={{ color: 'var(--danger)', marginBottom: 16 }}>{erro}</p>}
       {loading ? (
         <p style={{ color: 'var(--text-muted)' }}>A carregar...</p>
